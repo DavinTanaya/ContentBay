@@ -12,19 +12,22 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "@prisma/client": "7.0.0",
     "@prisma/adapter-pg": "7.0.0",
+    "@prisma/client": "^6.19.2",
     "dotenv": "^17.2.1",
+    "google-auth-library": "^10.5.0",
     "graphql": "16.11.0",
     "graphql-scalars": "1.24.2",
     "graphql-yoga": "5.14.0",
-    "pg": "^8.16.3"
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.16.3",
+    "prisma": "^6.19.2"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "22.18.12",
-    "prisma": "7.0.0",
+    "@types/pg": "^8.15.6",
     "tsx": "4.20.6",
-    "typescript": "5.8.2",
-    "@types/pg": "^8.15.6"
+    "typescript": "5.8.2"
   }
 }

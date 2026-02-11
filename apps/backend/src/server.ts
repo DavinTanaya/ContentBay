@@ -1,13 +1,13 @@
 import 'dotenv/config'
 import { createYoga } from 'graphql-yoga'
 import { createServer } from 'node:http'
-import { context } from './context'
+import { createContext } from './context'
 import { schema } from './schema'
 
 const yoga = createYoga({
   graphqlEndpoint: '/',
   schema,
-  context,
+  context: createContext,
 })
 
 const server = createServer(yoga)

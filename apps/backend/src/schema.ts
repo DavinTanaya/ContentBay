@@ -1,13 +1,22 @@
 import { createSchema } from 'graphql-yoga'
 import { DateTimeResolver } from 'graphql-scalars'
 import { Context } from './context'
+import { OAuth2Client } from 'google-auth-library'
+import jwt from 'jsonwebtoken'
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 export const typeDefs = `
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
   type Mutation {
-    createDraft(authorEmail: String!, data: PostCreateInput!): Post
+    googleLogin(idToken: String!): AuthPayload!
+    createDraft(data: PostCreateInput!): Post
     deletePost(id: Int!): Post
     incrementPostViewCount(id: Int!): Post
-    signupUser(data: UserCreateInput!): User!
     togglePublishPost(id: Int!): Post
   }
 
@@ -49,11 +58,15 @@ export const typeDefs = `
   }
 
   type User {
-    email: String!
     id: Int!
+    email: String!
     name: String
+    picture: String
+    provider: String!
+    createdAt: DateTime!
     posts: [Post!]!
   }
+
 
   input UserCreateInput {
     email: String!
@@ -125,36 +138,57 @@ export const resolvers = {
     },
   },
   Mutation: {
-    signupUser: (
+    googleLogin: async (
       _parent,
-      args: { data: UserCreateInput },
+      args: { idToken: string },
       context: Context,
     ) => {
-      const postData = args.data.posts?.map((post) => {
-        return { title: post.title, content: post.content || undefined }
+      const ticket = await googleClient.verifyIdToken({
+        idToken: args.idToken,
+        audience: process.env.GOOGLE_CLIENT_ID,
       })
 
-      return context.prisma.user.create({
-        data: {
-          name: args.data.name,
-          email: args.data.email,
-          posts: {
-            create: postData,
-          },
-        },
+      const payload = ticket.getPayload()
+
+      if (!payload?.email) {
+        throw new Error('Invalid Google token')
+      }
+
+      let user = await context.prisma.user.findUnique({
+        where: { email: payload.email },
       })
+
+      if (!user) {
+        user = await context.prisma.user.create({
+          data: {
+            email: payload.email,
+            name: payload.name,
+            picture: payload.picture,
+            provider: 'google',
+          },
+        })
+      }
+
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+        expiresIn: '7d',
+      })
+
+      return { token, user }
     },
     createDraft: (
       _parent,
-      args: { data: PostCreateInput; authorEmail: string },
+      args: { data: PostCreateInput },
       context: Context,
     ) => {
+      if (!context.userId) {
+        throw new Error('Not authenticated')
+      }
       return context.prisma.post.create({
         data: {
           title: args.data.title,
           content: args.data.content,
           author: {
-            connect: { email: args.authorEmail },
+            connect: { id: context.userId },
           },
         },
       })
