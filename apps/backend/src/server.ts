@@ -7,7 +7,6 @@ import { createContext } from "./context";
 
 const PORT = Number(process.env.PORT) || 4000;
 
-// Safety check (biar nggak silent error)
 if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET is missing in .env");
 }

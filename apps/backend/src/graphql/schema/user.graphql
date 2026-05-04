@@ -1,7 +1,8 @@
 type User {
   id: Int!
   email: String!
-  name: String
+  firstName: String
+  lastName: String
   picture: String
   provider: String!
 }

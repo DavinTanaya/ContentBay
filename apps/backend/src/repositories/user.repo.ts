@@ -9,7 +9,9 @@ export class UserRepository {
 
   static create(data: {
     email: string;
-    name?: string;
+    firstName?: string;
+    lastName?: string;
+    password?: string;
     picture?: string;
     provider: string;
   }) {

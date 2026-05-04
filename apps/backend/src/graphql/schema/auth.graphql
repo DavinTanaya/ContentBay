@@ -5,4 +5,7 @@ type AuthPayload {
 
 extend type Mutation {
   googleLogin(idToken: String!): AuthPayload!
+  googleLoginWithAccessToken(accessToken: String!): AuthPayload!
+  register(firstName: String!, lastName: String!, email: String!, password: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
 }

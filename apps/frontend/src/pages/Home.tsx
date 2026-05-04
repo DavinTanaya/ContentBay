@@ -1,4 +1,4 @@
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from "../auth/AuthContext";
 
 export default function Home() {
   const auth = useAuth();
@@ -7,7 +7,7 @@ export default function Home() {
     <div style={{ padding: 40 }}>
       <h1>Home</h1>
 
-      <p>{auth.user?.name}</p>
+      <p>{auth.user?.firstName} {auth.user?.lastName}</p>
       <p>{auth.user?.email}</p>
 
       <button onClick={auth.logout}>Logout</button>

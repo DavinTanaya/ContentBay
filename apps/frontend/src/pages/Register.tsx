@@ -2,7 +2,10 @@ import { useState, useEffect, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../auth/AuthContext";
-import { loginManual, loginWithGoogleAccessToken } from "../auth/auth.service";
+import {
+  register as registerUser,
+  loginWithGoogleAccessToken,
+} from "../auth/auth.service";
 
 function GoogleIcon() {
   return (
@@ -49,14 +52,16 @@ function EyeOffIcon() {
   );
 }
 
-export default function Login() {
+export default function Register() {
   const auth = useAuth();
   const navigate = useNavigate();
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
-  const [remember, setRemember] = useState(true);
+  const [agreedTerms, setAgreedTerms] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -66,13 +71,17 @@ export default function Login() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!agreedTerms) {
+      setError("You must agree to the Terms of Use and Privacy Policy");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
-      const data = await loginManual(email, password);
+      const data = await registerUser(firstName, lastName, email, password);
       auth.login(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(err instanceof Error ? err.message : "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -84,10 +93,10 @@ export default function Login() {
         const data = await loginWithGoogleAccessToken(tokenResponse.access_token);
         auth.login(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Google login failed");
+        setError(err instanceof Error ? err.message : "Google signup failed");
       }
     },
-    onError: () => setError("Google login failed"),
+    onError: () => setError("Google signup failed"),
   });
 
   return (
@@ -97,33 +106,60 @@ export default function Login() {
         <div className="absolute inset-0 bg-blue-600/40" />
       </div>
 
-      <div className="flex w-full flex-col bg-gray-50 lg:w-[70%]">
-        <div className="px-10 pt-6 lg:px-16">
+      <div className="flex w-full flex-col overflow-y-auto bg-gray-50 lg:w-[70%]">
+        <div className="px-10 pt-8 lg:px-16">
           <div className="flex items-center gap-2.5">
             <div className="h-7 w-7 rounded bg-blue-500" />
             <span className="text-lg font-bold text-gray-900">ContentBay</span>
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-center px-10 py-4 lg:px-16">
+        <div className="flex flex-1 items-center justify-center px-10 py-8 lg:px-16">
           <div className="w-full max-w-[440px]">
-            <div className="rounded-2xl border border-gray-200 bg-white px-8 py-7">
-              <h1 className="text-center text-[26px] font-bold text-gray-900">Welcome back</h1>
-              <p className="mt-1 text-center text-sm text-gray-400">
-                Log in to your ContentBay account
-              </p>
+            <div className="rounded-2xl border border-gray-200 bg-white px-10 py-10">
+              <h1 className="text-center text-[28px] font-bold text-gray-900">Create an account</h1>
 
               {error && (
-                <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>
+                <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
               )}
 
-              <form onSubmit={onSubmit} className="mt-5 space-y-3.5">
+              <form onSubmit={onSubmit} className="mt-7 space-y-4">
                 <div>
-                  <label htmlFor="login-email" className="mb-1 block text-[13px] font-medium text-gray-700">
+                  <label htmlFor="reg-firstname" className="mb-1 block text-[13px] font-medium text-gray-700">
+                    First Name
+                  </label>
+                  <input
+                    id="reg-firstname"
+                    type="text"
+                    placeholder="example"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                    className="w-full rounded-md border border-gray-300 px-3.5 py-2 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="reg-lastname" className="mb-1 block text-[13px] font-medium text-gray-700">
+                    Last Name
+                  </label>
+                  <input
+                    id="reg-lastname"
+                    type="text"
+                    placeholder="example"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                    className="w-full rounded-md border border-gray-300 px-3.5 py-2 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="reg-email" className="mb-1 block text-[13px] font-medium text-gray-700">
                     Email
                   </label>
                   <input
-                    id="login-email"
+                    id="reg-email"
                     type="email"
                     placeholder="example@gmail.com"
                     value={email}
@@ -134,17 +170,18 @@ export default function Login() {
                 </div>
 
                 <div>
-                  <label htmlFor="login-password" className="mb-1 block text-[13px] font-medium text-gray-700">
+                  <label htmlFor="reg-password" className="mb-1 block text-[13px] font-medium text-gray-700">
                     Password
                   </label>
                   <div className="relative">
                     <input
-                      id="login-password"
+                      id="reg-password"
                       type={showPw ? "text" : "password"}
                       placeholder="Input password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      minLength={6}
                       className="w-full rounded-md border border-gray-300 px-3.5 py-2 pr-10 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     />
                     <button
@@ -158,58 +195,62 @@ export default function Login() {
                   </div>
                 </div>
 
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-start gap-2 cursor-pointer pt-1">
                   <input
                     type="checkbox"
-                    checked={remember}
-                    onChange={(e) => setRemember(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+                    checked={agreedTerms}
+                    onChange={(e) => setAgreedTerms(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
                   />
-                  <span className="text-sm font-medium text-gray-700">Remember Me</span>
+                  <span className="text-[13px] leading-snug text-gray-600">
+                    By creating an account, I agree to our{" "}
+                    <a href="#" className="font-medium text-gray-900 underline">Terms of use</a> and{" "}
+                    <a href="#" className="font-medium text-gray-900 underline">Privacy Policy</a>
+                  </span>
                 </label>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="rounded-md bg-blue-500 px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600 disabled:opacity-60"
+                  className="mt-1 rounded-md bg-blue-500 px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600 disabled:opacity-60"
                 >
-                  {loading ? "Logging in…" : "Login"}
+                  {loading ? "Creating…" : "Create an account"}
                 </button>
               </form>
 
-              <div className="my-4 flex items-center gap-4">
+              <div className="my-5 flex items-center gap-4">
                 <div className="h-px flex-1 bg-gray-200" />
                 <span className="text-xs text-gray-400">OR</span>
                 <div className="h-px flex-1 bg-gray-200" />
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <button
                   type="button"
                   onClick={() => googleLogin()}
-                  className="flex w-full items-center justify-center gap-3 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  className="flex w-full items-center justify-center gap-3 rounded-full border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                 >
-                  <GoogleIcon /> Continue with Google
+                  <GoogleIcon /> Sign up with Google
                 </button>
                 <button
                   type="button"
-                  className="flex w-full items-center justify-center gap-3 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  className="flex w-full items-center justify-center gap-3 rounded-full border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                 >
-                  <GithubIcon /> Continue with Github
+                  <GithubIcon /> Sign up with Github
                 </button>
                 <button
                   type="button"
-                  className="flex w-full items-center justify-center gap-3 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  className="flex w-full items-center justify-center gap-3 rounded-full border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                 >
-                  <FacebookIcon /> Continue with Facebook
+                  <FacebookIcon /> Sign up with Facebook
                 </button>
               </div>
             </div>
 
-            <p className="mt-4 text-center text-sm text-gray-500">
-              Don't have an account?{" "}
-              <Link to="/register" className="font-medium text-blue-500 hover:text-blue-600">
-                Sign up
+            <p className="mt-6 text-center text-sm text-gray-500">
+              Already have an account?{" "}
+              <Link to="/login" className="font-medium text-blue-500 hover:text-blue-600">
+                Log in
               </Link>
             </p>
           </div>
