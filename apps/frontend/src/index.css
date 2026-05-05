@@ -1,1 +1,352 @@
 @import 'tailwindcss';
+
+@theme inline {
+  /* 1. SETUP FONT FAMILY */
+  --font-sans: 'Open Sans', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+
+  /* 2. SEMANTIC TOKENS (Aligned with Ant theme tokens) */
+  --color-primary: #1677ff;
+  --color-info: #1677ff;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-error: #ff4d4f;
+
+  --color-link: #1677ff;
+  --color-text-heading: rgba(0, 0, 0, 0.88);
+  --color-text: rgba(0, 0, 0, 0.88);
+  --color-text-secondary: rgba(0, 0, 0, 0.65);
+  --color-text-disabled: rgba(0, 0, 0, 0.25);
+  --color-border: #d9d9d9;
+  --color-split: rgba(5, 5, 5, 0.06);
+  --color-bg-layout: #f5f5f5;
+
+  /* 3. ANT BASE PALETTES (10 shades) */
+  --color-red-1: #fff1f0;
+  --color-red-2: #ffccc7;
+  --color-red-3: #ffa39e;
+  --color-red-4: #ff7875;
+  --color-red-5: #ff4d4f;
+  --color-red-6: #f5222d;
+  --color-red-7: #cf1322;
+  --color-red-8: #a8071a;
+  --color-red-9: #820014;
+  --color-red-10: #5c0011;
+
+  --color-volcano-1: #fff2e8;
+  --color-volcano-2: #ffd8bf;
+  --color-volcano-3: #ffbb96;
+  --color-volcano-4: #ff9c6e;
+  --color-volcano-5: #ff7a45;
+  --color-volcano-6: #fa541c;
+  --color-volcano-7: #d4380d;
+  --color-volcano-8: #ad2102;
+  --color-volcano-9: #871400;
+  --color-volcano-10: #610b00;
+
+  --color-orange-1: #fff7e6;
+  --color-orange-2: #ffe7ba;
+  --color-orange-3: #ffd591;
+  --color-orange-4: #ffc069;
+  --color-orange-5: #ffa940;
+  --color-orange-6: #fa8c16;
+  --color-orange-7: #d46b08;
+  --color-orange-8: #ad4e00;
+  --color-orange-9: #873800;
+  --color-orange-10: #612500;
+
+  --color-gold-1: #fffbe6;
+  --color-gold-2: #fff1b8;
+  --color-gold-3: #ffe58f;
+  --color-gold-4: #ffd666;
+  --color-gold-5: #ffc53d;
+  --color-gold-6: #faad14;
+  --color-gold-7: #d48806;
+  --color-gold-8: #ad6800;
+  --color-gold-9: #874d00;
+  --color-gold-10: #613400;
+
+  --color-yellow-1: #feffe6;
+  --color-yellow-2: #ffffb8;
+  --color-yellow-3: #fffb8f;
+  --color-yellow-4: #fff566;
+  --color-yellow-5: #ffec3d;
+  --color-yellow-6: #fadb14;
+  --color-yellow-7: #d4b106;
+  --color-yellow-8: #ad8b00;
+  --color-yellow-9: #876800;
+  --color-yellow-10: #614700;
+
+  --color-lime-1: #fcffe6;
+  --color-lime-2: #f4ffb8;
+  --color-lime-3: #eaff8f;
+  --color-lime-4: #d3f261;
+  --color-lime-5: #bae637;
+  --color-lime-6: #a0d911;
+  --color-lime-7: #7cb305;
+  --color-lime-8: #5b8c00;
+  --color-lime-9: #3f6600;
+  --color-lime-10: #254000;
+
+  --color-green-1: #f6ffed;
+  --color-green-2: #d9f7be;
+  --color-green-3: #b7eb8f;
+  --color-green-4: #95de64;
+  --color-green-5: #73d13d;
+  --color-green-6: #52c41a;
+  --color-green-7: #389e0d;
+  --color-green-8: #237804;
+  --color-green-9: #135200;
+  --color-green-10: #092b00;
+
+  --color-cyan-1: #e6fffb;
+  --color-cyan-2: #b5f5ec;
+  --color-cyan-3: #87e8de;
+  --color-cyan-4: #5cdbd3;
+  --color-cyan-5: #36cfc9;
+  --color-cyan-6: #13c2c2;
+  --color-cyan-7: #08979c;
+  --color-cyan-8: #006d75;
+  --color-cyan-9: #00474f;
+  --color-cyan-10: #002329;
+
+  --color-blue-1: #e6f4ff;
+  --color-blue-2: #bae0ff;
+  --color-blue-3: #91caff;
+  --color-blue-4: #69b1ff;
+  --color-blue-5: #4096ff;
+  --color-blue-6: #1677ff;
+  --color-blue-7: #0958d9;
+  --color-blue-8: #003eb3;
+  --color-blue-9: #002c8c;
+  --color-blue-10: #001d66;
+
+  --color-geekblue-1: #f0f5ff;
+  --color-geekblue-2: #d6e4ff;
+  --color-geekblue-3: #adc6ff;
+  --color-geekblue-4: #85a5ff;
+  --color-geekblue-5: #597ef7;
+  --color-geekblue-6: #2f54eb;
+  --color-geekblue-7: #1d39c4;
+  --color-geekblue-8: #10239e;
+  --color-geekblue-9: #061178;
+  --color-geekblue-10: #030852;
+
+  --color-purple-1: #f9f0ff;
+  --color-purple-2: #efdbff;
+  --color-purple-3: #d3adf7;
+  --color-purple-4: #b37feb;
+  --color-purple-5: #9254de;
+  --color-purple-6: #722ed1;
+  --color-purple-7: #531dab;
+  --color-purple-8: #391085;
+  --color-purple-9: #22075e;
+  --color-purple-10: #120338;
+
+  --color-magenta-1: #fff0f6;
+  --color-magenta-2: #ffd6e7;
+  --color-magenta-3: #ffadd2;
+  --color-magenta-4: #ff85c0;
+  --color-magenta-5: #f759ab;
+  --color-magenta-6: #eb2f96;
+  --color-magenta-7: #c41d7f;
+  --color-magenta-8: #9e1068;
+  --color-magenta-9: #780650;
+  --color-magenta-10: #520339;
+
+  --color-gray-1: #ffffff;
+  --color-gray-2: #fafafa;
+  --color-gray-3: #f5f5f5;
+  --color-gray-4: #f0f0f0;
+  --color-gray-5: #d9d9d9;
+  --color-gray-6: #bfbfbf;
+  --color-gray-7: #8c8c8c;
+  --color-gray-8: #595959;
+  --color-gray-9: #434343;
+  --color-gray-10: #262626;
+
+  /* Backward-compat aliases already used in current codebase */
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #f0f0f0;
+  --color-gray-300: #d9d9d9;
+  --color-gray-400: #bfbfbf;
+  --color-gray-700: #595959;
+  --color-gray-900: rgba(0, 0, 0, 0.88);
+
+  /* 4. HEADING SIZES (Overriding Tailwind Defaults) */
+  /* Ini agar Anda bisa pakai class text-h1, text-h2, dsb */
+  --text-h1: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+  --text-h1--line-height: 1.2;
+
+  --text-h2: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
+  --text-h2--line-height: 1.2;
+
+  --text-h3: 2rem;
+  --text-h3--line-height: 1.25;
+
+  --text-h4: 1.75rem;
+  --text-h4--line-height: 1.28;
+
+  --text-h5: 1.5rem;
+  --text-h5--line-height: 1.33;
+
+  --text-h6: 1.25rem;
+  --text-h6--line-height: 1.4;
+}
+
+@layer base {
+  /* 4. STANDARISASI ELEMEN DASAR */
+  body {
+    @apply font-sans bg-white text-gray-700 antialiased;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  /* Memberikan style default ke tag H1-H6 agar tidak perlu class tiap saat */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-poppins font-semibold text-black;
+  }
+
+  h1 {
+    @apply text-h1;
+  }
+  h2 {
+    @apply text-h2;
+  }
+  h3 {
+    @apply text-h3;
+  }
+  h4 {
+    @apply text-h4;
+  }
+  h5 {
+    @apply text-h5;
+  }
+  h6 {
+    @apply text-h6;
+  }
+}
+
+/* --- TYPOGRAPHY UTILITIES (Sesuai Figma Design System) --- */
+
+/* Display Styles - Poppins */
+@utility display-lg {
+  font-family: var(--font-poppins);
+  font-size: 64px;
+  line-height: 70.4px;
+  font-weight: 600;
+}
+
+@utility display-sm {
+  font-family: var(--font-poppins);
+  font-size: 48px;
+  line-height: 52.8px;
+  font-weight: 600;
+}
+
+/* Heading Styles - Poppins */
+@utility h1-bold {
+  font-family: var(--font-poppins);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 600;
+}
+
+@utility h2-bold {
+  font-family: var(--font-poppins);
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 700;
+}
+
+@utility h2-semibold {
+  font-family: var(--font-poppins);
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 600;
+}
+
+@utility h3-bold {
+  font-family: var(--font-poppins);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+}
+
+@utility h4-bold {
+  font-family: var(--font-poppins);
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+}
+
+@utility h5-bold {
+  font-family: var(--font-poppins);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+@utility h6-bold {
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+/* Body Styles - Open Sans */
+@utility body-md-regular {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+}
+
+@utility body-md-semibold {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+@utility body-sm-regular {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+/* Label Styles - Open Sans */
+@utility label-md-regular {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+@utility label-md-semibold {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+@utility label-xs-regular {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+}
+
+/* Caption Styles - Poppins */
+@utility caption-lg-semibold {
+  font-family: var(--font-poppins);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+}

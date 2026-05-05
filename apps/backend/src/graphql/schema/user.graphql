@@ -6,3 +6,7 @@ type User {
   picture: String
   provider: String!
 }
+
+extend type Query {
+  users: [User!]!
+}

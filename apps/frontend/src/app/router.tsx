@@ -1,21 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from 'react-router-dom';
 
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Home from "../pages/Home";
-import Protect from "../components/general/Protect";
+import Login from '@/pages/contentbay/Login';
+import Register from '@/pages/contentbay/Register';
+import Home from '@/pages/contentbay/Home';
+import Protect from '@/shared/components/layout/contentbay/Protect';
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/register",
+    path: '/register',
     element: <Register />,
   },
   {
-    path: "/",
+    path: '/',
     element: (
       <Protect>
         <Home />

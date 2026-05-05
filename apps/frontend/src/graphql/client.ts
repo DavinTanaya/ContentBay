@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { API_URL } from "../lib/config";
+import { API_URL } from "@/shared/lib/config";
 
 export function createClient() {
   const token = localStorage.getItem("token");
