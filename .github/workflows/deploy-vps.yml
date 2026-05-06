@@ -76,6 +76,7 @@ jobs:
           pnpm build
 
           test -f apps/backend/dist/src/server.js
+          test -f apps/backend/src/graphql/schema/base.graphql
 
           if ! command -v pm2 >/dev/null 2>&1; then
             npm install -g pm2
@@ -85,7 +86,7 @@ jobs:
           pm2 delete "${PM2_APP_PREFIX}-frontend" >/dev/null 2>&1 || true
 
           NODE_ENV=production PORT="${BACKEND_PORT}" pm2 start pnpm --name "${PM2_APP_PREFIX}-backend" -- --filter typescript-graphql start
-          pm2 start pnpm --name "${PM2_APP_PREFIX}-frontend" -- --filter frontend preview -- --host 0.0.0.0 --port "${FRONTEND_PORT}"
+          pm2 start pnpm --name "${PM2_APP_PREFIX}-frontend" -- --filter frontend exec vite preview --host 0.0.0.0 --port "${FRONTEND_PORT}"
           pm2 save
           pm2 status
           EOF
