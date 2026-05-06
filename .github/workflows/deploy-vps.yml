@@ -1,0 +1,79 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy over SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          REPO_URL: https://github.com/${{ github.repository }}.git
+          DEPLOY_BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          APP_FOLDER="ContentBay"
+          PM2_APP_PREFIX="contentbay"
+          BACKEND_PORT="4000"
+          FRONTEND_PORT="5173"
+
+          if [ -z "${VPS_HOST}" ] || [ -z "${VPS_USER}" ] || [ -z "${VPS_SSH_KEY}" ]; then
+            echo "Missing one or more required secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY"
+            exit 1
+          fi
+
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${VPS_SSH_KEY}" > ~/.ssh/vps_key
+          chmod 600 ~/.ssh/vps_key
+
+          ssh-keyscan "${VPS_HOST}" >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/vps_key "${VPS_USER}@${VPS_HOST}" \
+            "APP_FOLDER='${APP_FOLDER}' PM2_APP_PREFIX='${PM2_APP_PREFIX}' BACKEND_PORT='${BACKEND_PORT}' FRONTEND_PORT='${FRONTEND_PORT}' REPO_URL='${REPO_URL}' DEPLOY_BRANCH='${DEPLOY_BRANCH}' bash -s" <<'EOF'
+          set -euo pipefail
+          APP_DIR="${HOME}/${APP_FOLDER}"
+
+          if [ ! -d "${APP_DIR}/.git" ]; then
+            git clone --branch "${DEPLOY_BRANCH}" "${REPO_URL}" "${APP_DIR}"
+          fi
+
+          cd "${APP_DIR}"
+
+          git fetch --all --prune
+          git checkout "${DEPLOY_BRANCH}"
+          git pull --ff-only
+
+          corepack enable
+          corepack prepare pnpm@10.29.2 --activate
+
+          pnpm install --frozen-lockfile
+          pnpm --filter typescript-graphql exec prisma generate
+          pnpm --filter typescript-graphql exec prisma migrate deploy
+          pnpm build
+
+          if command -v pm2 >/dev/null 2>&1; then
+            pm2 delete "${PM2_APP_PREFIX}-backend" >/dev/null 2>&1 || true
+            pm2 delete "${PM2_APP_PREFIX}-frontend" >/dev/null 2>&1 || true
+
+            PORT="${BACKEND_PORT}" pm2 start pnpm --name "${PM2_APP_PREFIX}-backend" -- --filter typescript-graphql dev
+            pm2 start pnpm --name "${PM2_APP_PREFIX}-frontend" -- --filter frontend dev -- --host 0.0.0.0 --port "${FRONTEND_PORT}"
+            pm2 save
+          else
+            echo "PM2 is not installed on the VPS. Build completed, but the apps were not restarted."
+          fi
+          EOF
