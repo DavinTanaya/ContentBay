@@ -58,8 +58,17 @@ jobs:
           git checkout "${DEPLOY_BRANCH}"
           git pull --ff-only
 
-          corepack enable
-          corepack prepare pnpm@10.29.2 --activate
+          if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
+            echo "Node.js and npm must be installed on the VPS before deploying."
+            echo "Install Node.js, then rerun this workflow."
+            exit 1
+          fi
+
+          if ! command -v pnpm >/dev/null 2>&1; then
+            npm install -g pnpm@10.29.2
+          fi
+
+          pnpm --version
 
           pnpm install --frozen-lockfile
           pnpm --filter typescript-graphql exec prisma generate
