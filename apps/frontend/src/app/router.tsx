@@ -9,12 +9,12 @@ import Resources from '@pages/landing-page/resource';
 import Documentation from '@pages/landing-page/documentation';
 import LandingLayout from '@layout/landing-page/LandingLayout';
 
-import ContentModelList from '@pages/contentbay/content-model/list';
-import ContentModelCreate from '@pages/contentbay/content-model/create';
-import ContentModelBuilder from '@pages/contentbay/content-model/builder';
-import ContentModelSettings from '@pages/contentbay/content-model/settings';
-import ContentList from '@pages/contentbay/content/list';
-import ContentCreate from '@pages/contentbay/content/create';
+import ContentModelList from '@pages/contentbay/content-model/ContentModelListPage';
+import ContentModelCreate from '@pages/contentbay/content-model/ContentModelCreatePage';
+import ContentModelBuilder from '@pages/contentbay/content-model/ContentModelBuilderPage';
+import ContentModelSettings from '@pages/contentbay/content-model/ContentModelSettingsPage';
+import ContentList from '@pages/contentbay/content/ContentListPage';
+import ContentCreate from '@pages/contentbay/content/ContentCreatePage';
 import ContentBayLayout from '@layout/contentbay/ContentBayLayout';
 
 export const router = createBrowserRouter([

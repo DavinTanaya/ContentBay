@@ -31,3 +31,32 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
 }
+
+enum ContentModelStatus {
+  DRAFT
+  LIVE
+}
+
+model ContentModel {
+  id          String             @id @default(cuid())
+  name        String
+  apiId       String             @unique
+  description String?
+  status      ContentModelStatus @default(DRAFT)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  fields      ContentField[]
+}
+
+model ContentField {
+  id          String       @id @default(cuid())
+  name        String
+  type        String
+  apiId       String
+  localized   Boolean      @default(false)
+  required    Boolean      @default(false)
+  isTitle     Boolean      @default(false)
+  description String?
+  model       ContentModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  modelId     String
+}

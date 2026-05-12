@@ -1,0 +1,54 @@
+enum ContentModelStatus {
+  DRAFT
+  LIVE
+}
+
+type ContentField {
+  id: ID!
+  name: String!
+  type: String!
+  apiId: String!
+  localized: Boolean!
+  required: Boolean!
+  isTitle: Boolean!
+  description: String
+}
+
+type ContentModel {
+  id: ID!
+  name: String!
+  apiId: String!
+  description: String
+  status: ContentModelStatus!
+  createdAt: String!
+  updatedAt: String!
+  fields: [ContentField!]!
+}
+
+input CreateContentFieldInput {
+  name: String!
+  type: String!
+  apiId: String!
+  localized: Boolean
+  required: Boolean
+  isTitle: Boolean
+  description: String
+}
+
+input CreateContentModelInput {
+  name: String!
+  apiId: String!
+  description: String
+  fields: [CreateContentFieldInput!]
+}
+
+type Query {
+  getContentModels: [ContentModel!]!
+  getContentModel(id: ID!): ContentModel
+}
+
+type Mutation {
+  createContentModel(input: CreateContentModelInput!): ContentModel!
+  updateContentModel(id: ID!, input: CreateContentModelInput!): ContentModel!
+  deleteContentModel(id: ID!): Boolean!
+}

@@ -6,6 +6,7 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '@/features/auth/hooks/useAuth';
+import { Button } from 'antd';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -68,18 +69,18 @@ const Navbar: React.FC = () => {
 
         {/* Right Section */}
         <div className="flex items-center gap-6 ml-auto">
-          <button className="text-gray-400 hover:text-gray-900 transition-colors">
+          <Button className="text-gray-400 hover:text-gray-900 transition-colors">
             <SettingOutlined className="text-xl" />
-          </button>
+          </Button>
 
           {/* Custom Profile Dropdown */}
           <div className="relative">
-            <button
+            <Button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="w-10 h-10 rounded-full bg-[#2563EB] flex items-center justify-center text-white hover:opacity-90 transition-all shadow-lg shadow-blue-600/10"
             >
               <UserOutlined className="text-lg" />
-            </button>
+            </Button>
 
             {isProfileOpen && (
               <>
@@ -119,4 +120,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-

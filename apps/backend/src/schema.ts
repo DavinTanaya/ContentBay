@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 
 import { authResolvers } from "./graphql/resolvers/auth";
+import { contentModelResolvers } from "./graphql/resolvers/content-model";
 import { Context } from "./context";
 
 /**
@@ -27,7 +28,8 @@ export const schema = createSchema<Context>({
     loadSchema("base.graphql"),
     loadSchema("auth.graphql"),
     loadSchema("user.graphql"),
+    loadSchema("content-model.graphql"),
   ],
 
-  resolvers: [authResolvers],
+  resolvers: [authResolvers, contentModelResolvers],
 });
