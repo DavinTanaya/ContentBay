@@ -9,7 +9,16 @@ import {
   DeleteOutlined,
   AppstoreAddOutlined,
   CloseOutlined,
-  HolderOutlined
+  HolderOutlined,
+  FileTextOutlined,
+  FontSizeOutlined,
+  NumberOutlined,
+  CalendarOutlined,
+  EnvironmentOutlined,
+  PictureOutlined,
+  CheckCircleOutlined,
+  CodeOutlined,
+  LinkOutlined
 } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -25,14 +34,15 @@ export const ContentModelBuilderView: React.FC = () => {
   const [hasChanges, setHasChanges] = useState(false);
 
   const fieldTypes = [
-    { title: 'Text', desc: 'Titles, names, slugs', icon: 'T', color: '#2563EB' },
-    { title: 'Rich text', desc: 'Formatting, links, images', icon: 'R', color: '#7C3AED' },
-    { title: 'Number', desc: 'Prices, ratings, IDs', icon: '#', color: '#059669' },
-    { title: 'Date', desc: 'Events, deadlines', icon: 'D', color: '#D97706' },
-    { title: 'Media', desc: 'Images, videos, files', icon: 'M', color: '#DB2777' },
-    { title: 'Boolean', desc: 'Yes/no toggle', icon: 'B', color: '#4B5563' },
-    { title: 'Reference', desc: 'Links to other entries', icon: '🔗', color: '#2563EB' },
-    { title: 'JSON', desc: 'Custom data structure', icon: '{ }', color: '#000000' },
+    { title: 'Rich text', desc: 'Text formatting with references and media', icon: <FileTextOutlined /> },
+    { title: 'Text', desc: 'Titles, names, paragraphs, list of names', icon: <FontSizeOutlined />, selected: true },
+    { title: 'Number', desc: 'ID, order number, rating, quantity', icon: <NumberOutlined /> },
+    { title: 'Date and time', desc: 'Event dates', icon: <CalendarOutlined /> },
+    { title: 'Location', desc: 'Coordinates: latitude and longitude', icon: <EnvironmentOutlined /> },
+    { title: 'Media', desc: 'Images, videos, PDFs and other files', icon: <PictureOutlined /> },
+    { title: 'Boolean', desc: 'Yes or no, 1 or 0, true or false', icon: <CheckCircleOutlined /> },
+    { title: 'JSON object', desc: 'Data in JSON format', icon: <CodeOutlined /> },
+    { title: 'Reference', desc: 'For example, a blog post can reference its author(s)', icon: <LinkOutlined /> },
   ];
 
   const handleAddField = () => {
@@ -41,7 +51,7 @@ export const ContentModelBuilderView: React.FC = () => {
       name: selectedFieldType.title,
       type: selectedFieldType.title,
       icon: selectedFieldType.icon,
-      color: selectedFieldType.color
+      color: '#2563EB'
     };
     setFields([...fields, newField]);
     setIsConfigModalOpen(false);
@@ -220,35 +230,55 @@ export const ContentModelBuilderView: React.FC = () => {
         open={isFieldPickerOpen}
         onCancel={() => setIsFieldPickerOpen(false)}
         footer={null}
-        width={900}
+        width={950}
         centered
-        className="field-picker-modal"
+        className="field-picker-modal-v3"
+        closeIcon={<CloseOutlined className="text-gray-400 text-lg mt-4 mr-4" />}
       >
-        <div className="p-12">
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Add new field</h2>
-            <p className="text-gray-400 font-medium">Select a type of field you want to add to your structure</p>
+        <div className="p-10">
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-900 tracking-tight">Add new field</h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {fieldTypes.map((type) => (
               <div 
                 key={type.title}
                 onClick={() => {
-                  setSelectedFieldType(type);
+                  setSelectedFieldType({
+                    title: type.title,
+                    icon: type.icon,
+                    color: '#2563EB',
+                    desc: type.desc
+                  });
                   setIsFieldPickerOpen(false);
                   setIsConfigModalOpen(true);
                   setConfigStep(1);
                   setConfigSubTab('name');
                 }}
-                className="p-8 rounded-[32px] border border-gray-50 bg-gray-50/30 hover:border-[#2563EB] hover:bg-blue-50/20 transition-all cursor-pointer group text-center"
+                className={`p-6 rounded-xl border transition-all cursor-pointer group h-full flex flex-col ${
+                  type.selected 
+                    ? 'border-[#2563EB] bg-white shadow-sm ring-1 ring-[#2563EB]/10' 
+                    : 'border-gray-100 hover:border-[#2563EB] hover:shadow-sm'
+                }`}
               >
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center font-bold text-2xl mb-6 mx-auto group-hover:scale-110 transition-transform" style={{ color: type.color }}>
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-lg mb-4 border ${
+                  type.selected ? 'border-[#2563EB]/20 bg-blue-50 text-[#2563EB]' : 'border-gray-100 bg-gray-50 text-gray-400'
+                }`}>
                   {type.icon}
                 </div>
-                <h4 className="font-bold text-gray-900 mb-1">{type.title}</h4>
-                <p className="text-[10px] text-gray-400 font-medium leading-relaxed px-2">{type.desc}</p>
+                <h4 className="font-bold text-gray-900 text-sm mb-2">{type.title}</h4>
+                <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-0 flex-grow">
+                  {type.desc}
+                </p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-gray-400 text-xs font-medium max-w-lg mx-auto leading-relaxed">
+              The field type defines what content can be stored. For instance, a text field accepts titles and descriptions, and a media field is used for images and videos. <a href="#" className="text-[#2563EB] hover:underline">Learn more <ArrowLeftOutlined className="rotate-[135deg] text-[10px] ml-1" /></a>
+            </p>
           </div>
         </div>
       </Modal>
