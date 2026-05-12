@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter } from 'react-router-dom';
 
 import Login from '@/pages/contentbay/Login';
@@ -17,6 +18,10 @@ import ContentCreate from '@/pages/dashboard/ContentCreate';
 import DashboardLayout from '@/shared/components/layout/dashboard/DashboardLayout';
 
 export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <LandingHome />,
+  },
   {
     path: '/login',
     element: <Login />,
