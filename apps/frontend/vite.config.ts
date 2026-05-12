@@ -6,6 +6,20 @@ import path from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    allowedHosts: [
+      'contentbay.tech',
+      'www.contentbay.tech',
+      ...(process.env.VITE_ALLOWED_HOSTS?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
+    ],
+  },
+  preview: {
+    allowedHosts: [
+      'contentbay.tech',
+      'www.contentbay.tech',
+      ...(process.env.VITE_ALLOWED_HOSTS?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
+    ],
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
