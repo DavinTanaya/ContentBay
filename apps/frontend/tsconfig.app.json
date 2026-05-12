@@ -11,7 +11,14 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/shared/components/*"],
+      "@icons": ["./src/shared/components/icons"],
+      "@icons/*": ["./src/shared/components/icons/*"],
+      "@assets/*": ["./src/shared/assets/*"],
+      "@layout/*": ["./src/shared/components/layout/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@features/*": ["./src/features/*"]
     },
 
     /* Bundler mode */

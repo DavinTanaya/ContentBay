@@ -23,12 +23,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      // '@components': '/src/components',
-      // '@features': '/src/features',
-      // '@pages': '/src/pages',
-      // '@services': '/src/services',
-      // '@store': '/src/store',
-      // '@utils': '/src/utils',
+      '@components': path.resolve(__dirname, 'src/shared/components'),
+      '@icons': path.resolve(__dirname, 'src/shared/components/icons'),
+      '@assets': path.resolve(__dirname, 'src/shared/assets'),
+      '@layout': path.resolve(__dirname, 'src/shared/components/layout'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@features': path.resolve(__dirname, 'src/features'),
     },
   },
 });

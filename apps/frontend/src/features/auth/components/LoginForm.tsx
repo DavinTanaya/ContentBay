@@ -2,9 +2,7 @@
 import { Form, Input, Button, Checkbox, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
-import GoogleIcon from './GoogleIcon';
-import GithubIcon from './GithubIcon';
-import FacebookIcon from './FacebookIcon';
+import { GoogleIcon, GithubIcon, FacebookIcon } from '@icons';
 
 export const LoginForm = () => {
   const { onFinish, googleLogin } = useLogin();
