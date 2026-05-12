@@ -14,7 +14,7 @@ export const useRegister = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.isAuthenticated) navigate('/', { replace: true });
+    if (auth.isAuthenticated) navigate('/home', { replace: true });
   }, [auth.isAuthenticated, navigate]);
 
   const onFinish = async (values: {

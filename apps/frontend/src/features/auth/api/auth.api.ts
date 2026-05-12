@@ -1,4 +1,4 @@
-import { createClient } from '@/graphql/client';
+import { apolloClient } from '@/graphql/client';
 import {
   GOOGLE_LOGIN,
   GOOGLE_LOGIN_ACCESS_TOKEN,
@@ -7,9 +7,7 @@ import {
 } from '@/graphql/mutations/auth';
 
 export async function loginManual(email: string, password: string) {
-  const client = createClient();
-
-  const data = await client.request<{
+  const { data } = await apolloClient.mutate<{
     login: {
       token: string;
       user: {
@@ -19,9 +17,12 @@ export async function loginManual(email: string, password: string) {
         lastName?: string;
       };
     };
-  }>(LOGIN, { email, password });
+  }>({
+    mutation: LOGIN,
+    variables: { email, password },
+  });
 
-  return data.login;
+  return data!.login;
 }
 
 export async function register(
@@ -30,9 +31,7 @@ export async function register(
   email: string,
   password: string,
 ) {
-  const client = createClient();
-
-  const data = await client.request<{
+  const { data } = await apolloClient.mutate<{
     register: {
       token: string;
       user: {
@@ -42,21 +41,25 @@ export async function register(
         lastName?: string;
       };
     };
-  }>(REGISTER, { firstName, lastName, email, password });
+  }>({
+    mutation: REGISTER,
+    variables: { firstName, lastName, email, password },
+  });
 
-  return data.register;
+  return data!.register;
 }
 
 export async function loginWithGoogle(idToken: string) {
-  const client = createClient();
+  const { data } = await apolloClient.mutate({
+    mutation: GOOGLE_LOGIN,
+    variables: { idToken },
+  });
 
-  return client.request(GOOGLE_LOGIN, { idToken });
+  return data;
 }
 
 export async function loginWithGoogleAccessToken(accessToken: string) {
-  const client = createClient();
-
-  const data = await client.request<{
+  const { data } = await apolloClient.mutate<{
     googleLoginWithAccessToken: {
       token: string;
       user: {
@@ -66,9 +69,12 @@ export async function loginWithGoogleAccessToken(accessToken: string) {
         lastName?: string;
       };
     };
-  }>(GOOGLE_LOGIN_ACCESS_TOKEN, { accessToken });
+  }>({
+    mutation: GOOGLE_LOGIN_ACCESS_TOKEN,
+    variables: { accessToken },
+  });
 
-  return data.googleLoginWithAccessToken;
+  return data!.googleLoginWithAccessToken;
 }
 
 export function logout() {

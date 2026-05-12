@@ -249,6 +249,13 @@
   font-weight: 600;
 }
 
+@utility display-sm-semibold {
+  font-family: var(--font-poppins);
+  font-size: 48px;
+  line-height: 52.8px;
+  font-weight: 600;
+}
+
 /* Heading Styles - Poppins */
 @utility h1-bold {
   font-family: var(--font-poppins);
@@ -297,6 +304,13 @@
   font-size: 20px;
   line-height: 28px;
   font-weight: 600;
+}
+
+@utility h6-regular {
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
 }
 
 /* Body Styles - Open Sans */
@@ -349,4 +363,12 @@
   font-size: 18px;
   line-height: 28px;
   font-weight: 600;
+}
+
+@utility caption-xl-semibold {
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
