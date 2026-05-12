@@ -11,7 +11,7 @@ export const useLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.isAuthenticated) navigate('/', { replace: true });
+    if (auth.isAuthenticated) navigate('/content-model', { replace: true });
   }, [auth.isAuthenticated, navigate]);
 
   // Dipanggil oleh onFinish dari Ant Design Form
