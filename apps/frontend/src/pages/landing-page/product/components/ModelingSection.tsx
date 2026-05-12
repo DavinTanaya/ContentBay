@@ -1,74 +1,121 @@
 export function ModelingSection() {
+  const fields = [
+    {
+      label: 'Title',
+      subtitle: 'Required field',
+      type: 'Text',
+      accent: 'border-l-[var(--color-blue-7)]',
+    },
+    {
+      label: 'Description',
+      subtitle: 'Markdown supported',
+      type: 'Rich Text',
+      accent: 'border-l-[var(--color-blue-5)]',
+    },
+    {
+      label: 'Price',
+      subtitle: 'Currency Format',
+      type: 'Number',
+      accent: 'border-l-[var(--color-green-6)]',
+    },
+    {
+      label: 'Category',
+      subtitle: 'Link to Category model',
+      type: 'Reference',
+      accent: 'border-l-[var(--color-yellow-6)]',
+    },
+    {
+      label: 'Image',
+      subtitle: 'Product thumbnail',
+      type: 'Media',
+      accent: 'border-l-[var(--color-red-6)]',
+    },
+  ];
+
   const items = [
     {
       title: 'Multiple Field Types',
-      desc: 'Text, Rich Text, Images, Numbers, JSON, and more.',
+      desc: 'Text, rich text, numbers, dates, media, references, and more.',
     },
     {
       title: 'Relationships',
-      desc: 'Link content types together with simple or complex relationships.',
+      desc: 'Link content models together with one-to-one or one-to-many relationships.',
     },
     {
       title: 'Validation Rules',
-      desc: 'Ensure your data is always clean and consistent.',
+      desc: 'Set required fields, min/max values, regex patterns, and custom validation.',
     },
   ];
 
   return (
-    <section className="py-32 bg-gray-50/50">
+    <section className="py-32 bg-[var(--color-gray-3)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center gap-20">
-          <div className="flex-1 bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100">
-            <div className="flex justify-between items-center mb-8">
-              <h4 className="font-bold text-slate-900">Content Model Example</h4>
-              <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center text-blue-600">
-                ⚙️
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="bg-[var(--color-gray-1)] rounded-[20px] border border-[var(--color-gray-6)] shadow-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="h5-semibold text-[var(--color-gray-10)]">
+                  Content Model Example
+                </p>
+              </div>
+              <div className="inline-flex h-11 w-11 items-center justify-center">
+                <img
+                  src="/landing-page/product/stack.svg"
+                  alt="stack icon"
+                  className="w-6 h-6"
+                />
               </div>
             </div>
+
             <div className="space-y-4">
-              {['Title', 'Description', 'Price', 'Category'].map((field) => (
+              {fields.map((field) => (
                 <div
-                  key={field}
-                  className="flex justify-between items-center p-4 bg-gray-50 rounded-xl border border-gray-100"
+                  key={field.label}
+                  className={`flex items-start justify-between gap-4 rounded-lg border-l-4 bg-[var(--color-geekblue-1)] p-4 ${field.accent}`}
                 >
-                  <span className="font-medium text-slate-700">{field}</span>
-                  <span className="text-xs text-slate-400 font-mono uppercase tracking-widest">
-                    {field === 'Price' ? 'Number' : 'String'}
+                  <div className="grid gap-1">
+                    <p className="body-md-semibold text-[var(--color-gray-13)]">
+                      {field.label}
+                    </p>
+                    <p className="label-xs-regular text-[var(--color-gray-7)]">
+                      {field.subtitle}
+                    </p>
+                  </div>
+                  <span className="rounded bg-[var(--color-gray-1)] px-3 py-1 text-[10px] font-regular text-[var(--color-gray-7)] whitespace-nowrap">
+                    {field.type}
                   </span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="flex-1">
-            <h2 className="text-4xl font-bold text-slate-900 mb-8">
+          <div>
+            <h2 className="display-sm-semibold text-[var(--color-gray-13)] mb-6 whitespace-nowrap">
               Flexible Content Modeling
             </h2>
-            <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-              Design your content structure without any limitations. Define
-              fields, relationships, and validation rules in minutes.
+            <p className="body-md-regular text-[var(--color-gray-13)] max-w-xl mb-10">
+              Design your content structure exactly how you want it. Create
+              custom content types with various field types, validation rules,
+              and relationships between models.
             </p>
+
             <ul className="space-y-6">
               {items.map((item, idx) => (
                 <li key={idx} className="flex gap-4">
-                  <div className="mt-1 w-6 h-6 rounded-full bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                    <svg
-                      className="w-4 h-4 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
+                  <div className="flex-shrink-0 flex items-center justify-center rounded-xl bg-[var(--color-geekblue-1)] w-9 h-9">
+                    <img
+                      src="/landing-page/product/check.svg"
+                      alt="check icon"
+                      className="w-5 h-5"
+                    />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900">{item.title}</h4>
-                    <p className="text-slate-500">{item.desc}</p>
+                    <h4 className="h6-semibold text-[var(--color-gray-13)] mb-1">
+                      {item.title}
+                    </h4>
+                    <p className="body-md-regular text-[var(--color-gray-13)]">
+                      {item.desc}
+                    </p>
                   </div>
                 </li>
               ))}

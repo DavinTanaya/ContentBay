@@ -4,76 +4,44 @@ export function PerformanceScaleSection() {
       val: '10ms',
       label: 'Avg API Response',
       icon: (
-        <svg
-          className="w-8 h-8 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2.5"
-            d="M13 10V3L4 14h7v7l9-11h-7z"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon1.svg"
+          alt="icon"
+          className="w-[35] h-[39px]"
+        />
       ),
     },
     {
       val: '200+',
       label: 'CDN Locations',
       icon: (
-        <svg
-          className="w-8 h-8 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon2.svg"
+          alt="icon"
+          className="w-[39px] h-[39px]"
+        />
       ),
     },
     {
       val: '99.9%',
       label: 'Uptime SLA',
       icon: (
-        <svg
-          className="w-8 h-8 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon3.svg"
+          alt="icon"
+          className="w-[31px] h-[39px]"
+        />
       ),
     },
     {
       val: '500M+',
       label: 'API calls/month',
       icon: (
-        <svg
-          className="w-8 h-8 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon4.svg"
+          alt="icon"
+          className="w-[35px] h-[39px]"
+        />
       ),
     },
   ];
@@ -84,19 +52,11 @@ export function PerformanceScaleSection() {
       desc: 'SOC 2 Type II certified with SSO, 2FA, and role-based access control',
       tags: ['SSO', '2FA', 'RBAC'],
       icon: (
-        <svg
-          className="w-8 h-8 text-blue-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon5.svg"
+          alt="icon"
+          className="w-[27px] h-[30px]"
+        />
       ),
     },
     {
@@ -104,19 +64,11 @@ export function PerformanceScaleSection() {
       desc: 'Infrastructure that automatically scales to handle traffic spikes',
       tags: ['Load Balancing', 'Auto-Scale'],
       icon: (
-        <svg
-          className="w-8 h-8 text-blue-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon6.svg"
+          alt="icon"
+          className="w-[30px] h-[30px]"
+        />
       ),
     },
     {
@@ -124,19 +76,11 @@ export function PerformanceScaleSection() {
       desc: 'Full content versioning with instant rollback capabilities',
       tags: ['Versioning', 'Rollback'],
       icon: (
-        <svg
-          className="w-8 h-8 text-blue-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-          />
-        </svg>
+        <img
+          src="/landing-page/product/icon7.svg"
+          alt="icon"
+          className="w-[30px] h-[30px]"
+        />
       ),
     },
   ];
@@ -146,15 +90,15 @@ export function PerformanceScaleSection() {
       className="py-32 text-white relative overflow-hidden"
       style={{
         background:
-          'radial-gradient(circle at center, #0B2268 0%, #051139 40%, #02081A 100%)',
+          'linear-gradient(90deg, #0F172A 15%, #003A8C 50%, #0F172A 85%)',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <h2 className="text-[56px] font-bold text-white mb-6 leading-tight">
+          <h2 className="display-lg text-[var(--color-gray-1)] mb-6 leading-tight">
             Built for performance & scale
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <p className="text-[var(--color-gray-1)] body-md-regular max-w-2xl mx-auto">
             Enterprise-grade infrastructure that grows with your business
           </p>
         </div>
@@ -165,15 +109,15 @@ export function PerformanceScaleSection() {
               <div
                 className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20"
                 style={{
-                  backgroundImage: 'linear-gradient(135deg, #FF8A00, #FFC700)',
+                  backgroundImage: 'linear-gradient(135deg, #FAAD14, #D46B08)',
                 }}
               >
                 {stat.icon}
               </div>
-              <div className="text-4xl font-bold text-white mb-2">
+              <div className="h1-semibold text-[var(--color-gray-1)] mb-2">
                 {stat.val}
               </div>
-              <div className="text-slate-400 text-sm font-medium">
+              <div className="h6-semibold text-[var(--color-geekblue-1)]">
                 {stat.label}
               </div>
             </div>
@@ -184,18 +128,20 @@ export function PerformanceScaleSection() {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="bg-white/5 backdrop-blur-md rounded-[2rem] p-10 border border-white/10 hover:bg-white/10 transition-all"
+              className="bg-[#ADC6FF]/25 backdrop-blur-md rounded-[20px] p-10 border border-[#ADC6FF] hover:bg-white/10 transition-all"
             >
               <div className="mb-8">{feature.icon}</div>
-              <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-              <p className="text-slate-400 mb-8 leading-relaxed text-sm">
+              <h3 className="h5-semibold mb-4 text-[var(--color-gray-1)]">
+                {feature.title}
+              </h3>
+              <p className="text-[var(--color-gray-1)] mb-8 leading-relaxed body-sm-regular">
                 {feature.desc}
               </p>
               <div className="flex flex-wrap gap-2">
                 {feature.tags.map((tag, tIdx) => (
                   <span
                     key={tIdx}
-                    className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold uppercase tracking-wider"
+                    className="px-3 py-1 rounded-[20px] bg-[#ADC6FF]/50 text-[var(--color-gray-1)] footnote-description tracking-wider"
                   >
                     {tag}
                   </span>

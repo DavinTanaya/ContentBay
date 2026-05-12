@@ -2,32 +2,38 @@ import { Button } from 'antd';
 
 export function ProductHero() {
   return (
-    <section className="pt-24 pb-32 bg-blue-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 block">
+    <section
+      className="w-full h-[540px] pt-[100px] pr-[24px] pb-[100px] pl-[24px] flex items-center justify-center"
+      style={{
+        background:
+          'linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 20%, #E4EDFF 100%)',
+      }}
+    >
+      <div className="flex flex-col items-center justify-center text-center">
+        <span className="caption-xl-semibold text-[var(--color-blue-7)] uppercase mb-4 block">
           Product Overview
         </span>
-        <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-8">
+        <h1 className="display-sm-semibold text-[var(--color-gray-13)] mb-4">
           The complete content platform
         </h1>
-        <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-12">
-          A modern headless CMS that gives you absolute control over your
-          content, allowing you to deliver it to any platform without the
-          complexity of managing your own server.
+        <p className="body-md-regular text-[var(--color-gray-10)] max-w-3xl mx-auto mb-4">
+          A modern headless CMS that gives you complete control over your
+          content infrastructure without the complexity of building and
+          maintaining a backend.
         </p>
         <div className="flex justify-center space-x-4">
           <Button
             type="primary"
             size="large"
-            className="bg-blue-600 h-14 px-10 rounded-xl font-bold text-lg"
+            className="bg-[var(--color-blue-6)] h-14 px-10 rounded-xl font-bold text-lg"
           >
-            Start for free
+            Start Free Trial
           </Button>
           <Button
             size="large"
             className="h-14 px-10 rounded-xl font-bold text-lg"
           >
-            Learn more
+            Scheduled Demo
           </Button>
         </div>
       </div>

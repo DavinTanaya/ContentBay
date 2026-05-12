@@ -260,7 +260,7 @@
 }
 
 /* Heading Styles - Poppins */
-@utility h1-bold {
+@utility h1-semibold {
   font-family: var(--font-poppins);
   font-size: 40px;
   line-height: 48px;
@@ -281,7 +281,7 @@
   font-weight: 600;
 }
 
-@utility h3-bold {
+@utility h3-semibold {
   font-family: var(--font-poppins);
   font-size: 32px;
   line-height: 40px;
@@ -302,7 +302,7 @@
   font-weight: 600;
 }
 
-@utility h6-bold {
+@utility h6-semibold {
   font-family: var(--font-poppins);
   font-size: 20px;
   line-height: 28px;
@@ -374,4 +374,11 @@
   line-height: 30px;
   font-weight: 600;
   letter-spacing: 2px;
+}
+
+@utility footnote-description {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 30px;
+  font-weight: 400;
 }
