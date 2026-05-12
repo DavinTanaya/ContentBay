@@ -3,40 +3,28 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Login from '@/pages/contentbay/Login';
 import Register from '@/pages/contentbay/Register';
-import Home from '@/pages/contentbay/Home';
-import Product from '@/pages/contentbay/Product';
-import Resources from '@/pages/contentbay/Resources';
-import Documentation from '@/pages/contentbay/Documentation';
-import Layout from '@/shared/components/layout/contentbay/Layout';
+import LandingHome from '@/pages/landing-page/home/Home';
+import Product from '@/pages/landing-page/product/Product';
+import Resources from '@/pages/landing-page/resource/Resources';
+import Documentation from '@/pages/landing-page/documentation/Documentation';
+import LandingLayout from '@/shared/components/layout/landing-page/LandingLayout';
 
-import ContentModelList from '@/pages/dashboard/ContentModelList';
-import ContentTypeBuilder from '@/pages/dashboard/ContentTypeBuilder';
-import ContentModelDetail from '@/pages/dashboard/ContentModelDetail';
-import ContentTypeCreate from '@/pages/dashboard/ContentTypeCreate';
-import ContentList from '@/pages/dashboard/ContentList';
-import ContentCreate from '@/pages/dashboard/ContentCreate';
-import DashboardLayout from '@/shared/components/layout/dashboard/DashboardLayout';
+import ContentModelList from '@/pages/contentbay/content-model/ContentModelList';
+import ContentModelCreate from '@/pages/contentbay/content-model/ContentModelCreate';
+import ContentModelBuilder from '@/pages/contentbay/content-model/ContentModelBuilder';
+import ContentModelSettings from '@/pages/contentbay/content-model/ContentModelSettings';
+import ContentList from '@/pages/contentbay/content/ContentList';
+import ContentCreate from '@/pages/contentbay/content/ContentCreate';
+import ContentBayLayout from '@/shared/components/layout/contentbay/ContentBayLayout';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <LandingHome />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/',
-    element: <Layout />,
+    element: <LandingLayout />,
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <LandingHome />,
       },
       {
         path: 'product',
@@ -53,8 +41,16 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
     path: '/',
-    element: <DashboardLayout />,
+    element: <ContentBayLayout />,
     children: [
       {
         path: 'content-model',
@@ -62,15 +58,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'content-model/create',
-        element: <ContentTypeCreate />,
+        element: <ContentModelCreate />,
       },
       {
         path: 'content-model/:modelId',
-        element: <ContentTypeBuilder />,
+        element: <ContentModelBuilder />,
       },
       {
         path: 'content-model/:modelId/settings',
-        element: <ContentModelDetail />,
+        element: <ContentModelSettings />,
       },
       {
         path: 'content',

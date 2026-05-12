@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Tabs, Input, Button, Radio, Avatar, Tag, Upload } from 'antd';
-import { ArrowLeftOutlined, CloudUploadOutlined, UserOutlined, PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, CloudUploadOutlined, UserOutlined, CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
-const ContentCreate: React.FC = () => {
+export const ContentCreateForm: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('editor');
   const [tags, setTags] = useState(['Technology', 'Tutorial']);
@@ -209,5 +209,3 @@ const ContentCreate: React.FC = () => {
     </div>
   );
 };
-
-export default ContentCreate;

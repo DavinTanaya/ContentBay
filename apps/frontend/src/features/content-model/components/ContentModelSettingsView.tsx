@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Input, Button, Table, Tag, Modal, Checkbox } from 'antd';
-import { EditOutlined, MoreOutlined, PlusOutlined, CloseOutlined, InfoCircleOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { EditOutlined, MoreOutlined, CloseOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 
-const ContentModelDetail: React.FC = () => {
+export const ContentModelSettingsView: React.FC = () => {
   const { modelId } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('fields');
@@ -84,8 +84,18 @@ const ContentModelDetail: React.FC = () => {
 
   return (
     <div className="bg-white min-h-[calc(100vh-72px)]">
+      {/* Back Button */}
+      <div className="px-12 pt-8">
+        <button 
+          onClick={() => navigate('/content-model')}
+          className="flex items-center gap-2 text-gray-400 hover:text-gray-600 font-bold text-xs uppercase tracking-widest transition-colors group"
+        >
+          <ArrowLeftOutlined className="group-hover:-translate-x-1 transition-transform" /> Back to Content Models
+        </button>
+      </div>
+
       {/* Detail Header */}
-      <div className="px-12 pt-12 pb-0">
+      <div className="px-12 pt-6 pb-0">
         <h1 className="text-[40px] font-bold text-gray-900 leading-tight mb-2 capitalize">{modelId || 'Article'}</h1>
         <p className="text-gray-500 text-lg mb-10 font-medium">Blog posts and new article</p>
         
@@ -273,5 +283,3 @@ const ContentModelDetail: React.FC = () => {
     </div>
   );
 };
-
-export default ContentModelDetail;

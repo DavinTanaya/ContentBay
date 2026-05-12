@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Card, Space } from 'antd';
+import { Input, Button } from 'antd';
 import { ArrowLeftOutlined, RocketOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
-const ContentTypeCreate: React.FC = () => {
+export const ContentModelCreateForm: React.FC = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [apiId, setApiId] = useState('');
@@ -23,7 +23,6 @@ const ContentTypeCreate: React.FC = () => {
 
   const handleCreate = () => {
     // In a real app, you'd save to DB here
-    // For now, redirect to the new Builder page
     navigate(`/content-model/${apiId || 'new-model'}`);
   };
 
@@ -89,12 +88,12 @@ const ContentTypeCreate: React.FC = () => {
           </div>
 
           <div className="pt-10 border-t border-gray-50 flex justify-end gap-4">
-            <Button 
-              className="h-14 px-10 rounded-2xl font-bold border-gray-200 text-gray-500 hover:text-gray-700 transition-all"
+            <button 
+              className="h-14 px-10 rounded-2xl font-bold border border-gray-200 text-gray-500 hover:text-gray-700 transition-all"
               onClick={() => navigate('/content-model')}
             >
               Cancel
-            </Button>
+            </button>
             <Button 
               type="primary" 
               disabled={!name}
@@ -122,5 +121,3 @@ const ContentTypeCreate: React.FC = () => {
     </div>
   );
 };
-
-export default ContentTypeCreate;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs, Button, Modal, Radio, Checkbox, Input, Space, Tag, Tooltip } from 'antd';
+import { Tabs, Button, Modal, Radio, Checkbox, Input, Tag, Tooltip } from 'antd';
 import { 
   ArrowLeftOutlined, 
   PlusOutlined, 
@@ -8,13 +8,12 @@ import {
   CopyOutlined, 
   DeleteOutlined,
   AppstoreAddOutlined,
-  InfoCircleOutlined,
   CloseOutlined,
   HolderOutlined
 } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const ContentTypeBuilder: React.FC = () => {
+export const ContentModelBuilderView: React.FC = () => {
   const navigate = useNavigate();
   const { modelId } = useParams();
   const [fields, setFields] = useState<any[]>([]);
@@ -378,5 +377,3 @@ const ContentTypeBuilder: React.FC = () => {
     </div>
   );
 };
-
-export default ContentTypeBuilder;

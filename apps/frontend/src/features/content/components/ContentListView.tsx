@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Table, Tag, Button, Select, Avatar, Input, Pagination } from 'antd';
+import { Table, Tag, Button, Select, Avatar, Pagination } from 'antd';
 import { PlusOutlined, MoreOutlined, UserOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
-const ContentList: React.FC = () => {
+export const ContentListView: React.FC = () => {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('All Types');
@@ -56,7 +56,7 @@ const ContentList: React.FC = () => {
           case 'Archived': color = '#8250DF'; bgColor = '#F5F0FF'; break;
         }
         return (
-          <Tag color={bgColor} className="border-none font-bold text-[10px] rounded px-2 m-0" style={{ color }}>
+          <Tag color={bgColor} className="border-none font-bold text-[10px] rounded px-2.5 m-0" style={{ color }}>
             {status}
           </Tag>
         );
@@ -148,7 +148,7 @@ const ContentList: React.FC = () => {
             <Select 
               defaultValue="All" 
               className="w-28" 
-              bordered={false} 
+              variant="borderless"
               suffixIcon={<div className="border-l border-gray-200 pl-2 ml-2"><ClockCircleOutlined className="text-[10px] text-gray-400" /></div>}
             >
               <Select.Option value="All">All</Select.Option>
@@ -160,14 +160,14 @@ const ContentList: React.FC = () => {
               value={statusFilter} 
               onChange={setStatusFilter}
               className="w-32" 
-              bordered={false}
+              variant="borderless"
             >
               {sidebarStatus.map(s => <Select.Option key={s} value={s}>{s}</Select.Option>)}
             </Select>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs font-bold text-gray-400 uppercase">Created by:</span>
-            <Select defaultValue="All" className="w-28" bordered={false}>
+            <Select defaultValue="All" className="w-28" variant="borderless">
               <Select.Option value="All">All</Select.Option>
             </Select>
           </div>
@@ -192,5 +192,3 @@ const ContentList: React.FC = () => {
     </div>
   );
 };
-
-export default ContentList;
