@@ -7,7 +7,7 @@ const ContentBayLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Navbar />
-      <main className="flex-grow">
+      <main className="grow">
         <Outlet />
       </main>
     </div>
