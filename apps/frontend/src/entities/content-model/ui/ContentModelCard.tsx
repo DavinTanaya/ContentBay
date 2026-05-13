@@ -27,8 +27,8 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
       onClick={() => onClick?.(model.id)}
     >
       <div className="p-8">
-        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-6">
-          <span className="text-2xl text-[#2563EB]">{model.icon}</span>
+        <div className="w-12 h-12 rounded-xl bg-blue-1 flex items-center justify-center mb-6">
+          <span className="text-2xl text-blue-7">{model.icon}</span>
         </div>
         <h3 className="text-xl font-bold text-gray-900 mb-1">{model.name}</h3>
         <p className="text-sm text-gray-500 font-medium mb-4">

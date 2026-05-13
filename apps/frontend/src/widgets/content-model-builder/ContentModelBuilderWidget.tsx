@@ -10,10 +10,8 @@ import {
   HolderOutlined,
 } from '@ant-design/icons';
 import { FieldPickerModal, FieldConfigModal } from '@/features/add-field';
-import {
-  ModelIdentityForm,
-  JSONSchemaPreview,
-} from '@entities/content-model';
+import { JSONSchemaPreview } from '@entities/content-model';
+import { ModelIdentityForm } from '@/features/update-content-model-identity';
 import type { ContentField, FieldType } from '@entities/content-model';
 
 interface ContentModelBuilderWidgetProps {
@@ -205,10 +203,10 @@ export const ContentModelBuilderWidget: FC<ContentModelBuilderWidgetProps> = ({
                 <div className="mt-8 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <ModelIdentityForm
                     initialValues={{
+                      id: modelId,
                       name: modelId?.replace(/-/g, ' ') || '',
-                      description: '',
+                      desc: '',
                     }}
-                    onSave={() => setHasChanges(true)}
                   />
                 </div>
               ),

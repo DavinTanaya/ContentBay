@@ -14,7 +14,7 @@ export type {
 // Passive UI components (no useNavigate, no business logic)
 export { ContentModelCard } from './ui/ContentModelCard';
 export { ContentModelGrid } from './ui/ContentModelGrid';
-export { ModelIdentityForm } from './ui/ModelIdentityForm';
+
 export { JSONSchemaPreview } from './ui/JSONSchemaPreview';
 export { ModelMetadataSidebar } from './ui/ModelMetadataSidebar';
 export { FieldsTable } from './ui/FieldsTable';

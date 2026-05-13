@@ -6,9 +6,9 @@ import { FieldEditModal } from '@/features/edit-field';
 import {
   FieldsTable,
   ModelMetadataSidebar,
-  ModelIdentityForm,
   JSONSchemaPreview,
 } from '@entities/content-model';
+import { ModelIdentityForm } from '@/features/update-content-model-identity';
 import type { ContentModel, ContentField } from '@entities/content-model';
 
 interface ContentModelSettingsWidgetProps {
@@ -85,8 +85,6 @@ export const ContentModelSettingsWidget: FC<
           ]}
         />
       </div>
-
-      {/* Tab Content Area */}
       <div className="p-12 bg-white">
         {activeTab === 'fields' && (
           <div className="flex gap-8 max-w-[1400px]">
@@ -111,10 +109,11 @@ export const ContentModelSettingsWidget: FC<
           <div className="max-w-4xl">
             <ModelIdentityForm
               initialValues={{
+                id: model.id,
                 name: model.name,
-                description: model.description || '',
+                apiId: model.apiId,
+                desc: model.description || '',
               }}
-              onSave={(values) => console.log('Saving model identity:', values)}
             />
           </div>
         )}

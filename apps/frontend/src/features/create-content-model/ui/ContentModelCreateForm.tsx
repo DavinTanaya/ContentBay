@@ -36,7 +36,7 @@ export const ContentModelCreateForm = ({
   };
 
   return (
-    <div className="bg-[#F9FAFB] min-h-[calc(100vh-72px)] p-12">
+    <div className="bg-gray-3 min-h-[calc(100vh-72px)] p-12">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-start mb-12">
           <div className="max-w-2xl">
