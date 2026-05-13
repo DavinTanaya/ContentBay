@@ -10,6 +10,8 @@ export default defineConfig({
     allowedHosts: [
       'contentbay.tech',
       'www.contentbay.tech',
+      'staging.contentbay.tech',
+      'www.staging.contentbay.tech',
       ...(process.env.VITE_ALLOWED_HOSTS?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
     ],
   },
@@ -17,6 +19,8 @@ export default defineConfig({
     allowedHosts: [
       'contentbay.tech',
       'www.contentbay.tech',
+      'staging.contentbay.tech',
+      'www.staging.contentbay.tech',
       ...(process.env.VITE_ALLOWED_HOSTS?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
     ],
   },
