@@ -19,13 +19,13 @@ export function CTA() {
             <div className="flex flex-wrap gap-6">
               <Button
                 size="large"
-                className="h-14 px-10 rounded-xl text-lg font-bold text-white bg-[#60A5FA] border-none shadow-lg shadow-blue-500/20 hover:!bg-[#3B82F6] transition-all"
+                type='primary'
               >
                 Get Started Free
               </Button>
               <Button
                 size="large"
-                className="h-14 px-10 rounded-xl text-lg font-bold text-slate-800 bg-white border border-gray-200 hover:!border-blue-500 hover:!text-blue-600 transition-all"
+                type='default'
               >
                 Contact Sales
               </Button>

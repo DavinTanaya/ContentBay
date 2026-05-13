@@ -274,4 +274,12 @@ export const antThemeConfig: ThemeConfig = {
   token: {
     ...antSemanticTokens,
   },
+  components: {
+    Button: {
+      borderRadius: 8,
+      controlHeight: 40,
+      fontWeight: 500,
+      fontFamily: 'Poppins, sans-serif',
+    },
+  },
 };
