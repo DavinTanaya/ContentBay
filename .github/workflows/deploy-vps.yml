@@ -79,7 +79,7 @@ jobs:
           pnpm --version
 
           pnpm install --frozen-lockfile
-          pnpm approve-builds --all
+          pnpm approve-builds
           pnpm install --frozen-lockfile
 
           pnpm --filter typescript-graphql exec prisma generate
