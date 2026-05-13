@@ -79,8 +79,6 @@ jobs:
           pnpm --version
 
           pnpm install --frozen-lockfile
-          pnpm approve-builds
-          pnpm install --frozen-lockfile
 
           pnpm --filter typescript-graphql exec prisma generate
           pnpm --filter typescript-graphql exec prisma migrate deploy
