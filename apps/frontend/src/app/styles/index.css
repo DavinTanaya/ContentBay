@@ -382,3 +382,190 @@
   line-height: 30px;
   font-weight: 400;
 }
+
+/* 5. GLOBAL CSS VARIABLES (Design System Aliases) */
+:root {
+  /* Primary Semantic */
+  --primary: var(--color-primary);
+  --success: var(--color-success);
+  --warning: var(--color-warning);
+  --error: var(--color-error);
+
+  /* Blue Palette */
+  --blue-1: var(--color-blue-1);
+  --blue-2: var(--color-blue-2);
+  --blue-3: var(--color-blue-3);
+  --blue-4: var(--color-blue-4);
+  --blue-5: var(--color-blue-5);
+  --blue-6: var(--color-blue-6);
+  --blue-7: var(--color-blue-7);
+  --blue-8: var(--color-blue-8);
+  --blue-9: var(--color-blue-9);
+  --blue-10: var(--color-blue-10);
+
+  /* Green Palette */
+  --green-1: var(--color-green-1);
+  --green-2: var(--color-green-2);
+  --green-3: var(--color-green-3);
+  --green-4: var(--color-green-4);
+  --green-5: var(--color-green-5);
+  --green-6: var(--color-green-6);
+  --green-7: var(--color-green-7);
+  --green-8: var(--color-green-8);
+  --green-9: var(--color-green-9);
+  --green-10: var(--color-green-10);
+
+  /* Gray Palette */
+  --gray-1: var(--color-gray-1);
+  --gray-2: var(--color-gray-2);
+  --gray-3: var(--color-gray-3);
+  --gray-4: var(--color-gray-4);
+  --gray-5: var(--color-gray-5);
+  --gray-6: var(--color-gray-6);
+  --gray-7: var(--color-gray-7);
+  --gray-8: var(--color-gray-8);
+  --gray-9: var(--color-gray-9);
+  --gray-10: var(--color-gray-10);
+  --gray-11: var(--color-gray-11);
+  --gray-12: var(--color-gray-12);
+  --gray-13: var(--color-gray-13);
+
+  /* Red Palette */
+  --red-1: var(--color-red-1);
+  --red-2: var(--color-red-2);
+  --red-3: var(--color-red-3);
+  --red-4: var(--color-red-4);
+  --red-5: var(--color-red-5);
+  --red-6: var(--color-red-6);
+  --red-7: var(--color-red-7);
+  --red-8: var(--color-red-8);
+  --red-9: var(--color-red-9);
+  --red-10: var(--color-red-10);
+
+  /* Volcano Palette */
+  --volcano-1: var(--color-volcano-1);
+  --volcano-2: var(--color-volcano-2);
+  --volcano-3: var(--color-volcano-3);
+  --volcano-4: var(--color-volcano-4);
+  --volcano-5: var(--color-volcano-5);
+  --volcano-6: var(--color-volcano-6);
+  --volcano-7: var(--color-volcano-7);
+  --volcano-8: var(--color-volcano-8);
+  --volcano-9: var(--color-volcano-9);
+  --volcano-10: var(--color-volcano-10);
+
+  /* Orange Palette */
+  --orange-1: var(--color-orange-1);
+  --orange-2: var(--color-orange-2);
+  --orange-3: var(--color-orange-3);
+  --orange-4: var(--color-orange-4);
+  --orange-5: var(--color-orange-5);
+  --orange-6: var(--color-orange-6);
+  --orange-7: var(--color-orange-7);
+  --orange-8: var(--color-orange-8);
+  --orange-9: var(--color-orange-9);
+  --orange-10: var(--color-orange-10);
+
+  /* Gold Palette */
+  --gold-1: var(--color-gold-1);
+  --gold-2: var(--color-gold-2);
+  --gold-3: var(--color-gold-3);
+  --gold-4: var(--color-gold-4);
+  --gold-5: var(--color-gold-5);
+  --gold-6: var(--color-gold-6);
+  --gold-7: var(--color-gold-7);
+  --gold-8: var(--color-gold-8);
+  --gold-9: var(--color-gold-9);
+  --gold-10: var(--color-gold-10);
+
+  /* Yellow Palette */
+  --yellow-1: var(--color-yellow-1);
+  --yellow-2: var(--color-yellow-2);
+  --yellow-3: var(--color-yellow-3);
+  --yellow-4: var(--color-yellow-4);
+  --yellow-5: var(--color-yellow-5);
+  --yellow-6: var(--color-yellow-6);
+  --yellow-7: var(--color-yellow-7);
+  --yellow-8: var(--color-yellow-8);
+  --yellow-9: var(--color-yellow-9);
+  --yellow-10: var(--color-yellow-10);
+
+  /* Lime Palette */
+  --lime-1: var(--color-lime-1);
+  --lime-2: var(--color-lime-2);
+  --lime-3: var(--color-lime-3);
+  --lime-4: var(--color-lime-4);
+  --lime-5: var(--color-lime-5);
+  --lime-6: var(--color-lime-6);
+  --lime-7: var(--color-lime-7);
+  --lime-8: var(--color-lime-8);
+  --lime-9: var(--color-lime-9);
+  --lime-10: var(--color-lime-10);
+
+  /* Cyan Palette */
+  --cyan-1: var(--color-cyan-1);
+  --cyan-2: var(--color-cyan-2);
+  --cyan-3: var(--color-cyan-3);
+  --cyan-4: var(--color-cyan-4);
+  --cyan-5: var(--color-cyan-5);
+  --cyan-6: var(--color-cyan-6);
+  --cyan-7: var(--color-cyan-7);
+  --cyan-8: var(--color-cyan-8);
+  --cyan-9: var(--color-cyan-9);
+  --cyan-10: var(--color-cyan-10);
+
+  /* Geekblue Palette */
+  --geekblue-1: var(--color-geekblue-1);
+  --geekblue-2: var(--color-geekblue-2);
+  --geekblue-3: var(--color-geekblue-3);
+  --geekblue-4: var(--color-geekblue-4);
+  --geekblue-5: var(--color-geekblue-5);
+  --geekblue-6: var(--color-geekblue-6);
+  --geekblue-7: var(--color-geekblue-7);
+  --geekblue-8: var(--color-geekblue-8);
+  --geekblue-9: var(--color-geekblue-9);
+  --geekblue-10: var(--color-geekblue-10);
+
+  /* Purple Palette */
+  --purple-1: var(--color-purple-1);
+  --purple-2: var(--color-purple-2);
+  --purple-3: var(--color-purple-3);
+  --purple-4: var(--color-purple-4);
+  --purple-5: var(--color-purple-5);
+  --purple-6: var(--color-purple-6);
+  --purple-7: var(--color-purple-7);
+  --purple-8: var(--color-purple-8);
+  --purple-9: var(--color-purple-9);
+  --purple-10: var(--color-purple-10);
+
+  /* Magenta Palette */
+  --magenta-1: var(--color-magenta-1);
+  --magenta-2: var(--color-magenta-2);
+  --magenta-3: var(--color-magenta-3);
+  --magenta-4: var(--color-magenta-4);
+  --magenta-5: var(--color-magenta-5);
+  --magenta-6: var(--color-magenta-6);
+  --magenta-7: var(--color-magenta-7);
+  --magenta-8: var(--color-magenta-8);
+  --magenta-9: var(--color-magenta-9);
+  --magenta-10: var(--color-magenta-10);
+
+  /* Additional Semantic Tokens */
+  --info: var(--color-info);
+  --link: var(--color-link);
+  --text-heading: var(--color-text-heading);
+  --text: var(--color-text);
+  --text-secondary: var(--color-text-secondary);
+  --text-disabled: var(--color-text-disabled);
+  --border: var(--color-border);
+  --split: var(--color-split);
+  --bg-layout: var(--color-bg-layout);
+
+  /* Gray Aliases */
+  --gray-100: var(--color-gray-100);
+  --gray-200: var(--color-gray-200);
+  --gray-300: var(--color-gray-300);
+  --gray-400: var(--color-gray-400);
+  --gray-700: var(--color-gray-700);
+  --gray-900: var(--color-gray-900);
+}

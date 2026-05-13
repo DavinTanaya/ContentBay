@@ -2,14 +2,20 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client/react';
 import { Spin, Empty, Alert } from 'antd';
 import { Input, Button } from 'antd';
-import { SearchOutlined, PlusOutlined, ApartmentOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  PlusOutlined,
+  ApartmentOutlined,
+} from '@ant-design/icons';
 import { GET_CONTENT_MODELS } from '@/graphql/queries/content-model';
 import { ContentModelGrid } from '@entities/content-model';
 import type { ContentModel } from '@entities/content-model';
 
 export default function ContentModelListPage() {
   const navigate = useNavigate();
-  const { data, loading, error } = useQuery<{ getContentModels: ContentModel[] }>(GET_CONTENT_MODELS);
+  const { data, loading, error } = useQuery<{
+    getContentModels: ContentModel[];
+  }>(GET_CONTENT_MODELS);
   const models = data?.getContentModels || [];
 
   if (loading) {
@@ -38,9 +44,8 @@ export default function ContentModelListPage() {
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
-        <h1 className="text-[32px] font-bold text-gray-900 tracking-tight">
+        <h1 className="h3-semibold text-black">
           Content Model
         </h1>
         <div className="flex items-center gap-4 w-full sm:w-auto">
