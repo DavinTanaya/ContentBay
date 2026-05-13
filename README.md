@@ -41,44 +41,70 @@ Proyek ini menggunakan arsitektur **Monorepo** (dikelola dengan Turborepo & pnpm
 
 ```text
 CONTENTBAY/
-├── apps/                       # Direktori untuk aplikasi utama
+├── .github/                     # Konfigurasi otomatisasi GitHub Actions
+├── .turbo/                      # Cache sistem Turborepo
+├── apps/
+│   ├── backend/                 # Aplikasi Backend (Node.js)
+│   │   ├── prisma/              # Skema dan migrasi database Prisma
+│   │   ├── src/                 # Kode sumber backend
+│   │   │   ├── context/         # Logika context untuk request/auth
+│   │   │   ├── db/              # Inisialisasi koneksi database
+│   │   │   ├── graphql/         # Skema, resolver, dan setup GraphQL
+│   │   │   ├── lib/             # Utility library atau fungsi pembantu internal
+│   │   │   ├── repositories/    # Layer akses data (Data Access Layer)
+│   │   │   ├── services/        # Logika bisnis utama aplikasi
+│   │   │   ├── schema.ts        # Definisi skema data (TypeScript/GraphQL)
+│   │   │   └── server.ts        # Entry point utama server backend
+│   │   ├── .env                 # Variabel lingkungan lokal
+│   │   ├── .env.example         # Template variabel lingkungan
+│   │   ├── .gitignore           # File yang diabaikan Git di backend
+│   │   ├── package.json         # Dependensi backend
+│   │   ├── prisma.config.ts     # Konfigurasi tambahan Prisma
+│   │   ├── README.md            # Dokumentasi modul backend
+│   │   └── tsconfig.json        # Konfigurasi TypeScript backend
 │   │
-│   ├── backend/                # Aplikasi Backend (Node.js/API)
-│   │   ├── prisma/             # Skema database dan file migrasi Prisma
-│   │   ├── src/                # Kode sumber utama (Controllers, Routes, Services)
-│   │   ├── .env                # File variabel environment lokal
-│   │   ├── package.json        # Dependensi khusus backend
-│   │   ├── prisma.config.ts    # Konfigurasi tambahan Prisma
-│   │   └── tsconfig.json       # Konfigurasi TypeScript backend
-│   │
-│   └── frontend/               # Aplikasi Frontend (Next.js / Vite)
-│       ├── public/             # Aset statis publik (gambar, favicon, dll)
-│       ├── src/                # Kode sumber UI (Components, Pages, Hooks)
-│       ├── .env                # File variabel environment lokal
-│       ├── index.html          # Entry point HTML aplikasi web
-│       ├── package.json        # Dependensi khusus frontend
-│       ├── vite.config.ts      # Konfigurasi *bundler* Vite
-│       └── tsconfig.*.json     # Konfigurasi TypeScript untuk Vite & React
+│   └── frontend/                # Aplikasi Frontend (Vite / React)
+│       ├── public/              # Aset statis (favicon, logo)
+│       ├── src/                 # Kode sumber UI (Feature-Sliced Design)
+│       │   ├── app/             # Inisialisasi aplikasi (Providers, Styles)
+│       │   ├── assets/          # Gambar, font, dan file aset lainnya
+│       │   ├── entities/        # Logika bisnis tingkat entitas (User, Post)
+│       │   ├── features/        # Interaksi user yang spesifik (AuthForm)
+│       │   ├── graphql/         # Query dan mutasi GraphQL client
+│       │   ├── pages/           # Komponen halaman utama aplikasi
+│       │   ├── shared/          # Komponen reusable dan utilitas umum
+│       │   ├── widgets/         # Komposisi fitur menjadi blok UI besar
+│       │   └── main.tsx         # Entry point React ke DOM
+│       ├── .env                 # Variabel lingkungan lokal frontend
+│       ├── .env.example         # Template variabel lingkungan frontend
+│       ├── .gitignore           # File yang diabaikan Git di frontend
+│       ├── eslint.config.js     # Aturan linter kode
+│       ├── index.html           # Template HTML dasar
+│       ├── package.json         # Dependensi frontend
+│       ├── README.md            # Dokumentasi modul frontend
+│       ├── tsconfig.json        # Konfigurasi TS global frontend
+│       └── vite.config.ts       # Konfigurasi build tool Vite
 │
-├── packages/                   # Direktori untuk kode yang dipakai bersama (Shared Code)
-│   │
-│   └── sdk/                    # Internal SDK untuk komunikasi Frontend & Backend
-│       ├── src/
-│       │   ├── core/           # Logika inti SDK
-│       │   ├── models/         # Definisi tipe data & antarmuka (TS Interfaces)
-│       │   ├── query/          # Fungsi untuk *fetching* data (REST/GraphQL)
-│       │   └── index.ts        # Entry point ekspor SDK
-│       ├── package.json        # Dependensi khusus SDK
-│       └── tsup.config.ts      # Konfigurasi *bundler* (Tsup) untuk mem-build SDK
+├── packages/
+│   └── sdk/                     # SDK internal untuk komunikasi frontend-backend
+│       ├── dist/                # Hasil build SDK yang siap digunakan
+│       ├── node_modules/        # Library pihak ketiga khusus SDK
+│       ├── src/                 # Kode sumber SDK
+│       │   ├── core/            # Logika inti pemrosesan SDK
+│       │   ├── models/          # Definisi tipe data dan interface TypeScript
+│       │   ├── query/           # Fungsi fetching data (REST/GraphQL)
+│       │   └── index.ts         # Entry point ekspor utama SDK
+│       ├── package.json         # Dependensi dan script build SDK
+│       └── tsup.config.ts       # Konfigurasi bundler Tsup untuk build SDK
 │
-├── .gitignore                  # File yang diabaikan oleh Git
-├── .prettierrc                 # Aturan format penulisan kode (Prettier)
-├── .prettierignore             # File yang diabaikan oleh Prettier
-├── package.json                # Dependensi dan script utama proyek (Root)
-├── pnpm-lock.yaml              # Mengunci versi dependensi
-├── pnpm-workspace.yaml         # Konfigurasi workspace pnpm (monorepo setup)
-├── README.md                   # Dokumentasi proyek (file ini)
-└── turbo.json                  # Konfigurasi task runner Turborepo
+├── .gitignore                   # Pengaturan Git global proyek
+├── .prettierignore              # File yang diabaikan Prettier global
+├── .prettierrc                  # Aturan format kode global
+├── package.json                 # Konfigurasi root dan script workspace
+├── pnpm-lock.yaml               # Kunci versi dependensi seluruh proyek
+├── pnpm-workspace.yaml          # Definisi workspace pnpm
+├── README.md                    # Dokumentasi utama ContentBay
+└── turbo.json                   # Konfigurasi task runner Turborepo
 ```
 
 # Project Setup Guide
