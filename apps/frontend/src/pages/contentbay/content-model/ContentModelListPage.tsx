@@ -1,8 +1,16 @@
-import { ContentModelHeader, ContentModelGrid, useContentModels } from '@features/content-model';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@apollo/client/react';
 import { Spin, Empty, Alert } from 'antd';
+import { Input, Button } from 'antd';
+import { SearchOutlined, PlusOutlined, ApartmentOutlined } from '@ant-design/icons';
+import { GET_CONTENT_MODELS } from '@/graphql/queries/content-model';
+import { ContentModelGrid } from '@entities/content-model';
+import type { ContentModel } from '@entities/content-model';
 
 export default function ContentModelListPage() {
-  const { models, loading, error } = useContentModels();
+  const navigate = useNavigate();
+  const { data, loading, error } = useQuery<{ getContentModels: ContentModel[] }>(GET_CONTENT_MODELS);
+  const models = data?.getContentModels || [];
 
   if (loading) {
     return (
@@ -17,7 +25,10 @@ export default function ContentModelListPage() {
       <div className="p-12 max-w-[1400px] mx-auto">
         <Alert
           message="Backend Error"
-          description={error.message || "Pastikan backend sudah dijalankan dan database sudah dimigrasi."}
+          description={
+            error.message ||
+            'Pastikan backend sudah dijalankan dan database sudah dimigrasi.'
+          }
           type="error"
           showIcon
         />
@@ -27,9 +38,38 @@ export default function ContentModelListPage() {
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto">
-      <ContentModelHeader />
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
+        <h1 className="text-[32px] font-bold text-gray-900 tracking-tight">
+          Content Model
+        </h1>
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <Input
+            placeholder="input search text"
+            suffix={<SearchOutlined className="text-gray-400" />}
+            className="w-full sm:w-64 h-11 rounded-lg border-gray-200"
+          />
+          <Button
+            className="h-11 px-6 font-bold text-gray-700 rounded-lg border-gray-200 flex items-center gap-2"
+            onClick={() => navigate('/content-model/visual')}
+          >
+            <ApartmentOutlined /> Visual Modeler
+          </Button>
+          <Button
+            type="primary"
+            className="h-11 px-6 font-bold bg-[#2563EB] rounded-lg flex items-center gap-2"
+            onClick={() => navigate('/content-model/create')}
+          >
+            <PlusOutlined /> Create Content Type
+          </Button>
+        </div>
+      </div>
+
       {models.length > 0 ? (
-        <ContentModelGrid models={models} />
+        <ContentModelGrid
+          models={models}
+          onCardClick={(id) => navigate(`/content-model/${id}/settings`)}
+        />
       ) : (
         <div className="mt-12">
           <Empty description="No Content Models found. Create your first one!" />

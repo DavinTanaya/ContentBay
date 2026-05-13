@@ -18,7 +18,9 @@
       "@assets/*": ["./src/shared/assets/*"],
       "@layout/*": ["./src/shared/components/layout/*"],
       "@pages/*": ["./src/pages/*"],
-      "@features/*": ["./src/features/*"]
+      "@features/*": ["./src/features/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@widgets/*": ["./src/widgets/*"]
     },
 
     /* Bundler mode */

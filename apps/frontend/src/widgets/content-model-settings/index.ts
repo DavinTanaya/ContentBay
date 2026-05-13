@@ -1,0 +1,1 @@
+export { ContentModelSettingsWidget } from './ContentModelSettingsWidget';

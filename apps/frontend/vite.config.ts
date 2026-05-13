@@ -29,6 +29,8 @@ export default defineConfig({
       '@layout': path.resolve(__dirname, 'src/shared/components/layout'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@features': path.resolve(__dirname, 'src/features'),
+      '@entities': path.resolve(__dirname, 'src/entities'),
+      '@widgets': path.resolve(__dirname, 'src/widgets'),
     },
   },
 });

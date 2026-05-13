@@ -50,7 +50,7 @@ export function ModelingSection() {
   ];
 
   return (
-    <section className="py-32 bg-[var(--color-gray-3)]">
+    <section className="py-32 bg-gray-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="bg-[var(--color-gray-1)] rounded-[20px] border border-[var(--color-gray-6)] shadow-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8">

@@ -15,6 +15,7 @@ import ContentModelBuilder from '@pages/contentbay/content-model/ContentModelBui
 import ContentModelSettings from '@pages/contentbay/content-model/ContentModelSettingsPage';
 import ContentList from '@pages/contentbay/content/ContentListPage';
 import ContentCreate from '@pages/contentbay/content/ContentCreatePage';
+import VisualModeler from '@pages/contentbay/visual-modeler/VisualModelerPage';
 import ContentBayLayout from '@layout/contentbay/ContentBayLayout';
 
 export const router = createBrowserRouter([
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: 'content-model/create',
         element: <ContentModelCreate />,
+      },
+      {
+        path: 'content-model/visual',
+        element: <VisualModeler />,
       },
       {
         path: 'content-model/:modelId',
