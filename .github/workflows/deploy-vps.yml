@@ -4,15 +4,16 @@ on:
   push:
     branches:
       - main
+      - dev
   workflow_dispatch:
 
 concurrency:
-  group: deploy-vps
+  group: deploy-vps-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy (${{ github.ref_name }})
     runs-on: ubuntu-latest
 
     steps:
@@ -26,10 +27,17 @@ jobs:
         run: |
           set -euo pipefail
 
-          APP_FOLDER="ContentBay"
-          PM2_APP_PREFIX="contentbay"
-          BACKEND_PORT="4000"
-          FRONTEND_PORT="5173"
+          if [ "${DEPLOY_BRANCH}" = "main" ]; then
+            APP_FOLDER="ContentBay"
+            PM2_APP_PREFIX="contentbay"
+            BACKEND_PORT="4000"
+            FRONTEND_PORT="5173"
+          else
+            APP_FOLDER="ContentBay-staging"
+            PM2_APP_PREFIX="contentbay-staging"
+            BACKEND_PORT="4001"
+            FRONTEND_PORT="5174"
+          fi
 
           if [ -z "${VPS_HOST}" ] || [ -z "${VPS_USER}" ] || [ -z "${VPS_SSH_KEY}" ]; then
             echo "Missing one or more required secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY"
