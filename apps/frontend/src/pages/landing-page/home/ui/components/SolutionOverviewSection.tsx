@@ -20,7 +20,6 @@ export function SolutionOverviewSection() {
   return (
     <section className="bg-gray-4 py-32 px-6">
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-        {/* Left Column */}
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-6">
             <span className="caption-xl-semibold text-blue-6 uppercase block">
@@ -53,8 +52,6 @@ export function SolutionOverviewSection() {
             ))}
           </div>
         </div>
-
-        {/* Right Column */}
         <div className="relative">
           <img
             src={HomeAssets.images.solutions}

@@ -12,7 +12,9 @@ export default defineConfig({
       'www.contentbay.tech',
       'staging.contentbay.tech',
       'www.staging.contentbay.tech',
-      ...(process.env.VITE_ALLOWED_HOSTS?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
+      ...(process.env.VITE_ALLOWED_HOSTS?.split(',')
+        .map((host) => host.trim())
+        .filter(Boolean) ?? []),
     ],
   },
   preview: {
@@ -21,7 +23,9 @@ export default defineConfig({
       'www.contentbay.tech',
       'staging.contentbay.tech',
       'www.staging.contentbay.tech',
-      ...(process.env.VITE_ALLOWED_HOSTS?.split(',').map((host) => host.trim()).filter(Boolean) ?? []),
+      ...(process.env.VITE_ALLOWED_HOSTS?.split(',')
+        .map((host) => host.trim())
+        .filter(Boolean) ?? []),
     ],
   },
   resolve: {
@@ -30,7 +34,7 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/shared/components'),
       '@icons': path.resolve(__dirname, 'src/shared/components/icons'),
       '@assets': path.resolve(__dirname, 'src/shared/assets'),
-      '@layout': path.resolve(__dirname, 'src/shared/components/layout'),
+      '@layout': path.resolve(__dirname, 'src/app/layout'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@features': path.resolve(__dirname, 'src/features'),
       '@entities': path.resolve(__dirname, 'src/entities'),

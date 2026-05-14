@@ -5,17 +5,13 @@ import {
   LOGIN,
   REGISTER,
 } from '@/graphql/mutations/auth';
+import type { User } from '@/entities/session';
 
 export async function loginManual(email: string, password: string) {
   const { data } = await apolloClient.mutate<{
     login: {
       token: string;
-      user: {
-        id: number;
-        email: string;
-        firstName?: string;
-        lastName?: string;
-      };
+      user: User;
     };
   }>({
     mutation: LOGIN,
@@ -34,12 +30,7 @@ export async function register(
   const { data } = await apolloClient.mutate<{
     register: {
       token: string;
-      user: {
-        id: number;
-        email: string;
-        firstName?: string;
-        lastName?: string;
-      };
+      user: User;
     };
   }>({
     mutation: REGISTER,
@@ -50,7 +41,12 @@ export async function register(
 }
 
 export async function loginWithGoogle(idToken: string) {
-  const { data } = await apolloClient.mutate({
+  const { data } = await apolloClient.mutate<{
+    googleLogin: {
+      token: string;
+      user: User;
+    };
+  }>({
     mutation: GOOGLE_LOGIN,
     variables: { idToken },
   });
@@ -62,12 +58,7 @@ export async function loginWithGoogleAccessToken(accessToken: string) {
   const { data } = await apolloClient.mutate<{
     googleLoginWithAccessToken: {
       token: string;
-      user: {
-        id: number;
-        email: string;
-        firstName?: string;
-        lastName?: string;
-      };
+      user: User;
     };
   }>({
     mutation: GOOGLE_LOGIN_ACCESS_TOKEN,

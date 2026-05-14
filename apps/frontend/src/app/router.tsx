@@ -1,86 +1,89 @@
-import React from "react";
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-import Login from '@pages/auth/login';
-import Register from '@pages/auth/register';
-import LandingHome from '@pages/landing-page/home';
+import Home from '@/pages/landing-page/home';
 import Product from '@pages/landing-page/product';
-import Resources from '@pages/landing-page/resource';
+import Resources from '@/pages/landing-page/resources';
 import Documentation from '@pages/landing-page/documentation';
-import LandingLayout from '@layout/landing-page/LandingLayout';
+import { LandingLayout } from '@layout/LandingLayout';
 
 import ContentModelList from '@pages/contentbay/content-model/ContentModelListPage';
 import ContentModelCreate from '@pages/contentbay/content-model/ContentModelCreatePage';
-import ContentModelBuilder from '@pages/contentbay/content-model/ContentModelBuilderPage';
-import ContentModelSettings from '@pages/contentbay/content-model/ContentModelSettingsPage';
 import ContentList from '@pages/contentbay/content/ContentListPage';
 import ContentCreate from '@pages/contentbay/content/ContentCreatePage';
 import VisualModeler from '@pages/contentbay/visual-modeler/VisualModelerPage';
-import ContentBayLayout from '@layout/contentbay/ContentBayLayout';
+import { ContentBayLayout } from '@layout/ContentBayLayout';
+import { PATH } from '@/shared/constants/routes';
+import { AuthLayout } from './layout/AuthLayout';
+import Login from '@/pages/auth/login';
+import Register from '@/pages/auth/register';
+import { Protect } from '@/features/auth';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
     element: <LandingLayout />,
     children: [
       {
-        index: true,
-        element: <LandingHome />,
+        path: '/',
+        element: <Home />,
       },
       {
-        path: 'product',
+        path: PATH.landing.product,
         element: <Product />,
       },
       {
-        path: 'resources',
+        path: PATH.landing.resource,
         element: <Resources />,
       },
       {
-        path: 'documentation',
+        path: PATH.landing.documentation,
         element: <Documentation />,
       },
     ],
   },
   {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/',
-    element: <ContentBayLayout />,
+    element: <AuthLayout />,
     children: [
       {
-        path: 'content-model',
+        path: PATH.auth.login,
+        element: <Login />,
+      },
+      {
+        path: PATH.auth.register,
+        element: <Register />,
+      },
+    ],
+  },
+  {
+    element: (
+      <Protect>
+        <ContentBayLayout />
+      </Protect>
+    ),
+    children: [
+      {
+        path: PATH.contentbay.contentModel,
         element: <ContentModelList />,
       },
       {
-        path: 'content-model/create',
+        path: PATH.contentbay.contentModelCreate,
         element: <ContentModelCreate />,
       },
       {
-        path: 'content-model/visual',
-        element: <VisualModeler />,
-      },
-      {
-        path: 'content-model/:modelId',
-        element: <ContentModelBuilder />,
-      },
-      {
-        path: 'content-model/:modelId/settings',
-        element: <ContentModelSettings />,
-      },
-      {
-        path: 'content',
+        path: PATH.contentbay.content,
         element: <ContentList />,
       },
       {
-        path: 'content/create',
+        path: PATH.contentbay.contentCreate,
         element: <ContentCreate />,
       },
+      {
+        path: PATH.contentbay.schemaModeler,
+        element: <VisualModeler />,
+      },
     ],
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
   },
 ]);
