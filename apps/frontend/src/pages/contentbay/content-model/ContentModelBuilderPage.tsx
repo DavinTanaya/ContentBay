@@ -1,16 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 import { ContentModelBuilderWidget } from '@/widgets/content-model-builder';
 
 export default function ContentModelBuilderPage() {
   const navigate = useNavigate();
-  const { modelId } = useParams();
+  const { id } = useParams();
 
   return (
     <>
       <ContentModelBuilderWidget
-        modelId={modelId || ''}
+        modelId={id || ''}
         onBack={() => navigate('/content-model')}
       />
     </>

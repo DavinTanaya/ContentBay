@@ -20,6 +20,6 @@ export const PATH = {
   },
 } as const;
 
-export const getContentModel = (id: string | number) => `content-model/${id}`;
+export const getContentModel = (id: string | number) => `/content-model/${id}`;
 export const getContentModelSettings = (id: string | number) =>
-  `content-model/${id}/settings`;
+  `/content-model/${id}/settings`;

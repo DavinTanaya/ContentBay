@@ -8,6 +8,8 @@ import { LandingLayout } from '@layout/LandingLayout';
 
 import ContentModelList from '@pages/contentbay/content-model/ContentModelListPage';
 import ContentModelCreate from '@pages/contentbay/content-model/ContentModelCreatePage';
+import ContentModelSettings from '@pages/contentbay/content-model/ContentModelSettingsPage';
+import ContentModelBuilder from '@pages/contentbay/content-model/ContentModelBuilderPage';
 import ContentList from '@pages/contentbay/content/ContentListPage';
 import ContentCreate from '@pages/contentbay/content/ContentCreatePage';
 import VisualModeler from '@pages/contentbay/visual-modeler/VisualModelerPage';
@@ -67,6 +69,14 @@ export const router = createBrowserRouter([
       {
         path: PATH.contentbay.contentModelCreate,
         element: <ContentModelCreate />,
+      },
+      {
+        path: PATH.contentbay.contentModelSettings,
+        element: <ContentModelSettings />,
+      },
+      {
+        path: PATH.contentbay.contentModelBuilder,
+        element: <ContentModelBuilder />,
       },
       {
         path: PATH.contentbay.content,

@@ -1,7 +1,7 @@
 import { useState, type FC } from 'react';
 import { Tabs, Spin, Result } from 'antd';
 import { useQuery } from '@apollo/client/react';
-import { GET_CONTENT_MODEL } from '@/graphql/queries/content-model';
+import { GET_CONTENT_MODEL } from '@/entities/content-model/api/content-model.queries';
 import { FieldEditModal } from '@/features/edit-field';
 import {
   FieldsTable,

@@ -3,9 +3,10 @@ import { useQuery } from '@apollo/client/react';
 import { Spin, Empty, Alert } from 'antd';
 import { Input, Button } from 'antd';
 import { PlusOutlined, ApartmentOutlined } from '@ant-design/icons';
-import { GET_CONTENT_MODELS } from '@/graphql/queries/content-model';
+import { GET_CONTENT_MODELS } from '@/entities/content-model/api/content-model.queries';
 import { ContentModelGrid } from '@entities/content-model';
 import type { ContentModel } from '@entities/content-model';
+import { getContentModelSettings } from '@/shared/constants/routes';
 
 export default function ContentModelListPage() {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ export default function ContentModelListPage() {
       {models.length > 0 ? (
         <ContentModelGrid
           models={models}
-          onCardClick={(id) => navigate(`/content-model/${id}/settings`)}
+          onCardClick={(id) => navigate(getContentModelSettings(id))}
         />
       ) : (
         <div className="mt-12">

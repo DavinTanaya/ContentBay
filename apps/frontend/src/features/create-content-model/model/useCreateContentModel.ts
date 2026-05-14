@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client/react';
 import { message } from 'antd';
 import { CREATE_CONTENT_MODEL } from '../api/create-content-model.api';
-import { GET_CONTENT_MODELS } from '@/graphql/queries/content-model';
+import { GET_CONTENT_MODELS } from '@/entities/content-model/api/content-model.queries';
 
 interface CreateModelInput {
   name: string;

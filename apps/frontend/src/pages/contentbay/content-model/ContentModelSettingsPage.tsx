@@ -1,25 +1,32 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ContentModelSettingsWidget } from '@/widgets/content-model-settings';
+import { Button } from 'antd';
+import { PATH } from '@/shared/constants/routes';
 
 export default function ContentModelSettingsPage() {
   const navigate = useNavigate();
-  const { modelId } = useParams();
+  const { id } = useParams();
 
   return (
     <div>
-      {/* Back Button */}
       <div className="px-12 pt-8">
-        <button
-          onClick={() => navigate('/content-model')}
-          className="flex items-center gap-2 text-gray-400 hover:text-gray-600 font-bold text-xs uppercase tracking-widest transition-colors group"
+        <Button
+          type="text"
+          className="text-black group"
+          onClick={() => navigate(PATH.contentbay.contentModel)}
+          icon={
+            <ArrowLeftOutlined
+              style={{ stroke: 'currentColor', strokeWidth: '25' }} // Trik agar icon terlihat lebih tebal
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+          }
         >
-          <ArrowLeftOutlined className="group-hover:-translate-x-1 transition-transform" />{' '}
-          Back to Content Models
-        </button>
+          Back To Content Model
+        </Button>
       </div>
       <ContentModelSettingsWidget
-        modelId={modelId || ''}
+        modelId={id || ''}
         onBack={() => navigate('/content-model')}
         onNavigateToBuilder={(id) => navigate(`/content-model/${id}`)}
       />

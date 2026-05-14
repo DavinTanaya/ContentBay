@@ -1,10 +1,10 @@
-import { apolloClient } from '@/graphql/client';
+import { apolloClient } from '@/shared/api/apollo';
 import {
   GOOGLE_LOGIN,
   GOOGLE_LOGIN_ACCESS_TOKEN,
   LOGIN,
   REGISTER,
-} from '@/graphql/mutations/auth';
+} from './auth.mutations';
 import type { User } from '@/entities/session';
 
 export async function loginManual(email: string, password: string) {
