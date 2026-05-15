@@ -1,6 +1,6 @@
 import { Button } from 'antd';
-import { GithubIcon, DiscordIcon } from '@/shared/ui';
 import { ResourceAssets } from '../../assets';
+import { sharedUi } from '@/shared/ui';
 
 export function CommunitySection() {
   return (
@@ -9,7 +9,7 @@ export function CommunitySection() {
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1">
             <div
-              className="inline-flex items-center px-4 py-1.5 rounded-full text-white text-[13px] font-bold mb-6"
+              className="inline-flex items-ce nter px-4 py-1.5 rounded-full text-white text-[13px] font-bold mb-6"
               style={{
                 backgroundImage:
                   'linear-gradient(90deg, #0050B3 0%, #096DD9 100%)',
@@ -53,7 +53,7 @@ export function CommunitySection() {
                 }}
               >
                 <div className="flex items-center gap-8">
-                  <GithubIcon className="w-10 h-10 text-white" />
+                  <sharedUi.icon.github className="w-10 h-10 text-white" />
                   <span className="font-medium text-[16px] leading-[24px] text-white font-['Poppins']">
                     View Github Discussions
                   </span>
@@ -89,7 +89,7 @@ export function CommunitySection() {
                 }}
               >
                 <div className="flex items-center gap-8">
-                  <DiscordIcon className="w-10 h-10 text-white" />
+                  <sharedUi.icon.discord className="w-10 h-10 text-white" />
                   <span className="font-medium text-[16px] leading-[24px] text-white font-['Poppins']">
                     Join Discord Server
                   </span>

@@ -4,9 +4,10 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { useSession } from '@/entities/session';
+import { useSession } from '@/entities/user';
 import { Button } from 'antd';
 import { useState } from 'react';
+import { PATH } from '@/shared/constants/routes';
 
 export function NavbarContent() {
   const location = useLocation();
@@ -14,20 +15,30 @@ export function NavbarContent() {
   const auth = useSession();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const isModelActive = location.pathname.startsWith('/content-model');
+  const isModelActive = location.pathname.startsWith(
+    PATH.contentbay.contentModel,
+  );
   const isContentActive =
-    location.pathname.startsWith('/content') && !isModelActive;
+    location.pathname.startsWith(PATH.contentbay.content) && !isModelActive;
 
   const handleLogout = () => {
     setIsProfileOpen(false);
-    auth.logout();
-    navigate('/', { replace: true });
+    // Gunakan konstanta rute yang sudah Anda sediakan
+    navigate(PATH.landing.home, { replace: true });
+
+    // Berikan jeda sedikit agar router benar-benar berpindah
+    setTimeout(() => {
+      auth.logout();
+    }, 10);
   };
 
   return (
     <header className="h-[72px] bg-white border-b border-gray-100 flex items-center px-12 sticky top-0 z-50">
       <div className="flex items-center w-full max-w-[1400px] mx-auto">
-        <Link to="/content-model" className="flex items-center gap-3 mr-16">
+        <Link
+          to={PATH.contentbay.contentModel}
+          className="flex items-center gap-3 mr-16"
+        >
           <div className="w-8 h-8 bg-[#2563EB] rounded-lg flex items-center justify-center shrink-0">
             <div className="w-4 h-4 bg-white rounded-sm"></div>
           </div>
@@ -37,7 +48,7 @@ export function NavbarContent() {
         </Link>
         <nav className="flex items-center gap-10 h-full">
           <Link
-            to="/content-model"
+            to={PATH.contentbay.contentModel}
             className={`text-sm font-bold transition-colors relative h-[72px] flex items-center ${
               isModelActive
                 ? 'text-[#111827]'
@@ -50,7 +61,7 @@ export function NavbarContent() {
             )}
           </Link>
           <Link
-            to="/content"
+            to={PATH.contentbay.content}
             className={`text-sm font-bold transition-colors relative h-[72px] flex items-center ${
               isContentActive
                 ? 'text-[#111827]'

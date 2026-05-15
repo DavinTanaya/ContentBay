@@ -228,6 +228,12 @@ export const typographyTokens = {
     fontWeight: 600,
     fontFamily: 'Poppins, sans-serif',
   },
+  h6Bold: {
+    fontSize: 20,
+    lineHeight: '28px',
+    fontWeight: 700,
+    fontFamily: 'Poppins, sans-serif',
+  },
   h6Semibold: {
     fontSize: 20,
     lineHeight: '28px',
@@ -274,6 +280,24 @@ export const typographyTokens = {
     fontWeight: 600,
     fontFamily: 'Open Sans, sans-serif',
   },
+  labelXsBold: {
+    fontSize: 14,
+    lineHeight: '14px',
+    fontWeight: 700,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  labelXsSemibold: {
+    fontSize: 14,
+    lineHeight: '14px',
+    fontWeight: 600,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  labelXsMedium: {
+    fontSize: 14,
+    lineHeight: '14px',
+    fontWeight: 500,
+    fontFamily: 'Open Sans, sans-serif',
+  },
   labelXsRegular: {
     fontSize: 14,
     lineHeight: '14px',
@@ -282,15 +306,23 @@ export const typographyTokens = {
   },
 
   // Caption Styles
+  captionXlSemibold: {
+    fontSize: 20,
+    lineHeight: '30px',
+    fontWeight: 600,
+    fontFamily: 'Poppins, sans-serif',
+    letterSpacing: '2px',
+  },
   captionLgSemibold: {
     fontSize: 18,
     lineHeight: '28px',
     fontWeight: 600,
     fontFamily: 'Poppins, sans-serif',
+    letterSpacing: '2px',
   },
-  captionXlSemibold: {
-    fontSize: 20,
-    lineHeight: '30px',
+  captionMdSemibold: {
+    fontSize: 14,
+    lineHeight: '20px',
     fontWeight: 600,
     fontFamily: 'Poppins, sans-serif',
     letterSpacing: '2px',
@@ -300,6 +332,7 @@ export const typographyTokens = {
     lineHeight: '30px',
     fontWeight: 400,
     fontFamily: 'Open Sans, sans-serif',
+    letterSpacing: '2px',
   },
 } as const;
 
@@ -328,8 +361,17 @@ export const antThemeConfig: ThemeConfig = {
   components: {
     Button: {
       borderRadius: 8,
-      controlHeight: 40,
-      fontWeight: 500,
+      borderRadiusSM: 8,
+      borderRadiusLG: 8,
+      fontWeight: 600,
+      contentFontSize: 16,
+      contentFontSizeSM: 14,
+      contentFontSizeLG: 18,
+      controlHeight: 50,
+      controlHeightSM: 42,
+      paddingInline: 20,
+      paddingInlineLG: 24,
+      paddingInlineSM: 16,
     },
     Typography: {
       fontFamily: 'Poppins, sans-serif',

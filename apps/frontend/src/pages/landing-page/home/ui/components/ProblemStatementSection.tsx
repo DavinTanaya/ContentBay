@@ -1,42 +1,42 @@
-import { Card, Image } from 'antd';
-import { HomeAssets } from '../../assets';
+import { Card } from 'antd';
+import { DollarSignIcon, RefreshCw, ShieldQuestionMark } from 'lucide-react';
 
 const problems = [
   {
     title: 'Expensive Development',
     description:
       'Hiring backend developers and maintaining infrastructure costs thousands monthly',
-    icon: HomeAssets.icons.expensive,
+    icon: <DollarSignIcon className="text-red-7" size={30} />,
     color: 'red',
   },
   {
     title: 'Repetitive Updates',
     description:
       'Content changes require developer intervention, slowing down your business',
-    icon: HomeAssets.icons.repetitive,
-    color: 'gold',
+    icon: <RefreshCw className="text-yellow-6" size={30} />,
+    color: 'yellow',
   },
   {
     title: 'Unstructured Data',
     description:
       'Without proper content modeling, data becomes messy and hard to manage',
-    icon: HomeAssets.icons.unstructured,
+    icon: <ShieldQuestionMark className="text-blue-7" size={32} />,
     color: 'blue',
   },
 ];
 
 export function ProblemStatementSection() {
   return (
-    <section className="bg-white py-24 px-6">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="text-center flex flex-col gap-6 mb-20">
-          <span className="caption-xl-semibold text-blue-6 uppercase block">
+    <section className="bg-white py-20 px-14">
+      <div className="max-w-full mx-auto">
+        <div className="text-center flex flex-col mb-14">
+          <span className="caption-xl-semibold text-blue-7 uppercase mb-1">
             The Problem
           </span>
-          <h2 className="display-sm-semibold text-black m-0 leading-tight">
+          <h2 className="display-sm-semibold text-black mb-2">
             Traditional Backend Development is Painful
           </h2>
-          <p className="h6-regular text-slate-500 m-0 max-w-3xl mx-auto leading-relaxed">
+          <p className="label-md-regular text-gray-10">
             Building and maintaining backends takes time, money, and expertise
           </p>
         </div>
@@ -55,23 +55,16 @@ export function ProblemStatementSection() {
                     ${
                       problem.color === 'red'
                         ? 'bg-red-1'
-                        : problem.color === 'gold'
-                          ? 'bg-gold-1'
+                        : problem.color === 'yellow'
+                          ? 'bg-yellow-1'
                           : 'bg-blue-1'
                     }`}
                 >
-                  <Image
-                    src={problem.icon}
-                    alt={problem.title}
-                    preview={false}
-                    height={32}
-                  />
+                  {problem.icon}
                 </div>
                 <div className="flex flex-col gap-4">
-                  <h3 className="h5-bold text-black m-0">{problem.title}</h3>
-                  <p className="body-md-regular text-slate-500 m-0 leading-relaxed">
-                    {problem.description}
-                  </p>
+                  <h5 className="h5-semibold text-gray-10">{problem.title}</h5>
+                  <p className="body-md-regular ">{problem.description}</p>
                 </div>
               </div>
             </Card>

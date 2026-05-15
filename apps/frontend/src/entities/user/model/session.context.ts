@@ -1,4 +1,4 @@
 import { createContext } from 'react';
-import type { SessionContextType } from './session.type';
+import type { SessionContextType } from './user.type';
 
 export const SessionContext = createContext<SessionContextType | null>(null);

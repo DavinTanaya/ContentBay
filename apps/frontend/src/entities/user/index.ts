@@ -5,7 +5,7 @@ export type {
   SessionContextType,
   SessionPayload,
   User,
-} from './model/session.type';
+} from './model/user.type';
 
 // ui
-export { SessionProvider } from './ui/SessionProvider';
+export { SessionProvider } from './ui/UserProvider';

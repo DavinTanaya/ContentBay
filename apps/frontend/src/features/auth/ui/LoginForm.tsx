@@ -2,7 +2,7 @@
 import { Form, Input, Button, Checkbox, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import { useLogin } from '../model/useLogin';
-import { GoogleIcon, GithubIcon, FacebookIcon } from '@/shared/ui';
+import { sharedUi } from '@/shared/ui';
 
 export const LoginForm = () => {
   const { onFinish, googleLogin } = useLogin();
@@ -55,7 +55,7 @@ export const LoginForm = () => {
         <div className="space-y-2.5 w-full">
           <Button
             shape="round"
-            icon={<GoogleIcon />}
+            icon={<sharedUi.icon.google />}
             size="large"
             onClick={() => googleLogin()}
             className="w-full"
@@ -64,7 +64,7 @@ export const LoginForm = () => {
           </Button>
           <Button
             shape="round"
-            icon={<GithubIcon />}
+            icon={<sharedUi.icon.github />}
             size="large"
             className="w-full"
           >
@@ -72,7 +72,7 @@ export const LoginForm = () => {
           </Button>
           <Button
             shape="round"
-            icon={<FacebookIcon />}
+            icon={<sharedUi.icon.facebook />}
             size="large"
             className="w-full"
           >

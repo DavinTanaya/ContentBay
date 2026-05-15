@@ -5,15 +5,15 @@ import {
   LOGIN,
   REGISTER,
 } from './auth.mutations';
-import type { User } from '@/entities/session';
+import type {
+  GoogleLoginResponseDto,
+  LoginResponseDto,
+  ManualLoginResponseDto,
+  RegisterResponseDto,
+} from './auth.dto';
 
 export async function loginManual(email: string, password: string) {
-  const { data } = await apolloClient.mutate<{
-    login: {
-      token: string;
-      user: User;
-    };
-  }>({
+  const { data } = await apolloClient.mutate<ManualLoginResponseDto>({
     mutation: LOGIN,
     variables: { email, password },
   });
@@ -27,12 +27,7 @@ export async function register(
   email: string,
   password: string,
 ) {
-  const { data } = await apolloClient.mutate<{
-    register: {
-      token: string;
-      user: User;
-    };
-  }>({
+  const { data } = await apolloClient.mutate<RegisterResponseDto>({
     mutation: REGISTER,
     variables: { firstName, lastName, email, password },
   });
@@ -41,26 +36,16 @@ export async function register(
 }
 
 export async function loginWithGoogle(idToken: string) {
-  const { data } = await apolloClient.mutate<{
-    googleLogin: {
-      token: string;
-      user: User;
-    };
-  }>({
+  const { data } = await apolloClient.mutate<GoogleLoginResponseDto>({
     mutation: GOOGLE_LOGIN,
     variables: { idToken },
   });
 
-  return data;
+  return data!.googleLogin;
 }
 
 export async function loginWithGoogleAccessToken(accessToken: string) {
-  const { data } = await apolloClient.mutate<{
-    googleLoginWithAccessToken: {
-      token: string;
-      user: User;
-    };
-  }>({
+  const { data } = await apolloClient.mutate<LoginResponseDto>({
     mutation: GOOGLE_LOGIN_ACCESS_TOKEN,
     variables: { accessToken },
   });

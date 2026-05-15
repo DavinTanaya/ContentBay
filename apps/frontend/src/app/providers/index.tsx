@@ -1,5 +1,5 @@
 import { ApolloProvider } from './ApolloProvider';
-import { SessionProvider } from '@/entities/session';
+import { SessionProvider } from '@/entities/user';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GOOGLE_CLIENT_ID } from '@/shared/lib/config';
 

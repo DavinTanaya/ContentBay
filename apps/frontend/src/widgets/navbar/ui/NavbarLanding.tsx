@@ -1,59 +1,101 @@
-import { Link } from 'react-router-dom';
-import { Button } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Dropdown, Image, Space, type MenuProps } from 'antd';
+import { PATH } from '@/shared/constants/routes';
+import { assets } from '@/shared/assets';
+import { ChevronDown } from 'lucide-react';
+
+const productItems: MenuProps['items'] = [
+  { label: <Link to={PATH.landing.product}>Product</Link>, key: 1 },
+  { label: 'Pricing', key: 2 },
+  { label: 'Templates', key: 3 },
+  { label: 'Resources', key: 4 },
+];
+
+const resourcesItems: MenuProps['items'] = [
+  { label: <Link to={PATH.landing.resource}>Resources</Link>, key: 1 },
+  { label: 'Pricing', key: 2 },
+  { label: 'Templates', key: 3 },
+  { label: 'Resources', key: 4 },
+];
 
 export function NavbarLanding() {
+  const navigate = useNavigate();
+
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="w-full sticky top-0 z-50 bg-white/80 backdrop-blur-xl border border-b-gray-3">
+      <div className="max-w-full mx-14">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">C</span>
-              </div>
-              <span className="text-xl font-bold text-slate-900">
-                ContentBay
-              </span>
+            <Link
+              to={PATH.landing.home}
+              className="flex items-center space-x-2"
+            >
+              <Image
+                src={assets.logo}
+                alt="ContentBay Logo"
+                className="h-8 w-8"
+                preview={false}
+              />
+              <span className="h6-bold text-black">ContentBay</span>
             </Link>
+          </div>
 
-            <div className="hidden md:ml-10 md:flex md:space-x-8">
-              <Link
-                to="/product"
-                className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-              >
-                Product
-              </Link>
-              <Link
-                to="/resources"
-                className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-              >
-                Resources
-              </Link>
-              <Link
-                to="/documentation"
-                className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-              >
-                Documentation
-              </Link>
-            </div>
+          <div className="flex flex-row gap-6 justify-center items-center label-xs-medium font-poppins text-black">
+            <Dropdown
+              menu={{ items: productItems }}
+              trigger={['click']}
+              className="label-xs-medium"
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space
+                  size={2}
+                  className="label-xs-medium font-poppins text-black hover:cursor-pointer"
+                >
+                  Product
+                  <ChevronDown strokeWidth={2} size={20} />
+                </Space>
+              </a>
+            </Dropdown>
+            <Dropdown
+              menu={{ items: resourcesItems }}
+              trigger={['click']}
+              className="label-xs-medium"
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space
+                  size={2}
+                  className="label-xs-medium font-poppins text-black hover:cursor-pointer"
+                >
+                  Resources
+                  <ChevronDown strokeWidth={2} size={20} />
+                </Space>
+              </a>
+            </Dropdown>
+            <Link
+              to={PATH.landing.documentation}
+              className="hover:cursor-pointer"
+            >
+              Documentation
+            </Link>
           </div>
 
           <div className="flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="text-gray-600 hover:text-blue-600 font-medium px-3 py-2 transition-colors"
+            <Button
+              type="text"
+              size="small"
+              onClick={() => navigate(PATH.auth.login)}
             >
-              Log in
-            </Link>
-            <Link to="/register">
-              <Button
-                type="primary"
-                size="large"
-                className="bg-blue-600 hover:bg-blue-700 h-10 px-6 rounded-lg font-medium"
-              >
-                Get started
-              </Button>
-            </Link>
+              Login
+            </Button>
+
+            <Button
+              variant="solid"
+              size="small"
+              color="geekblue"
+              onClick={() => navigate(PATH.auth.register)}
+            >
+              Get started
+            </Button>
           </div>
         </div>
       </div>

@@ -19,12 +19,17 @@ export default {
   plugins: [
     plugin(function ({ addUtilities }) {
       const newUtilities = {};
-      
+
       Object.entries(typographyTokens).forEach(([key, value]) => {
-        const className = key.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-        
+        const className = key
+          .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+          .toLowerCase();
+
         newUtilities[`.${className}`] = {
-          fontSize: typeof value.fontSize === 'number' ? `${value.fontSize}px` : value.fontSize,
+          fontSize:
+            typeof value.fontSize === 'number'
+              ? `${value.fontSize}px`
+              : value.fontSize,
           lineHeight: value.lineHeight,
           fontWeight: value.fontWeight.toString(),
           fontFamily: value.fontFamily,

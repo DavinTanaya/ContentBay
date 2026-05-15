@@ -1,6 +1,6 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { loginWithGoogle } from '../api/auth.api';
-import { useSession } from '@/entities/session';
+import { useSession } from '@/entities/user';
 
 export function GoogleButton() {
   const auth = useSession();
