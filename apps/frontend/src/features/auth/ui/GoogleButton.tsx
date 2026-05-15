@@ -15,9 +15,9 @@ export function GoogleButton() {
 
           const data = await loginWithGoogle(idToken);
 
-          if (data?.googleLogin) {
-            auth.login(data.googleLogin);
-            console.log('Login success:', data.googleLogin.user);
+          if (data) {
+            auth.login(data);
+            console.log('Login success:', data.user);
           }
         } catch (err) {
           console.error('Login failed:', err);

@@ -83,7 +83,7 @@ export const RegisterForm = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block size="large">
+            <Button type="primary" htmlType="submit" block size="medium">
               Sign up
             </Button>
           </Form.Item>
@@ -93,7 +93,7 @@ export const RegisterForm = () => {
           <Button
             shape="round"
             icon={<sharedUi.icon.google />}
-            size="large"
+            size="medium"
             onClick={() => googleLogin()}
             className="w-full"
           >
@@ -102,7 +102,7 @@ export const RegisterForm = () => {
           <Button
             shape="round"
             icon={<sharedUi.icon.github />}
-            size="large"
+            size="medium"
             className="w-full"
           >
             Continue with Github
@@ -110,7 +110,7 @@ export const RegisterForm = () => {
           <Button
             shape="round"
             icon={<sharedUi.icon.facebook />}
-            size="large"
+            size="medium"
             className="w-full"
           >
             Continue with Facebook
@@ -118,12 +118,9 @@ export const RegisterForm = () => {
         </div>
       </div>
 
-      <p className="mt-4 text-center text-sm text-gray-500">
+      <p className="mt-4 text-center label-xs-regular text-gray-10">
         Already have an account?{' '}
-        <Link
-          to="/login"
-          className="font-medium text-blue-500 hover:text-blue-600"
-        >
+        <Link to="/login" className="font-medium text-blue-6 hover:text-blue-7">
           Log in
         </Link>
       </p>

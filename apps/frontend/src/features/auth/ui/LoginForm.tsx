@@ -10,11 +10,10 @@ export const LoginForm = () => {
   return (
     <div className="w-full max-w-110">
       <div className="rounded-2xl border border-gray-5 bg-white px-8 py-7">
-        <h3 className="text-center h3-bold">Welcome back</h3>
-        <p className="mt-1 text-center text-sm text-gray-7">
+        <h3 className="text-center h3-bold text-black">Welcome Back</h3>
+        <p className="text-center text-sm text-gray-7">
           Log in to your ContentBay account
         </p>
-
         <Form
           name="login"
           initialValues={{ remember: true }}
@@ -32,7 +31,6 @@ export const LoginForm = () => {
           >
             <Input placeholder="example@gmail.com" size="large" />
           </Form.Item>
-
           <Form.Item
             name="password"
             label="Password"
@@ -40,13 +38,11 @@ export const LoginForm = () => {
           >
             <Input.Password placeholder="Input password" size="large" />
           </Form.Item>
-
           <Form.Item name="remember" valuePropName="unchecked">
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-
           <Form.Item>
-            <Button type="primary" htmlType="submit" block size="large">
+            <Button type="primary" htmlType="submit" block size="medium">
               Login
             </Button>
           </Form.Item>
@@ -56,7 +52,7 @@ export const LoginForm = () => {
           <Button
             shape="round"
             icon={<sharedUi.icon.google />}
-            size="large"
+            size="medium"
             onClick={() => googleLogin()}
             className="w-full"
           >
@@ -65,7 +61,7 @@ export const LoginForm = () => {
           <Button
             shape="round"
             icon={<sharedUi.icon.github />}
-            size="large"
+            size="medium"
             className="w-full"
           >
             Continue with Github
@@ -73,19 +69,18 @@ export const LoginForm = () => {
           <Button
             shape="round"
             icon={<sharedUi.icon.facebook />}
-            size="large"
+            size="medium"
             className="w-full"
           >
             Continue with Facebook
           </Button>
         </div>
       </div>
-
-      <p className="mt-4 text-center text-sm text-gray-500">
+      <p className="mt-4 text-center label-xs-regular text-gray-10">
         Don't have an account?{' '}
         <Link
           to="/register"
-          className="font-medium text-blue-500 hover:text-blue-600"
+          className="font-medium text-blue-6 hover:text-blue-7"
         >
           Sign up
         </Link>
