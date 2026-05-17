@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useSession } from '@/entities/user';
+import { useSession } from '@/entities/session';
 import type { JSX } from 'react';
 
 export function Protect({ children }: { children: JSX.Element }) {

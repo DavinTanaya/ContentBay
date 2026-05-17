@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { loginManual, loginWithGoogleAccessToken } from '../api/auth.api';
 import { message } from 'antd';
-import { useSession } from '@/entities/user';
+import { useSession } from '@/entities/session';
 import type { LoginValues } from './auth.type';
 
 export const useLogin = () => {

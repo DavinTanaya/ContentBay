@@ -1,14 +1,13 @@
 import plugin from 'tailwindcss/plugin';
-import { antPalette, typographyTokens } from './src/shared/constants/ant-theme';
+import { colors, typographyTokens } from './src/shared/constants/ant-theme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  // Menghapus 'important: true' untuk menggunakan sistem CSS @layer murni
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        ...antPalette,
+        ...colors,
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

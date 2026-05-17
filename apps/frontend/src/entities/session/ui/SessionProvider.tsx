@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
-import type { SessionPayload, User } from '../model/user.type';
+import type { User } from '@/entities/user/@x/session';
+import type { SessionPayload } from '../model/session.type';
 import { SessionContext } from '../model/session.context';
 
 function getInitialUser(): User | null {

@@ -1,11 +1,6 @@
 // model
-export { SessionContext } from './model/session.context';
-export { useSession } from './model/useSession';
-export type {
-  SessionContextType,
-  SessionPayload,
-  User,
-} from './model/user.type';
+export type { User } from './model/user.type';
 
-// ui
-export { SessionProvider } from './ui/UserProvider';
+// api
+export { getUserById } from './api/user.api';
+export type { GetUserByIdRequest, GetUserByIdResponse } from './api/user.dto';

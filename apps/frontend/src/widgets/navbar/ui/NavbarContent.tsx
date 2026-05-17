@@ -4,121 +4,122 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { useSession } from '@/entities/user';
-import { Button } from 'antd';
-import { useState } from 'react';
+import { useSession } from '@/entities/session';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Image,
+  Tabs,
+  type MenuProps,
+  type TabsProps,
+} from 'antd';
+
 import { PATH } from '@/shared/constants/routes';
+import { sharedAssets } from '@/shared/assets';
+import { colors } from '@/shared/constants/colors';
+import { UserMenuHeader } from '@/entities/user/ui/UserMenuHeader';
+
+const TAB_KEYS: Record<string, string> = {
+  'content-model': PATH.contentbay.contentModel,
+  content: PATH.contentbay.content,
+};
+
+const navItems: TabsProps['items'] = [
+  {
+    key: 'content-model',
+    label: 'Content Model',
+  },
+  {
+    key: 'content',
+    label: 'Content',
+  },
+];
 
 export function NavbarContent() {
   const location = useLocation();
   const navigate = useNavigate();
   const auth = useSession();
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-
-  const isModelActive = location.pathname.startsWith(
-    PATH.contentbay.contentModel,
-  );
-  const isContentActive =
-    location.pathname.startsWith(PATH.contentbay.content) && !isModelActive;
 
   const handleLogout = () => {
-    setIsProfileOpen(false);
-    // Gunakan konstanta rute yang sudah Anda sediakan
     navigate(PATH.landing.home, { replace: true });
-
-    // Berikan jeda sedikit agar router benar-benar berpindah
     setTimeout(() => {
       auth.logout();
     }, 10);
   };
 
+  const userItems: MenuProps['items'] = [
+    {
+      key: 'header',
+      label: <UserMenuHeader />,
+      disabled: true,
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: 'settings',
+      label: 'Profile Settings',
+      icon: <UserOutlined />,
+    },
+    {
+      key: 'logout',
+      label: 'Logout',
+      icon: <LogoutOutlined />,
+      danger: true,
+      onClick: handleLogout,
+    },
+  ];
+
+  const activeKey = location.pathname.startsWith(PATH.contentbay.contentModel)
+    ? 'content-model'
+    : location.pathname.startsWith(PATH.contentbay.content)
+      ? 'content'
+      : 'content-model';
+
+  const handleTabChange = (key: string) => {
+    const path = TAB_KEYS[key];
+    if (path) {
+      navigate(path);
+    }
+  };
+
   return (
-    <header className="h-[72px] bg-white border-b border-gray-100 flex items-center px-12 sticky top-0 z-50">
-      <div className="flex items-center w-full max-w-[1400px] mx-auto">
+    <nav className="sticky top-0 z-50 bg-white border-b border-red-1 px-14 h-16">
+      <div className="flex items-center h-full">
         <Link
           to={PATH.contentbay.contentModel}
-          className="flex items-center gap-3 mr-16"
+          className="flex items-center gap-2 mr-10 shrink-0"
         >
-          <div className="w-8 h-8 bg-[#2563EB] rounded-lg flex items-center justify-center shrink-0">
-            <div className="w-4 h-4 bg-white rounded-sm"></div>
-          </div>
-          <span className="text-xl font-bold text-[#111827] tracking-tight">
-            ContentBay
-          </span>
+          <Image src={sharedAssets.logo} preview={false} className="h-8 w-8" />
+          <span className="h6-bold text-black">ContentBay</span>
         </Link>
-        <nav className="flex items-center gap-10 h-full">
-          <Link
-            to={PATH.contentbay.contentModel}
-            className={`text-sm font-bold transition-colors relative h-[72px] flex items-center ${
-              isModelActive
-                ? 'text-[#111827]'
-                : 'text-gray-500 hover:text-[#111827]'
-            }`}
-          >
-            Content Model
-            {isModelActive && (
-              <div className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#2563EB] rounded-t-full"></div>
-            )}
-          </Link>
-          <Link
-            to={PATH.contentbay.content}
-            className={`text-sm font-bold transition-colors relative h-[72px] flex items-center ${
-              isContentActive
-                ? 'text-[#111827]'
-                : 'text-gray-500 hover:text-[#111827]'
-            }`}
-          >
-            Content
-            {isContentActive && (
-              <div className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#2563EB] rounded-t-full"></div>
-            )}
-          </Link>
-        </nav>
-        <div className="flex items-center gap-6 ml-auto">
+        <Tabs
+          activeKey={activeKey}
+          items={navItems}
+          onChange={handleTabChange}
+          className="h-full [&_.ant-tabs-nav]:mb-0 [&_.ant-tabs-nav]:h-full [&_.ant-tabs-nav::before]:border-none [&_.ant-tabs-tab:hover]:text-gray-13 [&_.ant-tabs-tab-active_.ant-tabs-tab-btn]:text-blue-7"
+          styles={{
+            indicator: {
+              background: colors.blue[7],
+              height: 2.5,
+              borderRadius: '999px 999px 0 0',
+            },
+          }}
+        />
+        <div className="flex items-center gap-6 ml-auto shrink-0">
           <Button className="text-gray-400 hover:text-gray-900 transition-colors">
             <SettingOutlined className="text-xl" />
           </Button>
-          <div className="relative">
-            <Button
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="w-10 h-10 rounded-full bg-[#2563EB] flex items-center justify-center text-white hover:opacity-90 transition-all shadow-lg shadow-blue-600/10"
-            >
-              <UserOutlined className="text-lg" />
-            </Button>
-
-            {isProfileOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setIsProfileOpen(false)}
-                ></div>
-                <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl border border-gray-100 shadow-2xl z-20 py-2 animate-in fade-in zoom-in-95 duration-200">
-                  <div className="px-4 py-3 border-b border-gray-50 mb-1">
-                    <p className="text-xs font-bold text-gray-900">
-                      Administrator
-                    </p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">
-                      admin@contentbay.io
-                    </p>
-                  </div>
-                  <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors">
-                    <UserOutlined className="text-gray-400" />
-                    Profile Settings
-                  </button>
-                  <div className="h-px bg-gray-50 my-1 mx-2"></div>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 flex items-center gap-3 transition-colors"
-                  >
-                    <LogoutOutlined />
-                    Logout
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
+          <Dropdown menu={{ items: userItems }} placement="bottomRight" trigger={['click']}>
+            <Avatar
+              size={40}
+              className="bg-blue-6 cursor-pointer hover:opacity-90 transition-all shadow-lg shadow-blue-6/10"
+              icon={<UserOutlined />}
+            />
+          </Dropdown>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }

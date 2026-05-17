@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "ContentBay",
+      "path": ".",
+    },
+    {
+      "name": "Frontend",
+      "path": "apps/frontend",
+    },
+    {
+      "name": "Backend",
+      "path": "apps/backend",
+    },
+  ],
+  "settings": {},
+}

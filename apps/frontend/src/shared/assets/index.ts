@@ -1,5 +1,5 @@
 import logo from './logo.png';
 
-export const assets = {
+export const sharedAssets = {
   logo: logo,
 };

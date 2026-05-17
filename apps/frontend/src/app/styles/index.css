@@ -15,16 +15,33 @@
     margin: 0;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-poppins font-semibold text-gray-13;
   }
 
-  h1 { @apply h1-semibold; }
-  h2 { @apply h2-semibold; }
-  h3 { @apply h3-semibold; }
-  h4 { @apply h4-semibold; }
-  h5 { @apply h5-semibold; }
-  h6 { @apply h6-semibold; }
+  h1 {
+    @apply h1-semibold;
+  }
+  h2 {
+    @apply h2-semibold;
+  }
+  h3 {
+    @apply h3-semibold;
+  }
+  h4 {
+    @apply h4-semibold;
+  }
+  h5 {
+    @apply h5-semibold;
+  }
+  h6 {
+    @apply h6-semibold;
+  }
 }
 
 body {

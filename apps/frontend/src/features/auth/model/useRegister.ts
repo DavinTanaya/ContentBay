@@ -7,7 +7,7 @@ import {
   register as registerUser,
 } from '../api/auth.api';
 import { message } from 'antd';
-import { useSession } from '@/entities/user';
+import { useSession } from '@/entities/session';
 import type { RegisterValues } from './auth.type';
 
 export const useRegister = () => {

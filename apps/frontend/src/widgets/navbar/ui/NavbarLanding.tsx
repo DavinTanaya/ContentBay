@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Dropdown, Image, Space, type MenuProps } from 'antd';
 import { PATH } from '@/shared/constants/routes';
-import { assets } from '@/shared/assets';
+import { sharedAssets } from '@/shared/assets';
 import { ChevronDown } from 'lucide-react';
 
 const productItems: MenuProps['items'] = [
@@ -31,7 +31,7 @@ export function NavbarLanding() {
               className="flex items-center space-x-2"
             >
               <Image
-                src={assets.logo}
+                src={sharedAssets.logo}
                 alt="ContentBay Logo"
                 className="h-8 w-8"
                 preview={false}
