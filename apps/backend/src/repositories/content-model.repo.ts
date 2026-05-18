@@ -25,14 +25,18 @@ export class ContentModelRepository {
     name: string;
     apiId: string;
     description?: string;
+    icon: string;
+    createdBy?: number;
     fields?: any[];
   }) {
-    const { name, apiId, description, fields } = data;
+    const { name, apiId, description, icon, createdBy, fields } = data;
     return prisma.contentModel.create({
       data: {
         name,
         apiId,
         description,
+        icon,
+        createdBy: createdBy || 1, // Fallback to a default user if not passed (e.g. from context)
         fields: {
           create: fields || [],
         },
@@ -44,22 +48,30 @@ export class ContentModelRepository {
   }
 
   static async update(id: string, data: {
-    name: string;
-    apiId: string;
+    name?: string;
+    apiId?: string;
     description?: string;
+    icon?: string;
+    status?: any;
+    updatedBy?: number;
     fields?: any[];
   }) {
-    const { name, apiId, description, fields } = data;
+    const { name, apiId, description, icon, status, updatedBy, fields } = data;
     return prisma.contentModel.update({
       where: { id },
       data: {
-        name,
-        apiId,
-        description,
-        fields: {
-          deleteMany: {},
-          create: fields || [],
-        },
+        ...(name && { name }),
+        ...(apiId && { apiId }),
+        ...(description && { description }),
+        ...(icon && { icon }),
+        ...(status && { status }),
+        ...(updatedBy && { updatedBy }),
+        ...(fields && {
+          fields: {
+            deleteMany: {},
+            create: fields,
+          },
+        }),
       },
       include: {
         fields: true,

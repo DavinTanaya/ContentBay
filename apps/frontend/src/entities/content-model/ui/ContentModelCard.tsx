@@ -1,6 +1,8 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { Card, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { RenderModelIcon } from './RenderModelIcon';
+import type { ContentModelIcon } from '../model/content-model.types';
 
 interface ContentModelCardProps {
   model: {
@@ -8,7 +10,7 @@ interface ContentModelCardProps {
     name: string;
     fields: number;
     desc: string;
-    icon: ReactNode;
+    icon: ContentModelIcon | string;
     color: string;
     lastUpdate: string;
   };
@@ -22,33 +24,44 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
   return (
     <Card
       hoverable
-      className="rounded-[24px] border-gray-200 overflow-hidden group shadow-sm hover:shadow-md transition-all cursor-pointer"
-      bodyStyle={{ padding: 0 }}
+      className="rounded-[24px] border border-gray-4 overflow-hidden group shadow-sm hover:shadow-md hover:border-blue-4 transition-all cursor-pointer h-full flex flex-col"
+      bodyStyle={{
+        padding: 0,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
       onClick={() => onClick?.(model.id)}
     >
-      <div className="p-8">
-        <div className="w-12 h-12 rounded-xl bg-blue-1 flex items-center justify-center mb-6">
-          <span className="text-2xl text-blue-7">{model.icon}</span>
+      <div className="p-6 grow">
+        <div className="w-12 h-12 rounded-lg bg-blue-1 flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
+          <span className="text-blue-6 flex items-center justify-center">
+            <RenderModelIcon icon={model.icon} size={24} />
+          </span>
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-1">{model.name}</h3>
-        <p className="text-sm text-gray-500 font-medium mb-4">
+        <h3 className="h5-semibold text-gray-9 m-0 mb-1.5">{model.name}</h3>
+        <p className="label-sm-regular text-gray-6 mb-4">
           {model.fields} fields
         </p>
-        <p className="text-gray-600 text-sm leading-relaxed mb-6">
+        <p className="text-gray-6 text-sm leading-relaxed mb-0 line-clamp-3">
           {model.desc}
         </p>
       </div>
-      <div className="px-8 py-6 bg-white border-t border-gray-100 flex items-center gap-3">
-        <Avatar
-          size="small"
-          icon={<UserOutlined style={{ color: 'var(--blue-7)' }} />}
-          style={{
-            backgroundColor: 'var(--blue-1)',
-          }}
-        />
-        <div>
-          <p className="text-[11px] font-bold text-gray-900">User 1</p>
-          <p className="text-[11px] text-gray-500">{model.lastUpdate}</p>
+      <div className="px-6 py-4 bg-white border-t border-gray-5 mt-auto">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Avatar
+              size={32}
+              icon={<UserOutlined />}
+              className="bg-blue-1 text-blue-6"
+            />
+            <span className="label-sm-medium text-gray-9 leading-tight">
+              User 1
+            </span>
+          </div>
+          <span className="label-xs-regular text-gray-7 flex items-center gap-1">
+            <CalendarOutlined /> {model.lastUpdate}
+          </span>
         </div>
       </div>
     </Card>

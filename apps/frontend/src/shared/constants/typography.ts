@@ -54,6 +54,12 @@ export const typographyTokens = {
     fontWeight: 600,
     fontFamily: 'Poppins, sans-serif',
   },
+  h5Medium: {
+    fontSize: 24,
+    lineHeight: '32px',
+    fontWeight: 500,
+    fontFamily: 'Poppins, sans-serif',
+  },
   h5Semibold: {
     fontSize: 24,
     lineHeight: '32px',

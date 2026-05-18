@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Tag } from 'antd';
+import { colors } from '@/shared/constants/colors';
 
 interface ModelMetadataSidebarProps {
   totalFields: number;
@@ -13,25 +14,25 @@ export const ModelMetadataSidebar: FC<ModelMetadataSidebarProps> = ({
   status,
 }) => {
   return (
-    <div className="bg-white rounded-[32px] p-10 border border-gray-100 shadow-sm h-fit">
-      <h2 className="text-xs font-bold text-gray-900 mb-8 tracking-widest uppercase">
+    <div className="bg-white rounded-[20px] p-6 border border-gray-4 shadow-none h-fit">
+      <h2 className="text-[11px] font-bold text-gray-7 mb-4 tracking-widest uppercase">
         MODEL METADATA
       </h2>
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <span className="text-gray-500 font-medium">Total Fields</span>
-          <span className="text-gray-900 font-bold">{totalFields}</span>
+          <span className="text-gray-7 font-medium">Total Fields</span>
+          <span className="text-gray-12 font-bold">{totalFields}</span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-gray-500 font-medium">Last Revision</span>
-          <span className="text-gray-900 font-bold">{lastRevision}</span>
+          <span className="text-gray-7 font-medium">Last Revision</span>
+          <span className="text-gray-12 font-bold">{lastRevision}</span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-gray-500 font-medium">Status</span>
+          <span className="text-gray-7 font-medium">Status</span>
           <Tag
-            color={status === 'LIVE' ? '#E6FFED' : '#FFF7E6'}
+            color={status === 'LIVE' ? colors.green[1] : colors.orange[1]}
             className={`${
-              status === 'LIVE' ? 'text-[#1A7F37]' : 'text-[#D46B08]'
+              status === 'LIVE' ? 'text-green-6' : 'text-orange-6'
             } border-none font-bold text-[10px] rounded px-2.5 m-0 uppercase`}
           >
             {status}

@@ -1,7 +1,12 @@
 import type { FC } from 'react';
 import { Table, Button } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
+import {
+  MoreOutlined,
+  CheckCircleFilled,
+  PlusOutlined,
+} from '@ant-design/icons';
 import type { ContentField } from '../model/content-model.types';
+import { RenderFieldIcon } from './RenderFieldIcon';
 
 interface FieldsTableProps {
   data: ContentField[];
@@ -16,50 +21,62 @@ export const FieldsTable: FC<FieldsTableProps> = ({
 }) => {
   const columns = [
     {
-      title: 'NAME',
+      title: (
+        <div className="pl-4">
+          <span className="label-sm-bold text-gray-7">Name</span>
+        </div>
+      ),
       dataIndex: 'name',
       key: 'name',
-      render: (text: string) => (
-        <div className="flex items-center gap-4">
-          <div className="w-8 h-8 rounded bg-blue-50 text-[#2563EB] flex items-center justify-center font-bold text-xs">
-            T
+      render: (text: string, record: ContentField) => (
+        <div className="flex items-center gap-4 pl-4">
+          <div className="w-8 h-8 rounded-md bg-blue-1 text-blue-6 flex items-center justify-center text-sm">
+            <RenderFieldIcon icon={record.icon} />
           </div>
-          <span className="font-bold text-gray-900">{text}</span>
+          <span className="label-sm-semibold text-blue-6">{text}</span>
         </div>
       ),
     },
     {
-      title: 'TYPE',
+      title: <span className="label-sm-bold text-gray-7">Type</span>,
       dataIndex: 'type',
       key: 'type',
       render: (text: string) => (
-        <span className="text-gray-400 font-medium text-sm">{text}</span>
+        <span className="label-sm-semibold text-gray-7">{text}</span>
       ),
     },
     {
-      title: 'LOCALIZED',
+      title: <span className="label-sm-bold text-gray-7">Localized</span>,
       dataIndex: 'localized',
       key: 'localized',
-      render: (val: boolean) =>
-        val ? (
-          <div className="w-5 h-5 rounded-full border-2 border-[#2563EB] flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#2563EB]"></div>
-          </div>
-        ) : null,
+      render: (val: boolean) => (
+        <div className="flex items-center justify-center">
+          {val ? <CheckCircleFilled className="text-blue-6 text-xl" /> : null}
+        </div>
+      ),
     },
     {
-      title: 'ACTIONS',
+      title: (
+        <div className="pr-4">
+          <span className="label-sm-bold text-gray-7">
+            Actions
+          </span>
+        </div>
+      ),
       key: 'actions',
-      render: (_: any, record: any) => (
-        <div className="flex items-center gap-4">
+      render: (_: unknown, record: ContentField) => (
+        <div className="flex items-center gap-4 pr-4">
           <Button
             type="link"
-            className="text-[#2563EB] font-bold p-0"
+            className="text-blue-6 font-bold p-0"
             onClick={() => onEditField(record)}
           >
             Edit
           </Button>
-          <Button className="text-gray-300 hover:text-gray-600 transition-colors">
+          <Button
+            type="text"
+            className="text-gray-7 hover:text-gray-9 transition-colors p-0"
+          >
             <MoreOutlined className="text-lg rotate-90" />
           </Button>
         </div>
@@ -68,17 +85,16 @@ export const FieldsTable: FC<FieldsTableProps> = ({
   ];
 
   return (
-    <div className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden h-fit">
-      <div className="px-10 py-8 flex items-center justify-between border-b border-gray-50">
-        <h2 className="text-base font-bold text-gray-900 tracking-tight">
-          Content Fields
-        </h2>
+    <div className="bg-white rounded-[20px] border border-gray-4 shadow-none overflow-hidden h-fit">
+      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-4">
+        <h3 className="text-base font-bold text-gray-12">Content Fields</h3>
         <Button
           type="link"
-          className="text-[#2563EB] font-bold p-0"
+          className="text-blue-6 font-medium p-0 flex items-center gap-2"
           onClick={onAddNewField}
         >
-          + Add new fields
+          <PlusOutlined />
+          <span className="text-sm">Add new fields</span>
         </Button>
       </div>
       <Table
@@ -87,6 +103,8 @@ export const FieldsTable: FC<FieldsTableProps> = ({
         rowKey="id"
         pagination={false}
         className="clean-table"
+        size="middle"
+        rowClassName={() => 'border-b border-gray-3'}
       />
     </div>
   );

@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { FolderOpen } from 'lucide-react';
 import { ContentModelCard } from './ContentModelCard';
 
 interface ContentModelGridProps {
@@ -18,7 +17,7 @@ export const ContentModelGrid: FC<ContentModelGridProps> = ({ models, onCardClic
             name: model.name,
             fields: model.fields?.length || 0,
             desc: model.description || 'No description provided',
-            icon: <FolderOpen size={24} />,
+            icon: model.icon || 'folder',
             color: '#2563EB',
             lastUpdate: new Date(parseInt(model.updatedAt)).toLocaleDateString(),
           }}

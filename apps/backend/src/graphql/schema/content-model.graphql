@@ -3,15 +3,27 @@ enum ContentModelStatus {
   LIVE
 }
 
+type FieldValidations {
+  required: Boolean
+  unique: Boolean
+  minCount: Int
+  maxCount: Int
+  matchPattern: String
+  prohibitPattern: String
+  allowedValues: [String!]
+}
+
 type ContentField {
   id: ID!
   name: String!
   type: String!
   apiId: String!
+  icon: String!
   localized: Boolean!
   required: Boolean!
   isTitle: Boolean!
   description: String
+  validations: FieldValidations
 }
 
 type ContentModel {
@@ -19,26 +31,42 @@ type ContentModel {
   name: String!
   apiId: String!
   description: String
+  icon: String!
   status: ContentModelStatus!
   createdAt: String!
   updatedAt: String!
+  createdBy: Int!
+  updatedBy: Int
   fields: [ContentField!]!
+}
+
+input FieldValidationsInput {
+  required: Boolean
+  unique: Boolean
+  minCount: Int
+  maxCount: Int
+  matchPattern: String
+  prohibitPattern: String
+  allowedValues: [String!]
 }
 
 input CreateContentFieldInput {
   name: String!
   type: String!
   apiId: String!
+  icon: String!
   localized: Boolean
   required: Boolean
   isTitle: Boolean
   description: String
+  validations: FieldValidationsInput
 }
 
 input CreateContentModelInput {
   name: String!
   apiId: String!
   description: String
+  icon: String!
   fields: [CreateContentFieldInput!]
 }
 

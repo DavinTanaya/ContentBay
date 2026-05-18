@@ -6,10 +6,11 @@ import Resources from '@/pages/landing-page/resources';
 import Documentation from '@pages/landing-page/documentation';
 import { LandingLayout } from '@layout/LandingLayout';
 
-import ContentModelList from '@pages/contentbay/content-model/ContentModelListPage';
-import ContentModelCreate from '@pages/contentbay/content-model/ContentModelCreatePage';
-import ContentModelSettings from '@pages/contentbay/content-model/ContentModelSettingsPage';
-import ContentModelBuilder from '@pages/contentbay/content-model/ContentModelBuilderPage';
+import {
+  ContentModelListPage as ContentModelList,
+  ContentModelCreatePage as ContentModelCreate,
+  ContentModelDetailPage as ContentModelDetail,
+} from '@pages/contentbay/content-model';
 import ContentList from '@pages/contentbay/content/ContentListPage';
 import ContentCreate from '@pages/contentbay/content/ContentCreatePage';
 import VisualModeler from '@pages/contentbay/visual-modeler/VisualModelerPage';
@@ -72,11 +73,7 @@ export const router = createBrowserRouter([
       },
       {
         path: PATH.contentbay.contentModelSettings,
-        element: <ContentModelSettings />,
-      },
-      {
-        path: PATH.contentbay.contentModelBuilder,
-        element: <ContentModelBuilder />,
+        element: <ContentModelDetail />,
       },
       {
         path: PATH.contentbay.content,

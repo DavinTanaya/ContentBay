@@ -18,6 +18,8 @@ model User {
   provider  String
   createdAt DateTime @default(now())
   posts     Post[]
+  createdModels ContentModel[] @relation("ModelCreator")
+  updatedModels ContentModel[] @relation("ModelUpdater")
 }
 
 model Post {
@@ -43,8 +45,13 @@ model ContentModel {
   apiId       String             @unique
   description String?
   status      ContentModelStatus @default(DRAFT)
+  icon        String             @default("box")
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
+  createdBy   Int
+  creator     User               @relation("ModelCreator", fields: [createdBy], references: [id])
+  updatedBy   Int?
+  updater     User?              @relation("ModelUpdater", fields: [updatedBy], references: [id])
   fields      ContentField[]
 }
 
@@ -53,10 +60,12 @@ model ContentField {
   name        String
   type        String
   apiId       String
+  icon        String       @default("text")
   localized   Boolean      @default(false)
   required    Boolean      @default(false)
   isTitle     Boolean      @default(false)
   description String?
+  validations Json?
   model       ContentModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
   modelId     String
 }

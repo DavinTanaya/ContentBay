@@ -1,59 +1,64 @@
-import type React from 'react';
+export type ContentModelIcon =
+  | 'person'
+  | 'folder'
+  | 'document'
+  | 'box'
+  | 'media'
+  | 'settings'
+  | 'map-pin'
+  | 'database';
 
-/**
- * FieldType — describes a type option in the field picker UI.
- */
+export type FieldIcon =
+  | 'rich-text'
+  | 'text'
+  | 'number'
+  | 'calendar'
+  | 'location'
+  | 'media'
+  | 'boolean'
+  | 'json'
+  | 'reference';
+
 export interface FieldType {
   title: string;
   desc: string;
-  icon: React.ReactNode;
-  color?: string;
   selected?: boolean;
+  icon: FieldIcon;
 }
 
-/**
- * ContentField — a single field within a Content Model.
- */
+export interface FieldValidations {
+  required?: boolean;
+  unique?: boolean;
+  minCount?: number;
+  maxCount?: number;
+  matchPattern?: string;
+  prohibitPattern?: string;
+  allowedValues?: string[];
+}
+
 export interface ContentField {
   id: string;
   name: string;
+  apiId: string;
   type: string;
-  icon?: React.ReactNode;
-  color?: string;
-  localized?: boolean;
+  icon: FieldIcon;
   required?: boolean;
+  localized?: boolean;
   isTitle?: boolean;
   description?: string;
-  apiId?: string;
+  validations?: FieldValidations;
 }
 
-/**
- * ContentModel — the core domain entity representing a content schema.
- */
 export interface ContentModel {
   id: string;
   name: string;
   apiId: string;
   description?: string;
+  icon: ContentModelIcon;
   fields: ContentField[];
   status?: 'LIVE' | 'DRAFT';
-  lastRevision?: string;
-}
-
-/**
- * CreateContentModelInput — input shape for creating/updating a content model.
- */
-export interface CreateContentModelInput {
-  name: string;
-  apiId: string;
-  description?: string;
-  fields?: Array<{
-    name: string;
-    type: string;
-    apiId: string;
-    localized?: boolean;
-    required?: boolean;
-    isTitle?: boolean;
-    description?: string;
-  }>;
+  createdAt: string;
+  updatedAt?: string;
+  createdBy: number;
+  updatedBy?: number;
 }

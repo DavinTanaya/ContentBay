@@ -1,14 +1,8 @@
-// ═══════════════════════════════════════════════════════
-// entities/content-model — Public API
-// Types, Mutations, Queries, and Passive UI.
-// ═══════════════════════════════════════════════════════
-
-// Domain types
+// type
 export type {
   FieldType,
   ContentField,
   ContentModel,
-  CreateContentModelInput,
 } from './model/content-model.types';
 
 // API: Mutations & Queries
@@ -21,6 +15,7 @@ export { ContentModelGrid } from './ui/ContentModelGrid';
 export { JSONSchemaPreview } from './ui/JSONSchemaPreview';
 export { ModelMetadataSidebar } from './ui/ModelMetadataSidebar';
 export { FieldsTable } from './ui/FieldsTable';
+export { RenderFieldIcon } from './ui/RenderFieldIcon';
 
 // Visual Modeler Entity Components
 export { ModelNode } from './ui/ModelNode';

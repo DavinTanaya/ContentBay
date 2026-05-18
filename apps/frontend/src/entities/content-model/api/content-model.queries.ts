@@ -7,13 +7,18 @@ export const GET_CONTENT_MODELS = gql`
       name
       apiId
       description
+      icon
       status
+      createdAt
       updatedAt
+      createdBy
+      updatedBy
       fields {
         id
         name
         type
         apiId
+        icon
       }
     }
   }
@@ -26,16 +31,31 @@ export const GET_CONTENT_MODEL = gql`
       name
       apiId
       description
+      icon
       status
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
       fields {
         id
         name
         type
         apiId
+        icon
         localized
         required
         isTitle
         description
+        validations {
+          required
+          unique
+          minCount
+          maxCount
+          matchPattern
+          prohibitPattern
+          allowedValues
+        }
       }
     }
   }

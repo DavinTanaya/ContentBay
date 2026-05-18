@@ -1,1 +1,0 @@
-export { ContentModelBuilderWidget } from './ContentModelBuilderWidget';

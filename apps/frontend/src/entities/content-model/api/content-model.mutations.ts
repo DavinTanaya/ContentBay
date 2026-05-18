@@ -7,6 +7,12 @@ export const CREATE_CONTENT_MODEL = gql`
       name
       apiId
       description
+      icon
+      status
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
     }
   }
 `;
@@ -16,7 +22,14 @@ export const UPDATE_CONTENT_MODEL = gql`
     updateContentModel(id: $id, input: $input) {
       id
       name
+      apiId
       description
+      icon
+      status
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
     }
   }
 `;

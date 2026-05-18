@@ -17,7 +17,6 @@ export type ModelNodeData = Node<
 export const ModelNode = memo(({ data }: NodeProps<ModelNodeData>) => {
   return (
     <div className="bg-white rounded-xl shadow-xl border border-gray-100 min-w-[280px] overflow-hidden group hover:border-blue-400 transition-all">
-      {/* React Flow Handles */}
       <Handle
         type="target"
         position={Position.Top}

@@ -98,7 +98,7 @@ export function NavbarContent() {
           activeKey={activeKey}
           items={navItems}
           onChange={handleTabChange}
-          className="h-full [&_.ant-tabs-nav]:mb-0 [&_.ant-tabs-nav]:h-full [&_.ant-tabs-nav::before]:border-none [&_.ant-tabs-tab:hover]:text-gray-13 [&_.ant-tabs-tab-active_.ant-tabs-tab-btn]:text-blue-7"
+          className="h-full font-medium [&_.ant-tabs-nav]:mb-0 [&_.ant-tabs-nav]:h-full [&_.ant-tabs-nav::before]:border-none [&_.ant-tabs-tab:hover]:text-gray-13 [&_.ant-tabs-tab-active_.ant-tabs-tab-btn]:text-blue-7"
           styles={{
             indicator: {
               background: colors.blue[7],
@@ -108,10 +108,14 @@ export function NavbarContent() {
           }}
         />
         <div className="flex items-center gap-6 ml-auto shrink-0">
-          <Button className="text-gray-400 hover:text-gray-900 transition-colors">
+          <Button shape="circle" type="text">
             <SettingOutlined className="text-xl" />
           </Button>
-          <Dropdown menu={{ items: userItems }} placement="bottomRight" trigger={['click']}>
+          <Dropdown
+            menu={{ items: userItems }}
+            placement="bottomRight"
+            trigger={['click']}
+          >
             <Avatar
               size={40}
               className="bg-blue-6 cursor-pointer hover:opacity-90 transition-all shadow-lg shadow-blue-6/10"
