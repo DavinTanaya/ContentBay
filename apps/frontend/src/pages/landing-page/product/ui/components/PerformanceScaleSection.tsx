@@ -1,50 +1,26 @@
-import { ProductAssets } from '../../assets';
+import { Zap, Globe, Shield, Database, Lock,  RefreshCw, GitBranch } from 'lucide-react';
 
 export function PerformanceScaleSection() {
   const stats = [
     {
       val: '10ms',
       label: 'Avg API Response',
-      icon: (
-        <img
-          src={ProductAssets.icons.performance1}
-          alt="icon"
-          className="w-[35] h-[39px]"
-        />
-      ),
+      icon: <Zap size={36} className="text-gray-1" />,
     },
     {
       val: '200+',
       label: 'CDN Locations',
-      icon: (
-        <img
-          src={ProductAssets.icons.performance2}
-          alt="icon"
-          className="w-[39px] h-[39px]"
-        />
-      ),
+      icon: <Globe size={36} className="text-gray-1" />,
     },
     {
       val: '99.9%',
       label: 'Uptime SLA',
-      icon: (
-        <img
-          src={ProductAssets.icons.performance3}
-          alt="icon"
-          className="w-[31px] h-[39px]"
-        />
-      ),
+      icon: <Shield size={36} className="text-gray-1" />,
     },
     {
       val: '500M+',
       label: 'API calls/month',
-      icon: (
-        <img
-          src={ProductAssets.icons.performance4}
-          alt="icon"
-          className="w-[35px] h-[39px]"
-        />
-      ),
+      icon: <Database size={36} className="text-gray-1" />,
     },
   ];
 
@@ -53,37 +29,19 @@ export function PerformanceScaleSection() {
       title: 'Enterprise Security',
       desc: 'SOC 2 Type II certified with SSO, 2FA, and role-based access control',
       tags: ['SSO', '2FA', 'RBAC'],
-      icon: (
-        <img
-          src={ProductAssets.icons.performance5}
-          alt="icon"
-          className="w-[27px] h-[30px]"
-        />
-      ),
+      icon: <Lock size={32} className="text-blue-3" />,
     },
     {
       title: 'Auto Scaling',
       desc: 'Infrastructure that automatically scales to handle traffic spikes',
       tags: ['Load Balancing', 'Auto-Scale'],
-      icon: (
-        <img
-          src={ProductAssets.icons.performance6}
-          alt="icon"
-          className="w-[30px] h-[30px]"
-        />
-      ),
+      icon: <RefreshCw size={32} className="text-blue-3" />,
     },
     {
       title: 'Version Control',
       desc: 'Full content versioning with instant rollback capabilities',
       tags: ['Versioning', 'Rollback'],
-      icon: (
-        <img
-          src={ProductAssets.icons.performance7}
-          alt="icon"
-          className="w-[30px] h-[30px]"
-        />
-      ),
+      icon: <GitBranch size={32} className="text-blue-3" />,
     },
   ];
 
@@ -97,10 +55,10 @@ export function PerformanceScaleSection() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <h2 className="display-lg text-[var(--color-gray-1)] mb-6 leading-tight">
+          <h2 className="display-lg-semibold text-gray-1 mb-6 leading-tight">
             Built for performance & scale
           </h2>
-          <p className="text-[var(--color-gray-1)] body-md-regular max-w-2xl mx-auto">
+          <p className="text-gray-1 body-md-regular max-w-2xl mx-auto">
             Enterprise-grade infrastructure that grows with your business
           </p>
         </div>
@@ -116,10 +74,10 @@ export function PerformanceScaleSection() {
               >
                 {stat.icon}
               </div>
-              <div className="h1-semibold text-[var(--color-gray-1)] mb-2">
+              <div className="h1-semibold text-gray-1 mb-2">
                 {stat.val}
               </div>
-              <div className="h6-semibold text-[var(--color-geekblue-1)]">
+              <div className="h6-semibold text-geekblue-1">
                 {stat.label}
               </div>
             </div>
@@ -133,17 +91,17 @@ export function PerformanceScaleSection() {
               className="bg-[#ADC6FF]/25 backdrop-blur-md rounded-[20px] p-10 border border-[#ADC6FF] hover:bg-white/10 transition-all"
             >
               <div className="mb-8">{feature.icon}</div>
-              <h3 className="h5-semibold mb-4 text-[var(--color-gray-1)]">
+              <h3 className="h5-semibold mb-4 text-gray-1">
                 {feature.title}
               </h3>
-              <p className="text-[var(--color-gray-1)] mb-8 leading-relaxed body-sm-regular">
+              <p className="text-gray-1 mb-8 leading-relaxed body-sm-regular">
                 {feature.desc}
               </p>
               <div className="flex flex-wrap gap-2">
                 {feature.tags.map((tag, tIdx) => (
                   <span
                     key={tIdx}
-                    className="px-3 py-1 rounded-[20px] bg-[#ADC6FF]/50 text-[var(--color-gray-1)] footnote-description tracking-wider"
+                    className="px-3 py-1 rounded-[20px] bg-[#ADC6FF]/50 text-gray-1 footnote-description tracking-wider"
                   >
                     {tag}
                   </span>

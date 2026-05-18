@@ -1,7 +1,8 @@
-import { ProductHero } from './components/ProductHero';
+import { ProductHero } from './components/ProductHeroSection';
 import { ArchitectureSection } from './components/ArchitectureSection';
 import { ModelingSection } from './components/ModelingSection';
 import { PerformanceScaleSection } from './components/PerformanceScaleSection';
+import { IntegratesSection } from './components/IntegratesSection';
 
 export default function Product() {
   return (
@@ -10,6 +11,7 @@ export default function Product() {
       <ArchitectureSection />
       <ModelingSection />
       <PerformanceScaleSection />
+      <IntegratesSection />
     </div>
   );
 }
