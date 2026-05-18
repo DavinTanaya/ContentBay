@@ -1,10 +1,9 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   SettingOutlined,
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { useSession } from '@/entities/session';
 import {
   Avatar,
   Button,
@@ -19,11 +18,7 @@ import { PATH } from '@/shared/constants/routes';
 import { sharedAssets } from '@/shared/assets';
 import { colors } from '@/shared/constants/colors';
 import { UserMenuHeader } from '@/entities/user/ui/UserMenuHeader';
-
-const TAB_KEYS: Record<string, string> = {
-  'content-model': PATH.contentbay.contentModel,
-  content: PATH.contentbay.content,
-};
+import { useNavbarContent } from '../model/useNavbarContent';
 
 const navItems: TabsProps['items'] = [
   {
@@ -37,16 +32,7 @@ const navItems: TabsProps['items'] = [
 ];
 
 export function NavbarContent() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const auth = useSession();
-
-  const handleLogout = () => {
-    navigate(PATH.landing.home, { replace: true });
-    setTimeout(() => {
-      auth.logout();
-    }, 10);
-  };
+  const { activeKey, handleTabChange, handleLogout } = useNavbarContent();
 
   const userItems: MenuProps['items'] = [
     {
@@ -71,21 +57,8 @@ export function NavbarContent() {
     },
   ];
 
-  const activeKey = location.pathname.startsWith(PATH.contentbay.contentModel)
-    ? 'content-model'
-    : location.pathname.startsWith(PATH.contentbay.content)
-      ? 'content'
-      : 'content-model';
-
-  const handleTabChange = (key: string) => {
-    const path = TAB_KEYS[key];
-    if (path) {
-      navigate(path);
-    }
-  };
-
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-red-1 px-14 h-16">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-4 px-14 h-16">
       <div className="flex items-center h-full">
         <Link
           to={PATH.contentbay.contentModel}
