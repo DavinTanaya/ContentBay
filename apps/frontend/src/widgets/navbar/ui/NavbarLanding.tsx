@@ -1,22 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Image, Space, type MenuProps } from 'antd';
+import { Button, Image } from 'antd';
 import { PATH } from '@/shared/constants/routes';
 import { sharedAssets } from '@/shared/assets';
-import { ChevronDown } from 'lucide-react';
-
-const productItems: MenuProps['items'] = [
-  { label: <Link to={PATH.landing.product}>Product</Link>, key: 1 },
-  { label: 'Pricing', key: 2 },
-  { label: 'Templates', key: 3 },
-  { label: 'Resources', key: 4 },
-];
-
-const resourcesItems: MenuProps['items'] = [
-  { label: <Link to={PATH.landing.resource}>Resources</Link>, key: 1 },
-  { label: 'Pricing', key: 2 },
-  { label: 'Templates', key: 3 },
-  { label: 'Resources', key: 4 },
-];
 
 export function NavbarLanding() {
   const navigate = useNavigate();
@@ -40,43 +25,28 @@ export function NavbarLanding() {
             </Link>
           </div>
 
-          <div className="flex flex-row gap-6 justify-center items-center label-xs-medium font-poppins text-black">
-            <Dropdown
-              menu={{ items: productItems }}
-              trigger={['click']}
-              className="label-xs-medium"
+          <div className="flex flex-row gap-2 justify-center items-center label-xs-medium font-poppins text-black">
+            <Button
+              size="small"
+              type="text"
+              onClick={() => navigate(PATH.landing.product)}
             >
-              <a onClick={(e) => e.preventDefault()}>
-                <Space
-                  size={2}
-                  className="label-xs-medium font-poppins text-black hover:cursor-pointer"
-                >
-                  Product
-                  <ChevronDown strokeWidth={2} size={20} />
-                </Space>
-              </a>
-            </Dropdown>
-            <Dropdown
-              menu={{ items: resourcesItems }}
-              trigger={['click']}
-              className="label-xs-medium"
+              Product
+            </Button>
+            <Button
+              size="small"
+              type="text"
+              onClick={() => navigate(PATH.landing.resource)}
             >
-              <a onClick={(e) => e.preventDefault()}>
-                <Space
-                  size={2}
-                  className="label-xs-medium font-poppins text-black hover:cursor-pointer"
-                >
-                  Resources
-                  <ChevronDown strokeWidth={2} size={20} />
-                </Space>
-              </a>
-            </Dropdown>
-            <Link
-              to={PATH.landing.documentation}
-              className="hover:cursor-pointer"
+              Resources
+            </Button>
+            <Button
+              size="small"
+              type="text"
+              onClick={() => navigate(PATH.landing.documentation)}
             >
               Documentation
-            </Link>
+            </Button>
           </div>
 
           <div className="flex items-center space-x-4">
