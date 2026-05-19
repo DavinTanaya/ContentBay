@@ -4,6 +4,7 @@ import path from "path";
 
 import { authResolvers } from "./graphql/resolvers/auth";
 import { contentModelResolvers } from "./graphql/resolvers/content-model";
+import { workspaceResolvers } from "./graphql/resolvers/workspace";
 import { Context } from "./context";
 
 /**
@@ -29,7 +30,8 @@ export const schema = createSchema<Context>({
     loadSchema("auth.graphql"),
     loadSchema("user.graphql"),
     loadSchema("content-model.graphql"),
+    loadSchema("workspace.graphql"),
   ],
 
-  resolvers: [authResolvers, contentModelResolvers],
+  resolvers: [authResolvers, contentModelResolvers, workspaceResolvers],
 });

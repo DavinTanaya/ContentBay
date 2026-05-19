@@ -19,6 +19,7 @@ model User {
   createdAt     DateTime       @default(now())
   createdModels ContentModel[] @relation("ModelCreator")
   updatedModels ContentModel[] @relation("ModelUpdater")
+  workspaces    Workspace[]    @relation("WorkspaceCreator")
   posts         Post[]
 }
 
@@ -48,6 +49,22 @@ model ContentModel {
   fields      ContentField[]
   creator     User               @relation("ModelCreator", fields: [createdBy], references: [id])
   updater     User?              @relation("ModelUpdater", fields: [updatedBy], references: [id])
+  workspaceId String?
+  workspace   Workspace?         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Workspace {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  types       Int            @default(0)
+  env         Int            @default(1)
+  records     String         @default("0")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  createdBy   Int
+  creator     User           @relation("WorkspaceCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  models      ContentModel[]
 }
 
 model ContentField {

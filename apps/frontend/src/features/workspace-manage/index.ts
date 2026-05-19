@@ -1,2 +1,2 @@
-export { useWorkspace } from './model/useWorkspace';
-export type { Workspace } from './model/useWorkspace';
+export { useWorkspace } from './model/useWorkspace.tsx';
+export type { Workspace } from '@/entities/workspace';

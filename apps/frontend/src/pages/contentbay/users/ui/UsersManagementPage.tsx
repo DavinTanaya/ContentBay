@@ -128,7 +128,7 @@ export default function UsersManagementPage() {
                   value: 'Any',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <AppstoreOutlined className="text-gray-6" />
+                      <AppstoreOutlined style={{ color: '#8c8c8c' }} />
                       <span>Any Role</span>
                     </div>
                   ),
@@ -137,7 +137,7 @@ export default function UsersManagementPage() {
                   value: 'Owner',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <CrownOutlined className="text-amber-500" />
+                      <CrownOutlined style={{ color: '#faad14' }} />
                       <span>Owner</span>
                     </div>
                   ),
@@ -146,7 +146,7 @@ export default function UsersManagementPage() {
                   value: 'Admin',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <SafetyOutlined className="text-blue-6" />
+                      <SafetyOutlined style={{ color: '#1890ff' }} />
                       <span>Admin</span>
                     </div>
                   ),
@@ -155,7 +155,7 @@ export default function UsersManagementPage() {
                   value: 'Editor',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <EditOutlined className="text-purple-6" />
+                      <EditOutlined style={{ color: '#722ed1' }} />
                       <span>Editor</span>
                     </div>
                   ),
@@ -164,7 +164,7 @@ export default function UsersManagementPage() {
                   value: 'Developer',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <CodeOutlined className="text-green-6" />
+                      <CodeOutlined style={{ color: '#52c41a' }} />
                       <span>Developer</span>
                     </div>
                   ),
@@ -336,7 +336,7 @@ export default function UsersManagementPage() {
                   value: 'Owner',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <CrownOutlined className="text-amber-500" />
+                      <CrownOutlined style={{ color: '#faad14' }} />
                       <span>Owner</span>
                     </div>
                   ),
@@ -345,7 +345,7 @@ export default function UsersManagementPage() {
                   value: 'Admin',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <SafetyOutlined className="text-blue-6" />
+                      <SafetyOutlined style={{ color: '#1890ff' }} />
                       <span>Admin</span>
                     </div>
                   ),
@@ -354,7 +354,7 @@ export default function UsersManagementPage() {
                   value: 'Editor',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <EditOutlined className="text-purple-6" />
+                      <EditOutlined style={{ color: '#722ed1' }} />
                       <span>Editor</span>
                     </div>
                   ),
@@ -363,7 +363,7 @@ export default function UsersManagementPage() {
                   value: 'Developer',
                   label: (
                     <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <CodeOutlined className="text-green-6" />
+                      <CodeOutlined style={{ color: '#52c41a' }} />
                       <span>Developer</span>
                     </div>
                   ),

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Form, message } from 'antd';
+import { useSession } from '@/entities/session';
 
 export interface ManagedUser {
   id: string;
@@ -22,6 +23,7 @@ export const DEFAULT_USERS: ManagedUser[] = [
 ];
 
 export const useUsersManagement = () => {
+  const { user: currentUser } = useSession();
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState('Any');
@@ -37,28 +39,55 @@ export const useUsersManagement = () => {
   const userStorageKey = `contentbay_users_${activeSpaceId}`;
 
   useEffect(() => {
+    const ownerName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}`.trim() : 'User Owner';
+    const ownerEmail = currentUser?.email || 'owner@gmail.com';
+
     const stored = localStorage.getItem(userStorageKey);
     if (stored) {
       try {
-        setUsers(JSON.parse(stored));
+        const parsed: ManagedUser[] = JSON.parse(stored);
+        // Selalu sinkronkan Owner dengan user yang login sekarang
+        const updated = parsed.map((u) => {
+          if (u.role === 'Owner') {
+            return {
+              ...u,
+              name: ownerName,
+              email: ownerEmail,
+            };
+          }
+          return u;
+        });
+        setUsers(updated);
+        localStorage.setItem(userStorageKey, JSON.stringify(updated));
       } catch {
-        setUsers(DEFAULT_USERS);
+        const fallback = [
+          {
+            id: 'owner-id',
+            name: ownerName,
+            email: ownerEmail,
+            role: 'Owner',
+            lastActive: 'Online now',
+            twoFactorStatus: '⎯⎯',
+          }
+        ];
+        setUsers(fallback);
+        localStorage.setItem(userStorageKey, JSON.stringify(fallback));
       }
     } else {
       const initialUsersForSpace = [
         {
-          id: `user-${Date.now()}`,
-          name: activeSpaceId === 'project-1' ? 'User 1' : activeSpaceId === 'project-2' ? 'User 2' : 'User 3',
-          email: activeSpaceId === 'project-1' ? 'user1@gmail.com' : activeSpaceId === 'project-2' ? 'user2@gmail.com' : 'user3@gmail.com',
+          id: 'owner-id',
+          name: ownerName,
+          email: ownerEmail,
           role: 'Owner',
-          lastActive: 'An hour ago',
+          lastActive: 'Online now',
           twoFactorStatus: '⎯⎯',
         }
       ];
       setUsers(initialUsersForSpace);
       localStorage.setItem(userStorageKey, JSON.stringify(initialUsersForSpace));
     }
-  }, [userStorageKey, activeSpaceId]);
+  }, [userStorageKey, activeSpaceId, currentUser]);
 
   // Reset page to 1 when filters change
   useEffect(() => {

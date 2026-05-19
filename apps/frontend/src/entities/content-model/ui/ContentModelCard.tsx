@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { Card, Avatar } from 'antd';
-import { UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CalendarOutlined } from '@ant-design/icons';
 import { RenderModelIcon } from './RenderModelIcon';
 import type { ContentModelIcon } from '../model/content-model.types';
+import { useSession } from '@/entities/session';
 
 interface ContentModelCardProps {
   model: {
@@ -21,6 +22,20 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
   model,
   onClick,
 }) => {
+  const { user } = useSession();
+  
+  const displayName = user
+    ? user.firstName
+      ? `${user.firstName} ${user.lastName || ''}`.trim()
+      : user.email.split('@')[0]
+    : 'User';
+
+  const initial = user
+    ? user.firstName
+      ? user.firstName.charAt(0).toUpperCase()
+      : user.email.charAt(0).toUpperCase()
+    : 'U';
+
   return (
     <Card
       hoverable
@@ -52,11 +67,12 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
           <div className="flex items-center gap-3">
             <Avatar
               size={32}
-              icon={<UserOutlined />}
-              className="bg-blue-1 text-blue-6"
-            />
+              className="bg-blue-1 text-blue-6 font-semibold font-poppins flex items-center justify-center"
+            >
+              {initial}
+            </Avatar>
             <span className="label-sm-medium text-gray-9 leading-tight">
-              User 1
+              {displayName}
             </span>
           </div>
           <span className="label-xs-regular text-gray-7 flex items-center gap-1">
