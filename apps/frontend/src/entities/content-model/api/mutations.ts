@@ -30,6 +30,26 @@ export const UPDATE_CONTENT_MODEL = gql`
       updatedAt
       createdBy
       updatedBy
+      fields {
+        id
+        name
+        type
+        apiId
+        icon
+        localized
+        required
+        isTitle
+        description
+        validations {
+          required
+          unique
+          minCount
+          maxCount
+          matchPattern
+          prohibitPattern
+          allowedValues
+        }
+      }
     }
   }
 `;

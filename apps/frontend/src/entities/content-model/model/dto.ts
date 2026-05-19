@@ -1,7 +1,4 @@
-import type {
-  ContentField,
-  ContentModelIcon,
-} from '../model/content-model.types';
+import type { ContentField, ContentModelIcon } from './types';
 
 export interface CreateContentModelRequest {
   name: string;

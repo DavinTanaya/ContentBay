@@ -1,6 +1,9 @@
-import React from 'react';
 import { Form, Input, Button, Card, Select } from 'antd';
-import { InfoCircleOutlined, EditOutlined, ApiOutlined } from '@ant-design/icons';
+import {
+  InfoCircleOutlined,
+  EditOutlined,
+  ApiOutlined,
+} from '@ant-design/icons';
 import {
   User,
   FolderOpen,
@@ -13,27 +16,89 @@ import {
 } from 'lucide-react';
 import { useCreateContentModel } from '../model/useCreateContentModel';
 
+import type { ContentModelCreateFormProps } from '../model/types';
+
 const ICON_OPTIONS = [
-  { value: 'person', label: <div className="flex items-center gap-2"><User size={16} /><span>Person</span></div> },
-  { value: 'folder', label: <div className="flex items-center gap-2"><FolderOpen size={16} /><span>Folder</span></div> },
-  { value: 'document', label: <div className="flex items-center gap-2"><FileText size={16} /><span>Document</span></div> },
-  { value: 'box', label: <div className="flex items-center gap-2"><Box size={16} /><span>Box</span></div> },
-  { value: 'media', label: <div className="flex items-center gap-2"><ImageIcon size={16} /><span>Media</span></div> },
-  { value: 'settings', label: <div className="flex items-center gap-2"><Settings size={16} /><span>Settings</span></div> },
-  { value: 'map-pin', label: <div className="flex items-center gap-2"><MapPin size={16} /><span>Map Pin</span></div> },
-  { value: 'database', label: <div className="flex items-center gap-2"><Database size={16} /><span>Database</span></div> },
+  {
+    value: 'person',
+    label: (
+      <div className="flex items-center gap-2">
+        <User size={16} />
+        <span>Person</span>
+      </div>
+    ),
+  },
+  {
+    value: 'folder',
+    label: (
+      <div className="flex items-center gap-2">
+        <FolderOpen size={16} />
+        <span>Folder</span>
+      </div>
+    ),
+  },
+  {
+    value: 'document',
+    label: (
+      <div className="flex items-center gap-2">
+        <FileText size={16} />
+        <span>Document</span>
+      </div>
+    ),
+  },
+  {
+    value: 'box',
+    label: (
+      <div className="flex items-center gap-2">
+        <Box size={16} />
+        <span>Box</span>
+      </div>
+    ),
+  },
+  {
+    value: 'media',
+    label: (
+      <div className="flex items-center gap-2">
+        <ImageIcon size={16} />
+        <span>Media</span>
+      </div>
+    ),
+  },
+  {
+    value: 'settings',
+    label: (
+      <div className="flex items-center gap-2">
+        <Settings size={16} />
+        <span>Settings</span>
+      </div>
+    ),
+  },
+  {
+    value: 'map-pin',
+    label: (
+      <div className="flex items-center gap-2">
+        <MapPin size={16} />
+        <span>Map Pin</span>
+      </div>
+    ),
+  },
+  {
+    value: 'database',
+    label: (
+      <div className="flex items-center gap-2">
+        <Database size={16} />
+        <span>Database</span>
+      </div>
+    ),
+  },
 ];
 
-interface ContentModelCreateFormProps {
-  onBack: () => void;
-  onSuccess: () => void;
-}
-
-export const ContentModelCreateForm: React.FC<ContentModelCreateFormProps> = ({
+export function ContentModelCreateForm({
   onBack,
   onSuccess,
-}) => {
-  const { form, handleNameChange, onFinish, loading } = useCreateContentModel(onSuccess);
+}: ContentModelCreateFormProps) {
+  const { form, handleNameChange, onFinish, loading } =
+    useCreateContentModel(onSuccess);
 
   return (
     <div className="w-full max-w-3xl mx-auto pt-4">
@@ -61,7 +126,7 @@ export const ContentModelCreateForm: React.FC<ContentModelCreateFormProps> = ({
             name="name"
             rules={[
               { required: true, message: 'Please input the name!' },
-              { max: 50, message: 'Name cannot exceed 50 characters' }
+              { max: 50, message: 'Name cannot exceed 50 characters' },
             ]}
           >
             <Input
@@ -105,7 +170,7 @@ export const ContentModelCreateForm: React.FC<ContentModelCreateFormProps> = ({
             }
             name="description"
             rules={[
-              { max: 250, message: 'Description cannot exceed 250 characters' }
+              { max: 250, message: 'Description cannot exceed 250 characters' },
             ]}
           >
             <Input.TextArea
@@ -140,11 +205,7 @@ export const ContentModelCreateForm: React.FC<ContentModelCreateFormProps> = ({
 
           <div className="pt-4 border-t border-gray-50 mt-8 flex justify-end gap-4">
             <Form.Item className="mb-0">
-              <Button
-                type="text"
-                onClick={onBack}
-                size="middle"
-              >
+              <Button type="text" onClick={onBack} size="middle">
                 Cancel
               </Button>
             </Form.Item>
@@ -164,4 +225,4 @@ export const ContentModelCreateForm: React.FC<ContentModelCreateFormProps> = ({
       </Card>
     </div>
   );
-};
+}

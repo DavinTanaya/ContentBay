@@ -16,11 +16,13 @@ export default function ContentModelCreatePage() {
             shape="circle"
             className="text-gray-8 hover:text-black hover:bg-gray-2 mr-4 -ml-2"
             onClick={() => navigate(PATH.contentbay.contentModel)}
-            icon={<ArrowLeftOutlined style={{ fontSize: '20px' }} />}
+            icon={<ArrowLeftOutlined className="text-xl" />}
           />
           <div>
-            <h1 className="h2-bold m-0 text-gray-9">Create Content Model</h1>
-            <p className="label-sm-regular text-gray-5 m-0 mt-1">
+            <h1 className="h3-semibold m-0 text-gray-10">
+              Create Content Model
+            </h1>
+            <p className="label-sm-regular text-gray-6 m-0 mt-1">
               Define the structure for a new type of content.
             </p>
           </div>

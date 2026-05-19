@@ -1,29 +1,15 @@
-import type { FC } from 'react';
 import { ContentModelCard } from './ContentModelCard';
+import type { ContentModelGridProps } from '../model/types';
 
-interface ContentModelGridProps {
-  models: any[];
-  onCardClick?: (id: string) => void;
-}
-
-export const ContentModelGrid: FC<ContentModelGridProps> = ({ models, onCardClick }) => {
+export function ContentModelGrid({
+  models,
+  onCardClick,
+}: ContentModelGridProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {models.map((model) => (
-        <ContentModelCard
-          key={model.id}
-          model={{
-            id: model.id,
-            name: model.name,
-            fields: model.fields?.length || 0,
-            desc: model.description || 'No description provided',
-            icon: model.icon || 'folder',
-            color: '#2563EB',
-            lastUpdate: new Date(parseInt(model.updatedAt)).toLocaleDateString(),
-          }}
-          onClick={onCardClick}
-        />
+        <ContentModelCard key={model.id} model={model} onClick={onCardClick} />
       ))}
     </div>
   );
-};
+}

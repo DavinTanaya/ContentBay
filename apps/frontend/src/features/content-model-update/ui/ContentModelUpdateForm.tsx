@@ -96,7 +96,7 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
     useContentModelUpdateForm(initialValues);
 
   return (
-    <div className="w-full max-w-3xl mx-auto pt-4">
+    <div className="w-full max-w-3xl mx-auto">
       <Card
         className="rounded-[32px] shadow-xl shadow-blue-900/5 border border-gray-100"
         styles={{ body: { padding: '32px' } }}

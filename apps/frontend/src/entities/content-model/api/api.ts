@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client/react';
-import { CREATE_CONTENT_MODEL } from './content-model.mutations';
-import { GET_CONTENT_MODELS } from './content-model.queries';
-import type { ContentModel } from '../model/content-model.types';
+import { CREATE_CONTENT_MODEL } from './mutations';
+import { GET_CONTENT_MODELS } from './queries';
+import type { ContentModel } from '../model/types';
 
 export const useCreateContentModelApi = () => {
   return useMutation(CREATE_CONTENT_MODEL, {

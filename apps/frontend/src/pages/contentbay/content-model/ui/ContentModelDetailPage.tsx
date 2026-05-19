@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Tabs, Spin, Result, Typography } from 'antd';
-import { RenderModelIcon } from '@/entities/content-model/ui/RenderModelIcon';
+import { RenderModelIcon } from '@entities/content-model';
 import { PATH } from '@/shared/constants/routes';
 
 import { useContentModelDetail } from '../model/useContentModelDetail';

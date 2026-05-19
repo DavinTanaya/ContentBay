@@ -1,13 +1,30 @@
-// type
+// Types
 export type {
   FieldType,
   ContentField,
   ContentModel,
-} from './model/content-model.types';
+  ContentModelIcon,
+  ContentModelCardProps,
+  ContentModelGridProps,
+  FieldsTableProps,
+  JSONSchemaPreviewProps,
+  ModelMetadataSidebarProps,
+  RenderFieldIconProps,
+  RenderModelIconProps,
+} from './model/types';
+
+// DTO
+export type {
+  CreateContentModelRequest,
+  UpdateContentModelRequest,
+} from './model/dto';
 
 // API: Mutations & Queries
-export * from './api/content-model.queries';
-export * from './api/content-model.mutations';
+export * from './api/queries';
+export * from './api/mutations';
+
+// API: Hooks
+export { useCreateContentModelApi, useGetContentModelsApi } from './api/api';
 
 // Passive UI components
 export { ContentModelCard } from './ui/ContentModelCard';
@@ -16,6 +33,7 @@ export { JSONSchemaPreview } from './ui/JSONSchemaPreview';
 export { ModelMetadataSidebar } from './ui/ModelMetadataSidebar';
 export { FieldsTable } from './ui/FieldsTable';
 export { RenderFieldIcon } from './ui/RenderFieldIcon';
+export { RenderModelIcon } from './ui/RenderModelIcon';
 
 // Visual Modeler Entity Components
 export { ModelNode } from './ui/ModelNode';

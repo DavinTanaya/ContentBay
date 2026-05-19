@@ -1,29 +1,17 @@
 import type { FC } from 'react';
 import { Card, Avatar } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
+import { Database } from 'lucide-react';
 import { RenderModelIcon } from './RenderModelIcon';
-import type { ContentModelIcon } from '../model/content-model.types';
+import type { ContentModelCardProps } from '../model/types';
 import { useSession } from '@/entities/session';
-
-interface ContentModelCardProps {
-  model: {
-    id: string;
-    name: string;
-    fields: number;
-    desc: string;
-    icon: ContentModelIcon | string;
-    color: string;
-    lastUpdate: string;
-  };
-  onClick?: (id: string) => void;
-}
 
 export const ContentModelCard: FC<ContentModelCardProps> = ({
   model,
   onClick,
 }) => {
   const { user } = useSession();
-  
+
   const displayName = user
     ? user.firstName
       ? `${user.firstName} ${user.lastName || ''}`.trim()
@@ -36,10 +24,19 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
       : user.email.charAt(0).toUpperCase()
     : 'U';
 
+  const dateSource = model.updatedAt || model.createdAt;
+  const formattedDate = dateSource
+    ? new Date(dateSource).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : 'N/A';
+
   return (
     <Card
       hoverable
-      className="rounded-[24px] border border-gray-4 overflow-hidden group shadow-sm hover:shadow-md hover:border-blue-4 transition-all cursor-pointer h-full flex flex-col"
+      className="rounded-[32px] border border-gray-4 overflow-hidden group shadow-sm hover:shadow-md hover:border-blue-4 transition-all cursor-pointer h-full flex flex-col bg-gray-1"
       bodyStyle={{
         padding: 0,
         height: '100%',
@@ -48,18 +45,25 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
       }}
       onClick={() => onClick?.(model.id)}
     >
-      <div className="p-6 grow">
-        <div className="w-12 h-12 rounded-lg bg-blue-1 flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
-          <span className="text-blue-6 flex items-center justify-center">
-            <RenderModelIcon icon={model.icon} size={24} />
-          </span>
+      <div className="p-8 grow flex flex-col">
+        <div className="flex justify-between items-start mb-6">
+          <div className="w-14 h-14 rounded-2xl bg-gray-2 border border-gray-4 flex items-center justify-center transition-transform group-hover:scale-105">
+            <span className="text-gray-9 flex items-center justify-center">
+              <RenderModelIcon icon={model.icon} size={24} />
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 px-4 py-2 bg-gray-2 border border-gray-4 rounded-full text-gray-9">
+            <Database size={14} className="text-gray-7" />
+            <span className="label-xs-semibold">
+              {model.fields?.length || 0} Fields
+            </span>
+          </div>
         </div>
-        <h3 className="h5-semibold text-gray-9 m-0 mb-1.5">{model.name}</h3>
-        <p className="label-sm-regular text-gray-6 mb-4">
-          {model.fields} fields
-        </p>
-        <p className="text-gray-6 text-sm leading-relaxed mb-0 line-clamp-3">
-          {model.desc}
+        <h3 className="h5-semibold text-gray-12 m-0 mb-2 group-hover:text-blue-6 transition-colors">
+          {model.name}
+        </h3>
+        <p className="text-gray-7 body-sm-regular mb-0">
+          {model.description || 'No description provided'}
         </p>
       </div>
       <div className="px-6 py-4 bg-white border-t border-gray-5 mt-auto">
@@ -75,9 +79,12 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
               {displayName}
             </span>
           </div>
-          <span className="label-xs-regular text-gray-7 flex items-center gap-1">
-            <CalendarOutlined /> {model.lastUpdate}
-          </span>
+        </div>
+
+        {/* Date Badge */}
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-1 border border-gray-4 rounded-xl text-gray-8 text-xs mt-3">
+          <CalendarOutlined className="text-gray-7" />
+          <span className="font-medium">{formattedDate}</span>
         </div>
       </div>
     </Card>

@@ -1,4 +1,4 @@
-import { useGetContentModelsApi } from '@/entities/content-model/api/content-model.api';
+import { useGetContentModelsApi } from '@entities/content-model';
 
 export const useContentModelList = () => {
   const { data, loading, error } = useGetContentModelsApi();

@@ -1,6 +1,6 @@
 import type { FieldType } from '@entities/content-model';
 
-export const FIELD_TYPES: FieldType[] = [
+export const FieldTypeOptions: FieldType[] = [
   {
     title: 'Rich text',
     desc: 'Text formatting with references and media',
@@ -44,3 +44,17 @@ export const FIELD_TYPES: FieldType[] = [
     icon: 'reference',
   },
 ];
+
+export interface FieldPickerModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelectField: (type: FieldType) => void;
+}
+
+export interface FieldConfigModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  selectedFieldType: FieldType | null;
+  onConfirm: (data: { name: string; apiId: string }) => void;
+  onBack: () => void;
+}

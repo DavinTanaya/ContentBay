@@ -1,83 +1,66 @@
-import type { FC } from 'react';
-import { Table, Button } from 'antd';
-import {
-  MoreOutlined,
-  CheckCircleFilled,
-  PlusOutlined,
-} from '@ant-design/icons';
-import type { ContentField } from '../model/content-model.types';
+import { Table, Button, Tag } from 'antd';
+import { MoreVertical } from 'lucide-react';
+import type { ContentField, FieldsTableProps } from '../model/types';
 import { RenderFieldIcon } from './RenderFieldIcon';
+import { colors } from '@/shared/constants/colors';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-interface FieldsTableProps {
-  data: ContentField[];
-  onEditField: (field: ContentField) => void;
-  onAddNewField: () => void;
-}
-
-export const FieldsTable: FC<FieldsTableProps> = ({
-  data,
-  onEditField,
-  onAddNewField,
-}) => {
+export function FieldsTable({ data, onEditField }: FieldsTableProps) {
   const columns = [
     {
-      title: (
-        <div className="pl-4">
-          <span className="label-sm-bold text-gray-7">Name</span>
-        </div>
-      ),
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
       render: (text: string, record: ContentField) => (
-        <div className="flex items-center gap-4 pl-4">
-          <div className="w-8 h-8 rounded-md bg-blue-1 text-blue-6 flex items-center justify-center text-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-geekblue-1 border border-geekblue-2 text-geekblue-6 flex items-center justify-center transition-colors group-hover:bg-geekblue-2">
             <RenderFieldIcon icon={record.icon} />
           </div>
-          <span className="label-sm-semibold text-blue-6">{text}</span>
+          <span className="label-xs-bold text-gray-10">{text}</span>
         </div>
       ),
     },
     {
-      title: <span className="label-sm-bold text-gray-7">Type</span>,
+      title: 'Type',
       dataIndex: 'type',
       key: 'type',
       render: (text: string) => (
-        <span className="label-sm-semibold text-gray-7">{text}</span>
+        <span className="inline-flex items-center px-2.5 py-1 rounded-md label-xs-medium bg-gray-2 text-gray-8 border border-gray-5">
+          {text}
+        </span>
       ),
     },
     {
-      title: <span className="label-sm-bold text-gray-7">Localized</span>,
+      title: 'Localized',
       dataIndex: 'localized',
       key: 'localized',
       render: (val: boolean) => (
-        <div className="flex items-center justify-center">
-          {val ? <CheckCircleFilled className="text-blue-6 text-xl" /> : null}
+        <div className="flex items-center">
+          {val ? (
+            <Tag icon={<CheckCircleOutlined />} color={colors.green[6]}>
+              Yes
+            </Tag>
+          ) : (
+            <Tag icon={<CloseCircleOutlined />} color={colors.gray[6]} />
+          )}
         </div>
       ),
     },
     {
-      title: (
-        <div className="pr-4">
-          <span className="label-sm-bold text-gray-7">
-            Actions
-          </span>
-        </div>
-      ),
+      title: 'Actions',
       key: 'actions',
       render: (_: unknown, record: ContentField) => (
-        <div className="flex items-center gap-4 pr-4">
+        <div className="flex items-center">
           <Button
-            type="link"
-            className="text-blue-6 font-bold p-0"
+            variant="text"
+            color="geekblue"
+            size="small"
             onClick={() => onEditField(record)}
           >
             Edit
           </Button>
-          <Button
-            type="text"
-            className="text-gray-7 hover:text-gray-9 transition-colors p-0"
-          >
-            <MoreOutlined className="text-lg rotate-90" />
+          <Button type="text" size="small">
+            <MoreVertical size={18} />
           </Button>
         </div>
       ),
@@ -85,27 +68,16 @@ export const FieldsTable: FC<FieldsTableProps> = ({
   ];
 
   return (
-    <div className="bg-white rounded-[20px] border border-gray-4 shadow-none overflow-hidden h-fit">
-      <div className="px-6 py-5 flex items-center justify-between border-b border-gray-4">
-        <h3 className="text-base font-bold text-gray-12">Content Fields</h3>
-        <Button
-          type="link"
-          className="text-blue-6 font-medium p-0 flex items-center gap-2"
-          onClick={onAddNewField}
-        >
-          <PlusOutlined />
-          <span className="text-sm">Add new fields</span>
-        </Button>
-      </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        rowKey="id"
-        pagination={false}
-        className="clean-table"
-        size="middle"
-        rowClassName={() => 'border-b border-gray-3'}
-      />
-    </div>
+    <Table
+      columns={columns}
+      dataSource={data}
+      rowKey="id"
+      pagination={false}
+      className="clean-table"
+      size="middle"
+      rowClassName={() =>
+        'group border-b border-gray-6 hover:bg-gray-2 transition-colors'
+      }
+    />
   );
-};
+}

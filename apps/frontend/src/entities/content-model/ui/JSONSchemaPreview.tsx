@@ -1,17 +1,15 @@
-import type { FC } from 'react';
-import { Button } from 'antd';
+import { useState } from 'react';
+import { Button, message } from 'antd';
+import type { JSONSchemaPreviewProps } from '../model/types';
 
-interface JSONSchemaPreviewProps {
-  modelId: string;
-  schema: any;
-}
+export function JSONSchemaPreview({ modelId, schema }: JSONSchemaPreviewProps) {
+  const [copied, setCopied] = useState(false);
 
-export const JSONSchemaPreview: FC<JSONSchemaPreviewProps> = ({
-  modelId,
-  schema,
-}) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
+    setCopied(true);
+    message.success('JSON Schema copied to clipboard!');
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -27,11 +25,8 @@ export const JSONSchemaPreview: FC<JSONSchemaPreviewProps> = ({
             {modelId?.toUpperCase()}_SCHEMA.JSON
           </span>
         </div>
-        <Button
-          className="h-10 px-6 font-bold border-gray-100 text-gray-500 rounded-xl"
-          onClick={handleCopy}
-        >
-          Copy JSON
+        <Button size="middle" type="default" onClick={handleCopy}>
+          {copied ? 'Copied!' : 'Copy JSON'}
         </Button>
       </div>
       <div className="p-12 font-mono text-sm leading-relaxed text-gray-700 bg-white">
@@ -41,4 +36,4 @@ export const JSONSchemaPreview: FC<JSONSchemaPreviewProps> = ({
       </div>
     </div>
   );
-};
+}

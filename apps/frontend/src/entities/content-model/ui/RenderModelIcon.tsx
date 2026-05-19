@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import {
   User,
   FolderOpen,
@@ -9,19 +8,13 @@ import {
   MapPin,
   Database,
 } from 'lucide-react';
-import type { ContentModelIcon } from '../model/content-model.types';
+import type { RenderModelIconProps } from '../model/types';
 
-interface RenderModelIconProps {
-  icon?: ContentModelIcon | string;
-  size?: number;
-  className?: string;
-}
-
-export const RenderModelIcon: FC<RenderModelIconProps> = ({
+export function RenderModelIcon({
   icon,
   size = 24,
   className,
-}) => {
+}: RenderModelIconProps) {
   switch (icon) {
     case 'person':
       return <User size={size} className={className} />;
@@ -42,4 +35,4 @@ export const RenderModelIcon: FC<RenderModelIconProps> = ({
     default:
       return <Box size={size} className={className} />; // Fallback icon
   }
-};
+}

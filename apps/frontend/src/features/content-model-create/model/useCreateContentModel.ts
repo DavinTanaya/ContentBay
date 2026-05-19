@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form, message } from 'antd';
-import { useCreateContentModelApi } from '@/entities/content-model/api/content-model.api';
-import type { CreateContentModelRequest } from '@/entities/content-model/api/content-model.dto';
-import type { ContentModelIcon } from '@/entities/content-model/model/content-model.types';
+import { useCreateContentModelApi } from '@entities/content-model';
+import type { CreateContentModelRequest, ContentModelIcon } from '@entities/content-model';
 
 export const useCreateContentModel = (onSuccess: () => void) => {
   const [createModel, { loading }] = useCreateContentModelApi();
@@ -57,7 +56,10 @@ export const useCreateContentModel = (onSuccess: () => void) => {
       message.success('Content Model created successfully!');
       onSuccess();
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to create Content Model';
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Failed to create Content Model';
       message.error(errorMessage);
     }
   };

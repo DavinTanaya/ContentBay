@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Handle, Position, type NodeProps, type Node } from '@xyflow/react';
 import { Collapse, Tag, Typography } from 'antd';
 import { DatabaseOutlined, FieldStringOutlined } from '@ant-design/icons';
-import type { ContentField } from '../model/content-model.types';
+import type { ContentField } from '../model/types';
 
 const { Text } = Typography;
 

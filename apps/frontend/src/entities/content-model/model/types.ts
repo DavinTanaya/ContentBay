@@ -62,3 +62,40 @@ export interface ContentModel {
   createdBy: number;
   updatedBy?: number;
 }
+
+export interface ContentModelCardProps {
+  model: ContentModel;
+  onClick?: (id: string) => void;
+}
+
+export interface ContentModelGridProps {
+  models: ContentModel[];
+  onCardClick?: (id: string) => void;
+}
+
+export interface FieldsTableProps {
+  data: ContentField[];
+  onEditField: (field: ContentField) => void;
+}
+
+export interface JSONSchemaPreviewProps {
+  modelId: string;
+  schema: Record<string, unknown>;
+}
+
+export interface ModelMetadataSidebarProps {
+  totalFields: number;
+  lastRevision: string;
+  status: 'LIVE' | 'DRAFT';
+}
+
+export interface RenderFieldIconProps {
+  icon?: FieldIcon | string;
+  className?: string;
+}
+
+export interface RenderModelIconProps {
+  icon?: ContentModelIcon | string;
+  size?: number;
+  className?: string;
+}

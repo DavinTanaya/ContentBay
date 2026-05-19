@@ -106,6 +106,18 @@ export const typographyTokens = {
   },
 
   // Label Styles
+  labelXlBold: {
+    fontSize: 20,
+    lineHeight: '24px',
+    fontWeight: 700,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  labelXlSemibold: {
+    fontSize: 20,
+    lineHeight: '24px',
+    fontWeight: 600,
+    fontFamily: 'Open Sans, sans-serif',
+  },
   labelMdRegular: {
     fontSize: 18,
     lineHeight: '20px',
@@ -116,6 +128,12 @@ export const typographyTokens = {
     fontSize: 18,
     lineHeight: '20px',
     fontWeight: 600,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  labelMdBold: {
+    fontSize: 18,
+    lineHeight: '20px',
+    fontWeight: 700,
     fontFamily: 'Open Sans, sans-serif',
   },
   labelSmRegular: {

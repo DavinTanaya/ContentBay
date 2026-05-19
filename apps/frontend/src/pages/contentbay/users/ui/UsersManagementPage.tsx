@@ -117,7 +117,9 @@ export default function UsersManagementPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-gray-8">Project role:</span>
+            <span className="text-xs font-semibold text-gray-8">
+              Project role:
+            </span>
             <Select
               value={selectedRole}
               onChange={setSelectedRole}
@@ -182,15 +184,28 @@ export default function UsersManagementPage() {
         <div className="grid grid-cols-12 gap-4 pb-4 border-b border-gray-4 items-center mb-6">
           <div className="col-span-1 flex items-center justify-start pl-2">
             <Checkbox
-              checked={selectedUserIds.length === users.length && users.length > 0}
-              indeterminate={selectedUserIds.length > 0 && selectedUserIds.length < users.length}
+              checked={
+                selectedUserIds.length === users.length && users.length > 0
+              }
+              indeterminate={
+                selectedUserIds.length > 0 &&
+                selectedUserIds.length < users.length
+              }
               onChange={(e) => handleSelectAll(e.target.checked)}
             />
           </div>
-          <div className="col-span-4 text-xs font-semibold text-gray-8 tracking-wider">USER</div>
-          <div className="col-span-3 text-xs font-semibold text-gray-8 tracking-wider">ORGANIZATION ROLE</div>
-          <div className="col-span-2 text-xs font-semibold text-gray-8 tracking-wider">LAST ACTIVE</div>
-          <div className="col-span-2 text-xs font-semibold text-gray-8 tracking-wider">2FA STATUS</div>
+          <div className="col-span-4 text-xs font-semibold text-gray-8 tracking-wider">
+            USER
+          </div>
+          <div className="col-span-3 text-xs font-semibold text-gray-8 tracking-wider">
+            ORGANIZATION ROLE
+          </div>
+          <div className="col-span-2 text-xs font-semibold text-gray-8 tracking-wider">
+            LAST ACTIVE
+          </div>
+          <div className="col-span-2 text-xs font-semibold text-gray-8 tracking-wider">
+            2FA STATUS
+          </div>
         </div>
 
         {/* Table Body Rows */}
@@ -213,23 +228,33 @@ export default function UsersManagementPage() {
                   <span className="font-poppins font-medium text-sm text-gray-13 leading-tight">
                     {user.name}
                   </span>
-                  <span className="text-xs text-gray-8 font-poppins">{user.email}</span>
+                  <span className="text-xs text-gray-8 font-poppins">
+                    {user.email}
+                  </span>
                 </div>
               </div>
 
               {/* Role */}
-              <div className="col-span-3 font-poppins text-sm text-gray-13">{user.role}</div>
+              <div className="col-span-3 font-poppins text-sm text-gray-13">
+                {user.role}
+              </div>
 
               {/* Last active */}
-              <div className="col-span-2 font-poppins text-sm text-gray-13">{user.lastActive}</div>
+              <div className="col-span-2 font-poppins text-sm text-gray-13">
+                {user.lastActive}
+              </div>
 
               {/* 2FA Status */}
-              <div className="col-span-2 font-poppins text-sm text-gray-13">{user.twoFactorStatus}</div>
+              <div className="col-span-2 font-poppins text-sm text-gray-13">
+                {user.twoFactorStatus}
+              </div>
             </div>
           ))}
 
           {paginatedUsers.length === 0 && (
-            <div className="text-center py-12 text-gray-7">No matching users found.</div>
+            <div className="text-center py-12 text-gray-7">
+              No matching users found.
+            </div>
           )}
         </div>
       </div>
@@ -252,7 +277,9 @@ export default function UsersManagementPage() {
             />
           </div>
           <span>
-            Showing {sortedUsers.length > 0 ? startIndex + 1 : 0} - {Math.min(endIndex, sortedUsers.length)} of {sortedUsers.length} items
+            Showing {sortedUsers.length > 0 ? startIndex + 1 : 0} -{' '}
+            {Math.min(endIndex, sortedUsers.length)} of {sortedUsers.length}{' '}
+            items
           </span>
         </div>
 
@@ -297,7 +324,9 @@ export default function UsersManagementPage() {
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 shrink-0">
                   <UserOutlined />
                 </div>
-                <span className="font-semibold text-gray-9 text-sm">Full Name</span>
+                <span className="font-semibold text-gray-9 text-sm">
+                  Full Name
+                </span>
               </span>
             }
             rules={[{ required: true, message: 'Please enter user name!' }]}
@@ -312,7 +341,9 @@ export default function UsersManagementPage() {
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 shrink-0">
                   <MailOutlined />
                 </div>
-                <span className="font-semibold text-gray-9 text-sm">Email Address</span>
+                <span className="font-semibold text-gray-9 text-sm">
+                  Email Address
+                </span>
               </span>
             }
             rules={[
@@ -325,7 +356,11 @@ export default function UsersManagementPage() {
 
           <Form.Item
             name="role"
-            label={<span className="font-semibold text-gray-9 text-sm">Project Role</span>}
+            label={
+              <span className="font-semibold text-gray-9 text-sm">
+                Project Role
+              </span>
+            }
             rules={[{ required: true, message: 'Please select a role!' }]}
             initialValue="Developer"
           >
@@ -383,7 +418,13 @@ export default function UsersManagementPage() {
             >
               Cancel
             </Button>
-            <Button type="primary" variant="solid" color="geekblue" htmlType="submit" size="large">
+            <Button
+              type="primary"
+              variant="solid"
+              color="geekblue"
+              htmlType="submit"
+              size="large"
+            >
               Invite User
             </Button>
           </div>

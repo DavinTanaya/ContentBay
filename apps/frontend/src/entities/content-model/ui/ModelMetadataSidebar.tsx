@@ -1,18 +1,12 @@
-import type { FC } from 'react';
 import { Tag } from 'antd';
 import { colors } from '@/shared/constants/colors';
+import type { ModelMetadataSidebarProps } from '../model/types';
 
-interface ModelMetadataSidebarProps {
-  totalFields: number;
-  lastRevision: string;
-  status: 'LIVE' | 'DRAFT';
-}
-
-export const ModelMetadataSidebar: FC<ModelMetadataSidebarProps> = ({
+export function ModelMetadataSidebar({
   totalFields,
   lastRevision,
   status,
-}) => {
+}: ModelMetadataSidebarProps) {
   return (
     <div className="bg-white rounded-[20px] p-6 border border-gray-4 shadow-none h-fit">
       <h2 className="text-[11px] font-bold text-gray-7 mb-4 tracking-widest uppercase">
@@ -41,4 +35,4 @@ export const ModelMetadataSidebar: FC<ModelMetadataSidebarProps> = ({
       </div>
     </div>
   );
-};
+}

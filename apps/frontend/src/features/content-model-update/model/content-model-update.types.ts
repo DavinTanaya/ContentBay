@@ -1,4 +1,4 @@
-import type { ContentModelIcon } from '@/entities/content-model/model/content-model.types';
+import type { ContentModelIcon } from '@entities/content-model';
 
 export interface ContentModelInitialValues {
   id: string;

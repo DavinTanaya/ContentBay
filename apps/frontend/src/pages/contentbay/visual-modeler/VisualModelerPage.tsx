@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client/react';
-import { GET_CONTENT_MODELS } from '@/entities/content-model/api/content-model.queries';
+import { GET_CONTENT_MODELS } from '@entities/content-model';
 import { VisualModelerCanvas } from '@/widgets/visual-model-canvas';
 import { Spin, Result, Button } from 'antd';
 import { ArrowLeftOutlined, ApartmentOutlined } from '@ant-design/icons';
