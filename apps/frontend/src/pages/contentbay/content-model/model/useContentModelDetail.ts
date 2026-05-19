@@ -12,13 +12,23 @@ export const useContentModelDetail = (modelId: string) => {
   );
 
   const model = data?.getContentModel;
+  const cleanApiId = model?.apiId
+    ? model.apiId.replace(/-project-\d+$/i, '').replace(/-project-\w+$/i, '')
+    : '';
 
-  const jsonSchema = model
+  const cleanedModel = model
     ? {
-        name: model.name,
-        description: model.description || '',
-        apiId: model.apiId,
-        fields: model.fields.map((f: ContentField) => ({
+        ...model,
+        apiId: cleanApiId,
+      }
+    : null;
+
+  const jsonSchema = cleanedModel
+    ? {
+        name: cleanedModel.name,
+        description: cleanedModel.description || '',
+        apiId: cleanApiId,
+        fields: cleanedModel.fields.map((f: ContentField) => ({
           id: f.apiId,
           label: f.name,
           type: f.type,
@@ -34,7 +44,7 @@ export const useContentModelDetail = (modelId: string) => {
   return {
     activeTab,
     setActiveTab,
-    model,
+    model: cleanedModel,
     loading,
     error,
     jsonSchema,

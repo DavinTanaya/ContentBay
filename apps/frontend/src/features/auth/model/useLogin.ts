@@ -4,6 +4,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { loginManual, loginWithGoogleAccessToken } from '../api/auth.api';
 import { message } from 'antd';
 import { useSession } from '@/entities/session';
+import { PATH } from '@/shared/constants/routes';
 import type { LoginValues } from './auth.type';
 
 export const useLogin = () => {
@@ -11,7 +12,7 @@ export const useLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.isAuthenticated) navigate('/content-model', { replace: true });
+    if (auth.isAuthenticated) navigate(PATH.contentbay.workspace, { replace: true });
   }, [auth.isAuthenticated, navigate]);
 
   const onFinish = async (values: LoginValues) => {

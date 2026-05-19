@@ -30,17 +30,30 @@ export const useCreateContentModel = (onSuccess: () => void) => {
   }
 
   const handleCreate = async (values: CreateContentModelFormValues) => {
+    const activeSpaceId = localStorage.getItem('active_workspace_id') || 'project-1';
+    const suffixedApiId = `${values.apiId}-${activeSpaceId}`;
+
     const input: CreateContentModelRequest = {
       name: values.name,
-      apiId: values.apiId,
+      apiId: suffixedApiId,
       description: values.description || '',
       icon: values.icon || 'box',
     };
 
     try {
-      await createModel({
+      const res = await createModel({
         variables: { input },
       });
+      const newModelId = (res.data as any)?.createContentModel?.id;
+      if (newModelId) {
+        const activeSpaceId = localStorage.getItem('active_workspace_id') || 'project-1';
+        const storageKey = `contentbay_space_models_${activeSpaceId}`;
+        const spaceModelIds = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        if (!spaceModelIds.includes(newModelId)) {
+          spaceModelIds.push(newModelId);
+          localStorage.setItem(storageKey, JSON.stringify(spaceModelIds));
+        }
+      }
       message.success('Content Model created successfully!');
       onSuccess();
     } catch (error) {

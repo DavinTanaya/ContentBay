@@ -10,12 +10,15 @@ export const PATH = {
     register: '/register',
   },
   contentbay: {
+    workspace: '/workspace',
     contentModel: '/content-model',
     content: '/content',
     contentModelCreate: '/content-model/create',
     contentModelSettings: '/content-model/:id',
     contentCreate: '/content/create',
     schemaModeler: '/schema-modeler',
+    spaceSettings: '/space-settings',
+    users: '/users',
   },
 } as const;
 

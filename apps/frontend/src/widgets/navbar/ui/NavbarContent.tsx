@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   SettingOutlined,
   UserOutlined,
@@ -33,6 +33,22 @@ const navItems: TabsProps['items'] = [
 
 export function NavbarContent() {
   const { activeKey, handleTabChange, handleLogout } = useNavbarContent();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isWorkspacePage = location.pathname === PATH.contentbay.workspace;
+
+  const settingsMenuItems: MenuProps['items'] = [
+    {
+      key: 'space-settings',
+      label: 'Space settings',
+      onClick: () => navigate(PATH.contentbay.spaceSettings),
+    },
+    {
+      key: 'users',
+      label: 'Users',
+      onClick: () => navigate(PATH.contentbay.users),
+    },
+  ];
 
   const userItems: MenuProps['items'] = [
     {
@@ -61,33 +77,40 @@ export function NavbarContent() {
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-4 px-14 h-16">
       <div className="flex items-center h-full">
         <Link
-          to={PATH.contentbay.contentModel}
+          to={PATH.contentbay.workspace}
           className="flex items-center gap-2 mr-10 shrink-0"
         >
           <Image src={sharedAssets.logo} preview={false} className="h-8 w-8" />
           <span className="h6-bold text-black">ContentBay</span>
         </Link>
-        <Tabs
-          activeKey={activeKey}
-          items={navItems}
-          onChange={handleTabChange}
-          className="h-full font-medium [&_.ant-tabs-nav]:mb-0 [&_.ant-tabs-nav]:h-full [&_.ant-tabs-nav::before]:border-none [&_.ant-tabs-tab:hover]:text-gray-13 [&_.ant-tabs-tab-active_.ant-tabs-tab-btn]:text-blue-7"
-          styles={{
-            indicator: {
-              background: colors.blue[7],
-              height: 2.5,
-              borderRadius: '999px 999px 0 0',
-            },
-          }}
-        />
+        {!isWorkspacePage && (
+          <Tabs
+            activeKey={activeKey}
+            items={navItems}
+            onChange={handleTabChange}
+            className="h-full font-medium [&_.ant-tabs-nav]:mb-0 [&_.ant-tabs-nav]:h-full [&_.ant-tabs-nav::before]:border-none [&_.ant-tabs-tab:hover]:text-gray-13 [&_.ant-tabs-tab-active_.ant-tabs-tab-btn]:text-blue-7"
+            styles={{
+              indicator: {
+                background: colors.blue[7],
+                height: 2.5,
+                borderRadius: '999px 999px 0 0',
+              },
+            }}
+          />
+        )}
         <div className="flex items-center gap-6 ml-auto shrink-0">
-          <Button shape="circle" type="text">
-            <SettingOutlined className="text-xl" />
-          </Button>
+          {!isWorkspacePage && (
+            <Dropdown menu={{ items: settingsMenuItems }} trigger={['click']} placement="bottomRight" arrow>
+              <Button shape="circle" type="text">
+                <SettingOutlined className="text-xl" />
+              </Button>
+            </Dropdown>
+          )}
           <Dropdown
             menu={{ items: userItems }}
             placement="bottomRight"
             trigger={['click']}
+            arrow
           >
             <Avatar
               size={40}
