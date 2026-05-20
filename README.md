@@ -30,7 +30,7 @@
 ## 🛠️ Tech Stack
 
 - **Frontend:** React
-- **Backend:** Node.js / Express
+- **Backend:** Node.js
 - **Database:** PostgreSQL (via Prisma ORM)
 - **API:** GraphQL
 - **Authentication:** JWT / Session
