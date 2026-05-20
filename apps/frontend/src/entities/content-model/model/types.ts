@@ -66,11 +66,13 @@ export interface ContentModel {
 
 export interface ContentModelCardProps {
   model: ContentModel;
+  authorName?: string;
+  authorInitial?: string;
   onClick?: (id: string) => void;
 }
 
 export interface ContentModelGridProps {
-  models: ContentModel[];
+  models: (ContentModel & { authorName?: string; authorInitial?: string })[];
   onCardClick?: (id: string) => void;
 }
 
@@ -79,9 +81,27 @@ export interface FieldsTableProps {
   onEditField: (field: ContentField) => void;
 }
 
+export interface JSONSchemaField {
+  id: string;
+  label: string;
+  type: string;
+  config: {
+    localized?: boolean;
+    required?: boolean;
+    isTitle?: boolean;
+  };
+}
+
+export interface ContentModelJsonSchema {
+  name: string;
+  description: string;
+  apiId: string;
+  fields: JSONSchemaField[];
+}
+
 export interface JSONSchemaPreviewProps {
-  modelId: string;
-  schema: Record<string, unknown>;
+  modelId?: string;
+  schema: ContentModelJsonSchema;
 }
 
 export interface ModelMetadataSidebarProps {

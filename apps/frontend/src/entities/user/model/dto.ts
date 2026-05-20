@@ -1,4 +1,4 @@
-import type { User } from '../model/user.type';
+import type { User } from './types';
 
 export interface GetUserByIdRequest {
   id: number;

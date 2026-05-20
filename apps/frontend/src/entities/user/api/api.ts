@@ -1,6 +1,6 @@
 import { apolloClient } from '@/shared/api/apollo';
-import { GET_USER_BY_ID } from './user.queries';
-import type { GetUserByIdRequest, GetUserByIdResponse } from './user.dto';
+import { GET_USER_BY_ID } from './queries';
+import type { GetUserByIdRequest, GetUserByIdResponse } from '../model/dto';
 
 export async function getUserById(params: GetUserByIdRequest) {
   const { data } = await apolloClient.query<

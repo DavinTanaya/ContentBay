@@ -8,7 +8,13 @@ export function ContentModelGrid({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {models.map((model) => (
-        <ContentModelCard key={model.id} model={model} onClick={onCardClick} />
+        <ContentModelCard
+          key={model.id}
+          model={model}
+          authorName={model.authorName}
+          authorInitial={model.authorInitial}
+          onClick={onCardClick}
+        />
       ))}
     </div>
   );

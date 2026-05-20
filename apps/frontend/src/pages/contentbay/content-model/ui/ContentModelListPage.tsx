@@ -13,6 +13,8 @@ export default function ContentModelListPage() {
   const navigate = useNavigate();
   const activeSpaceId = useActiveWorkspaceId();
 
+  console.log("active space id: ", activeSpaceId);
+
   return (
     <div className="p-12 max-w-[1400px] mx-auto">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
@@ -40,7 +42,10 @@ export default function ContentModelListPage() {
       </div>
 
       <ContentModelList
-        onNavigateToSettings={(id) => navigate(getContentModelSettings(activeSpaceId, id))}
+        workspaceId={activeSpaceId}
+        onNavigateToSettings={(id) =>
+          navigate(getContentModelSettings(activeSpaceId, id))
+        }
       />
     </div>
   );
