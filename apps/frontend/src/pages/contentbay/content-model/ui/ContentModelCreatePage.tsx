@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ContentModelCreateForm } from '@/features/content-model-create';
-import { PATH } from '@/shared/constants/routes';
+import { getContentModelPath } from '@/shared/constants/routes';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 export default function ContentModelCreatePage() {
   const navigate = useNavigate();
+  const activeSpaceId = useActiveWorkspaceId();
 
   return (
     <div className="bg-white min-h-[calc(100vh-72px)]">
@@ -15,7 +17,7 @@ export default function ContentModelCreatePage() {
             type="text"
             shape="circle"
             className="text-gray-8 hover:text-black hover:bg-gray-2 mr-4 -ml-2"
-            onClick={() => navigate(PATH.contentbay.contentModel)}
+            onClick={() => navigate(getContentModelPath(activeSpaceId))}
             icon={<ArrowLeftOutlined className="text-xl" />}
           />
           <div>
@@ -28,8 +30,8 @@ export default function ContentModelCreatePage() {
           </div>
         </div>
         <ContentModelCreateForm
-          onBack={() => navigate(PATH.contentbay.contentModel)}
-          onSuccess={() => navigate(PATH.contentbay.contentModel)}
+          onBack={() => navigate(getContentModelPath(activeSpaceId))}
+          onSuccess={() => navigate(getContentModelPath(activeSpaceId))}
         />
       </div>
     </div>

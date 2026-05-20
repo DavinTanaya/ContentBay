@@ -11,16 +11,34 @@ export const PATH = {
   },
   contentbay: {
     workspace: '/workspace',
-    contentModel: '/content-model',
-    content: '/content',
-    contentModelCreate: '/content-model/create',
-    contentModelSettings: '/content-model/:id',
-    contentCreate: '/content/create',
-    schemaModeler: '/schema-modeler',
-    spaceSettings: '/space-settings',
-    users: '/users',
+    contentModel: '/workspace/:workspaceId/content-model',
+    content: '/workspace/:workspaceId/content',
+    contentModelCreate: '/workspace/:workspaceId/content-model/create',
+    contentModelSettings: '/workspace/:workspaceId/content-model/:id',
+    contentCreate: '/workspace/:workspaceId/content/create',
+    schemaModeler: '/workspace/:workspaceId/schema-modeler',
+    spaceSettings: '/workspace/:workspaceId/space-settings',
+    users: '/workspace/:workspaceId/users',
   },
 } as const;
 
-export const getContentModelSettings = (id: string | number) =>
-  `/content-model/${id}`;
+export const getContentModelSettings = (workspaceId: string, id: string | number) =>
+  `/workspace/${workspaceId}/content-model/${id}`;
+
+export const getContentModelPath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/content-model`;
+
+export const getContentPath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/content`;
+
+export const getContentModelCreatePath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/content-model/create`;
+
+export const getSchemaModelerPath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/schema-modeler`;
+
+export const getSpaceSettingsPath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/space-settings`;
+
+export const getUsersPath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/users`;

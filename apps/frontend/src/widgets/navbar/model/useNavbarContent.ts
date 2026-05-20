@@ -1,16 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSession } from '@/entities/session';
-import { PATH } from '@/shared/constants/routes';
-
-export const TAB_KEYS: Record<string, string> = {
-  'content-model': PATH.contentbay.contentModel,
-  content: PATH.contentbay.content,
-};
+import { PATH, getContentModelPath, getContentPath } from '@/shared/constants/routes';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 export const useNavbarContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const auth = useSession();
+  const activeSpaceId = useActiveWorkspaceId();
 
   const handleLogout = () => {
     navigate(PATH.landing.home, { replace: true });
@@ -19,16 +16,17 @@ export const useNavbarContent = () => {
     }, 10);
   };
 
-  const activeKey = location.pathname.startsWith(PATH.contentbay.contentModel)
+  const activeKey = location.pathname.includes('/content-model')
     ? 'content-model'
-    : location.pathname.startsWith(PATH.contentbay.content)
+    : location.pathname.includes('/content')
       ? 'content'
       : 'content-model';
 
   const handleTabChange = (key: string) => {
-    const path = TAB_KEYS[key];
-    if (path) {
-      navigate(path);
+    if (key === 'content-model') {
+      navigate(getContentModelPath(activeSpaceId));
+    } else if (key === 'content') {
+      navigate(getContentPath(activeSpaceId));
     }
   };
 

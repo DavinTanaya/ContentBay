@@ -22,6 +22,7 @@ export class ContentModelRepository {
   }
 
   static async create(data: {
+    workspaceId?: string;
     name: string;
     apiId: string;
     description?: string;
@@ -29,9 +30,10 @@ export class ContentModelRepository {
     createdBy?: number;
     fields?: any[];
   }) {
-    const { name, apiId, description, icon, createdBy, fields } = data;
+    const { workspaceId, name, apiId, description, icon, createdBy, fields } = data;
     return prisma.contentModel.create({
       data: {
+        workspaceId,
         name,
         apiId,
         description,

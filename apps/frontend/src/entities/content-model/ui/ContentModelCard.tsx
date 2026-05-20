@@ -1,37 +1,12 @@
-import type { FC } from 'react';
 import { Card, Avatar } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import { Database } from 'lucide-react';
 import { RenderModelIcon } from './RenderModelIcon';
 import type { ContentModelCardProps } from '../model/types';
-import { useSession } from '@/entities/session';
+import { useContentModelCard } from '../model/useContentModelCard';
 
-export const ContentModelCard: FC<ContentModelCardProps> = ({
-  model,
-  onClick,
-}) => {
-  const { user } = useSession();
-
-  const displayName = user
-    ? user.firstName
-      ? `${user.firstName} ${user.lastName || ''}`.trim()
-      : user.email.split('@')[0]
-    : 'User';
-
-  const initial = user
-    ? user.firstName
-      ? user.firstName.charAt(0).toUpperCase()
-      : user.email.charAt(0).toUpperCase()
-    : 'U';
-
-  const dateSource = model.updatedAt || model.createdAt;
-  const formattedDate = dateSource
-    ? new Date(dateSource).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })
-    : 'N/A';
+export function ContentModelCard({ model, onClick }: ContentModelCardProps) {
+  const { displayName, initial, formattedDate } = useContentModelCard(model);
 
   return (
     <Card
@@ -47,7 +22,7 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
     >
       <div className="p-8 grow flex flex-col">
         <div className="flex justify-between items-start mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-gray-2 border border-gray-4 flex items-center justify-center transition-transform group-hover:scale-105">
+          <div className="w-14 h-14 rounded-2xl bg-gray-2 border border-gray-4 flex items-center justify-center transition-transform group-hover:scale-110 duration-500">
             <span className="text-gray-9 flex items-center justify-center">
               <RenderModelIcon icon={model.icon} size={24} />
             </span>
@@ -66,7 +41,7 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
           {model.description || 'No description provided'}
         </p>
       </div>
-      <div className="px-6 py-4 bg-white border-t border-gray-5 mt-auto">
+      <div className="px-6 py-4 bg-white border-t border-gray-5 mt-auto items-center justify-center">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Avatar
@@ -79,14 +54,12 @@ export const ContentModelCard: FC<ContentModelCardProps> = ({
               {displayName}
             </span>
           </div>
-        </div>
-
-        {/* Date Badge */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-1 border border-gray-4 rounded-xl text-gray-8 text-xs mt-3">
-          <CalendarOutlined className="text-gray-7" />
-          <span className="font-medium">{formattedDate}</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-1 border border-gray-4 rounded-xl text-gray-8 text-xs">
+            <CalendarOutlined className="text-gray-7" />
+            <span className="font-medium">{formattedDate}</span>
+          </div>
         </div>
       </div>
     </Card>
   );
-};
+}

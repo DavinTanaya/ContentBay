@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, message } from 'antd';
 import { useSession } from '@/entities/session';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 export interface ManagedUser {
   id: string;
@@ -35,7 +36,7 @@ export const useUsersManagement = () => {
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [form] = Form.useForm();
 
-  const activeSpaceId = localStorage.getItem('active_workspace_id') || 'project-1';
+  const activeSpaceId = useActiveWorkspaceId();
   const userStorageKey = `contentbay_users_${activeSpaceId}`;
 
   useEffect(() => {

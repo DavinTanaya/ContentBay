@@ -14,11 +14,12 @@ import {
   type TabsProps,
 } from 'antd';
 
-import { PATH } from '@/shared/constants/routes';
+import { PATH, getSpaceSettingsPath, getUsersPath } from '@/shared/constants/routes';
 import { sharedAssets } from '@/shared/assets';
 import { colors } from '@/shared/constants/colors';
 import { UserMenuHeader } from '@/entities/user/ui/UserMenuHeader';
 import { useNavbarContent } from '../model/useNavbarContent';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 const navItems: TabsProps['items'] = [
   {
@@ -35,18 +36,19 @@ export function NavbarContent() {
   const { activeKey, handleTabChange, handleLogout } = useNavbarContent();
   const location = useLocation();
   const navigate = useNavigate();
+  const activeSpaceId = useActiveWorkspaceId();
   const isWorkspacePage = location.pathname === PATH.contentbay.workspace;
 
   const settingsMenuItems: MenuProps['items'] = [
     {
       key: 'space-settings',
       label: 'Space settings',
-      onClick: () => navigate(PATH.contentbay.spaceSettings),
+      onClick: () => navigate(getSpaceSettingsPath(activeSpaceId)),
     },
     {
       key: 'users',
       label: 'Users',
-      onClick: () => navigate(PATH.contentbay.users),
+      onClick: () => navigate(getUsersPath(activeSpaceId)),
     },
   ];
 

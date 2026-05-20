@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { getContentModelPath } from '@/shared/constants/routes';
 import {
   Input,
   Button,
@@ -173,8 +174,7 @@ export default function WorkspacePage() {
                   {/* Clickable Enter Project link */}
                   <div
                     onClick={() => {
-                      localStorage.setItem('active_workspace_id', space.id);
-                      navigate('/content-model');
+                      navigate(getContentModelPath(space.id));
                     }}
                     className="font-poppins text-xs font-medium text-blue-9 hover:text-blue-7 flex items-center gap-1 cursor-pointer transition-colors group-hover:translate-x-0.5 duration-200"
                   >

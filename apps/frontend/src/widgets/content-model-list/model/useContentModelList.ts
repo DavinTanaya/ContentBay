@@ -1,37 +1,20 @@
 import { useGetContentModelsApi } from '@entities/content-model';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 export const useContentModelList = () => {
   const { data, loading, error } = useGetContentModelsApi();
   const models = data?.getContentModels || [];
 
   // Filter content models based on currently active workspace space ID
-  const activeSpaceId = localStorage.getItem('active_workspace_id') || 'project-1';
-  const storageKey = `contentbay_space_models_${activeSpaceId}`;
+  const activeSpaceId = useActiveWorkspaceId();
   
-  let spaceModels = models;
+  let spaceModels = [];
   if (!loading && models.length > 0) {
-    let spaceModelIds: string[] = [];
-    const stored = localStorage.getItem(storageKey);
-    if (stored) {
-      try {
-        spaceModelIds = JSON.parse(stored);
-      } catch {
-        spaceModelIds = [];
-      }
-    } else {
-      // Pre-seed default space with existing GraphQL content models
-      if (activeSpaceId === 'project-1') {
-        spaceModelIds = models.map((m: any) => m.id);
-        localStorage.setItem(storageKey, JSON.stringify(spaceModelIds));
-      } else {
-        localStorage.setItem(storageKey, JSON.stringify([]));
-      }
-    }
-    spaceModels = models.filter((m) => spaceModelIds.includes(m.id));
-  } else if (loading) {
-    spaceModels = [];
-  } else {
-    spaceModels = [];
+    spaceModels = models.filter((m) => {
+      // Fallback unassigned model to default workspace 'project-1'
+      const modelWorkspaceId = m.workspaceId || 'project-1';
+      return modelWorkspaceId === activeSpaceId;
+    });
   }
 
   const cleanedSpaceModels = spaceModels.map((m) => {

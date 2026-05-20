@@ -1,11 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { ContentModelList } from '@/widgets/content-model-list';
-import { getContentModelSettings } from '@/shared/constants/routes';
+import {
+  getContentModelSettings,
+  getContentModelCreatePath,
+  getSchemaModelerPath,
+} from '@/shared/constants/routes';
 import { Input, Button } from 'antd';
 import { ApartmentOutlined, PlusOutlined } from '@ant-design/icons';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 export default function ContentModelListPage() {
   const navigate = useNavigate();
+  const activeSpaceId = useActiveWorkspaceId();
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto">
@@ -16,7 +22,7 @@ export default function ContentModelListPage() {
           <Button
             size="middle"
             type="default"
-            onClick={() => navigate('/content-model/visual')}
+            onClick={() => navigate(getSchemaModelerPath(activeSpaceId))}
             icon={<ApartmentOutlined />}
           >
             Schema Modeler
@@ -25,7 +31,7 @@ export default function ContentModelListPage() {
             variant="solid"
             color="geekblue"
             size="middle"
-            onClick={() => navigate('/content-model/create')}
+            onClick={() => navigate(getContentModelCreatePath(activeSpaceId))}
             icon={<PlusOutlined />}
           >
             Create Content Model
@@ -34,7 +40,7 @@ export default function ContentModelListPage() {
       </div>
 
       <ContentModelList
-        onNavigateToSettings={(id) => navigate(getContentModelSettings(id))}
+        onNavigateToSettings={(id) => navigate(getContentModelSettings(activeSpaceId, id))}
       />
     </div>
   );

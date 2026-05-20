@@ -25,6 +25,7 @@ export * from './api/mutations';
 
 // API: Hooks
 export { useCreateContentModelApi, useGetContentModelsApi } from './api/api';
+export { useContentModelCard } from './model/useContentModelCard';
 
 // Passive UI components
 export { ContentModelCard } from './ui/ContentModelCard';

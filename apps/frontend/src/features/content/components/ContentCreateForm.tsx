@@ -1,25 +1,215 @@
-import React, { useState } from 'react';
-import { Tabs, Input, Button, Radio, Avatar, Tag, Upload } from 'antd';
+import React, { useEffect } from 'react';
 import {
-  ArrowLeftOutlined,
-  CloudUploadOutlined,
-  UserOutlined,
-  CloseOutlined,
-} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+  Form,
+  Input,
+  InputNumber,
+  Switch,
+  DatePicker,
+  Button,
+  Tag,
+  Spin,
+  Result,
+  message,
+} from 'antd';
+import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useActiveWorkspaceId } from '@/entities/workspace';
+import { useGetContentModelsApi } from '@entities/content-model';
+import {
+  useCreateContentApi,
+  useUpdateContentApi,
+  useGetContentApi,
+} from '@entities/content';
+import dayjs from 'dayjs';
 
 export const ContentCreateForm: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('editor');
-  const [tags, setTags] = useState(['Technology', 'Tutorial']);
+  const [searchParams] = useSearchParams();
+  const activeWorkspaceId = useActiveWorkspaceId();
+  const [form] = Form.useForm();
 
-  const availableTags = [
-    'Technology',
-    'Product',
-    'Tutorial',
-    'Featured',
-    'New',
-  ];
+  const modelId = searchParams.get('modelId');
+  const entryId = searchParams.get('entryId');
+
+  // 1. Fetch Content Models to find fields
+  const { data: modelsData, loading: modelsLoading } = useGetContentModelsApi();
+  const allModels = modelsData?.getContentModels || [];
+
+  const activeModel = React.useMemo(() => {
+    return allModels.find((m) => m.id === modelId);
+  }, [allModels, modelId]);
+
+  // 2. Fetch Content if in Edit Mode
+  const { data: entryData, loading: entryLoading } = useGetContentApi(
+    entryId || '',
+  );
+  const existingEntry = entryData?.getContent;
+
+  // 3. Apollo Mutations
+  const [createContent, { loading: createLoading }] = useCreateContentApi(
+    activeWorkspaceId,
+    modelId || undefined,
+  );
+  const [updateContent, { loading: updateLoading }] = useUpdateContentApi(
+    activeWorkspaceId,
+    modelId || undefined,
+  );
+
+  // Set form values on edit mode
+  useEffect(() => {
+    if (existingEntry && activeModel) {
+      const formValues: Record<string, any> = {};
+
+      // Parse payload
+      const payload = existingEntry.data || {};
+
+      activeModel.fields.forEach((field) => {
+        const val = payload[field.apiId];
+        if (field.type.toUpperCase() === 'DATE' && val) {
+          formValues[field.apiId] = dayjs(val);
+        } else {
+          formValues[field.apiId] = val;
+        }
+      });
+
+      form.setFieldsValue(formValues);
+    } else {
+      form.resetFields();
+    }
+  }, [existingEntry, activeModel, form]);
+
+  const handleFinish = async (values: any, status: 'draft' | 'published') => {
+    // Process form values (e.g. dates to ISO/string strings)
+    const payload: Record<string, any> = {};
+
+    if (!activeModel) return;
+
+    activeModel.fields.forEach((field) => {
+      const rawVal = values[field.apiId];
+      if (field.type.toUpperCase() === 'DATE' && rawVal) {
+        payload[field.apiId] = rawVal.toISOString
+          ? rawVal.toISOString()
+          : rawVal;
+      } else {
+        payload[field.apiId] = rawVal;
+      }
+    });
+
+    try {
+      if (entryId) {
+        // Edit Mode
+        await updateContent({
+          variables: {
+            input: {
+              id: entryId,
+              data: payload,
+              status,
+            },
+          },
+        });
+        message.success('Content entry updated successfully!');
+      } else {
+        // Creation Mode
+        await createContent({
+          variables: {
+            input: {
+              workspaceId: activeWorkspaceId,
+              contentModelId: modelId || '',
+              data: payload,
+              status,
+            },
+          },
+        });
+        message.success('Content entry created successfully!');
+      }
+      navigate(`/workspace/${activeWorkspaceId}/content`);
+    } catch (err: any) {
+      message.error(err.message || 'Failed to save content entry');
+    }
+  };
+
+  const renderFieldInput = (field: any) => {
+    const type = field.type.toUpperCase();
+    switch (type) {
+      case 'TEXT':
+      case 'SHORT TEXT':
+      case 'STRING':
+        return (
+          <Input
+            placeholder={`Masukkan ${field.name}...`}
+            className="h-12 rounded-xl bg-white border-gray-200 focus:border-blue-500 font-poppins"
+          />
+        );
+      case 'TEXTAREA':
+      case 'LONG TEXT':
+      case 'RICH TEXT':
+        return (
+          <Input.TextArea
+            placeholder={`Masukkan ${field.name}...`}
+            rows={5}
+            className="rounded-xl bg-white border-gray-200 focus:border-blue-500 font-poppins p-4"
+          />
+        );
+      case 'NUMBER':
+      case 'INTEGER':
+      case 'FLOAT':
+        return (
+          <InputNumber
+            placeholder="0"
+            className="w-full h-12 rounded-xl bg-white border-gray-200 flex items-center font-poppins"
+          />
+        );
+      case 'BOOLEAN':
+      case 'SWITCH':
+        return <Switch className="bg-gray-300" />;
+      case 'DATE':
+      case 'DATETIME':
+        return (
+          <DatePicker
+            className="w-full h-12 rounded-xl bg-white border-gray-200 font-poppins"
+            suffixIcon={<CalendarOutlined />}
+          />
+        );
+      default:
+        return (
+          <Input
+            placeholder={`Masukkan ${field.name}...`}
+            className="h-12 rounded-xl bg-white border-gray-200 focus:border-blue-500 font-poppins"
+          />
+        );
+    }
+  };
+
+  if (modelsLoading || (entryId && entryLoading)) {
+    return (
+      <div className="flex justify-center items-center h-[60vh] bg-white">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (!modelId || !activeModel) {
+    return (
+      <div className="p-12 bg-white rounded-3xl border border-gray-100 shadow-sm max-w-2xl mx-auto my-12">
+        <Result
+          status="warning"
+          title="Content Model Tidak Ditemukan"
+          subTitle="Silakan pilih jenis content model yang valid dari halaman daftar konten."
+          extra={
+            <Button
+              type="primary"
+              onClick={() =>
+                navigate(`/workspace/${activeWorkspaceId}/content`)
+              }
+              className="rounded-xl"
+            >
+              Kembali ke Daftar Konten
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#F9FAFB] min-h-[calc(100vh-72px)] p-12">
@@ -27,309 +217,194 @@ export const ContentCreateForm: React.FC = () => {
       <div className="max-w-[1400px] mx-auto mb-10">
         <div className="flex items-center gap-6 mb-8">
           <button
-            onClick={() => navigate('/content')}
-            className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            onClick={() => navigate(`/workspace/${activeWorkspaceId}/content`)}
+            className="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer shadow-sm"
           >
             <ArrowLeftOutlined className="text-gray-600" />
           </button>
           <div>
             <h1 className="text-[32px] font-bold text-gray-900 leading-tight">
-              Create Entry
+              {entryId ? 'Edit Entry' : 'Create Entry'}
             </h1>
-            <p className="text-gray-500 font-medium">
-              Product / <span className="text-gray-400">Nama Product</span>
+            <p className="text-gray-500 font-medium font-poppins text-xs mt-1">
+              {activeModel.name} /{' '}
+              <span className="text-gray-400 font-mono">
+                {activeModel.apiId}
+              </span>
             </p>
           </div>
         </div>
-
-        <Tabs
-          activeKey={activeTab}
-          onChange={setActiveTab}
-          className="content-tabs mb-0"
-          items={[
-            { label: 'Editor', key: 'editor' },
-            { label: 'References', key: 'references' },
-            { label: 'Tags', key: 'tags' },
-          ]}
-        />
       </div>
 
       <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-8">
         {/* Main Form Area */}
         <div className="flex-[2] space-y-8">
-          {activeTab === 'editor' && (
-            <div className="bg-white rounded-[32px] border border-gray-200 p-12 space-y-8">
-              <div>
-                <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                  <span className="text-red-500 mr-1">*</span> Internal name
-                  (required)
-                </label>
-                <Input
-                  placeholder="Entry identifier for internal use"
-                  className="h-12 rounded-lg bg-white border-gray-200"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                  <span className="text-red-500 mr-1">*</span> Page title
-                  (required)
-                </label>
-                <Input
-                  placeholder="The title that appears on the page"
-                  className="h-12 rounded-lg bg-white border-gray-200"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                  Page Description
-                </label>
-                <Input.TextArea
-                  placeholder="Enter a brief description"
-                  rows={4}
-                  className="rounded-lg bg-white border-gray-200 p-4"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                  URL Slug
-                </label>
-                <Input
-                  placeholder="URL"
-                  className="h-12 rounded-lg bg-white border-gray-200"
-                />
-                <p className="text-[11px] text-gray-400 mt-2 font-medium">
-                  Used in the URL path for this entry
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                    nofollow (required)
-                  </label>
-                  <Radio.Group defaultValue={true} className="flex gap-4">
-                    <Radio value={true}>
-                      <span className="text-sm font-medium">true</span>
-                    </Radio>
-                    <Radio value={false}>
-                      <span className="text-sm font-medium">false</span>
-                    </Radio>
-                  </Radio.Group>
-                  <p className="text-[11px] text-gray-400 mt-2 font-medium">
-                    When set to "true", disallows search engines from crawling
-                    the links on this page.
-                  </p>
+          <div className="bg-white rounded-[32px] border border-gray-100 shadow-sm p-12">
+            <Form
+              form={form}
+              layout="vertical"
+              className="space-y-8"
+              requiredMark={false}
+            >
+              {activeModel.fields.length === 0 ? (
+                <div className="py-12 text-center">
+                  <Result
+                    status="info"
+                    title="Model Belum Memiliki Field"
+                    subTitle="Silakan tambahkan field terlebih dahulu di Content Model Settings."
+                    extra={
+                      <Button
+                        type="default"
+                        onClick={() =>
+                          navigate(
+                            `/workspace/${activeWorkspaceId}/content-model/${activeModel.id}`,
+                          )
+                        }
+                        className="rounded-xl"
+                      >
+                        Kelola Content Model
+                      </Button>
+                    }
+                  />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                    noindex (required)
-                  </label>
-                  <Radio.Group defaultValue={true} className="flex gap-4">
-                    <Radio value={true}>
-                      <span className="text-sm font-medium">true</span>
-                    </Radio>
-                    <Radio value={false}>
-                      <span className="text-sm font-medium">false</span>
-                    </Radio>
-                  </Radio.Group>
-                  <p className="text-[11px] text-gray-400 mt-2 font-medium">
-                    When set to "true", disallows search engines from indexing
-                    this page.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                  Share images
-                </label>
-                <Upload.Dragger className="rounded-2xl border-dashed border-gray-200 bg-gray-50 p-12">
-                  <div className="flex flex-col items-center gap-4">
-                    <CloudUploadOutlined className="text-3xl text-gray-400" />
-                    <div className="text-center">
-                      <p className="text-sm font-bold text-gray-700">
-                        Drop image here or click to browse
-                      </p>
-                      <p className="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-widest">
-                        Recommended: 1200x630px, JPG or PNG
-                      </p>
-                    </div>
-                  </div>
-                </Upload.Dragger>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'references' && (
-            <div className="bg-white rounded-[32px] border border-gray-200 p-24 flex flex-col items-center justify-center text-center">
-              <p className="text-gray-500 font-medium mb-6">
-                No references configured
-              </p>
-              <Button className="h-11 px-8 font-bold border-gray-200 rounded-lg">
-                Add Reference
-              </Button>
-            </div>
-          )}
-
-          {activeTab === 'tags' && (
-            <div className="bg-white rounded-[32px] border border-gray-200 p-12 space-y-10">
-              <div>
-                <label className="block text-xs font-bold text-gray-900 mb-3 uppercase tracking-wider">
-                  Search Tags
-                </label>
-                <Input
-                  placeholder="Search for tags..."
-                  className="h-12 rounded-lg bg-white border-gray-200"
-                />
-                <p className="text-[11px] text-gray-400 mt-2 font-medium">
-                  Select tags to categorize this content
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest text-[10px]">
-                  Available Tags
-                </label>
-                <div className="flex flex-wrap gap-3">
-                  {availableTags.map((tag) => (
-                    <Button
-                      key={tag}
-                      onClick={() =>
-                        !tags.includes(tag) && setTags([...tags, tag])
-                      }
-                      className={`h-9 px-6 rounded-full font-bold transition-all border-none ${tags.includes(tag) ? 'bg-[#2563EB] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                    >
-                      {tag}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
+              ) : (
+                activeModel.fields.map((field: any) => (
+                  <Form.Item
+                    key={field.apiId}
+                    name={field.apiId}
+                    label={
+                      <span className="text-xs font-bold text-gray-800 uppercase tracking-wider font-poppins">
+                        {field.required && (
+                          <span className="text-red-500 mr-1">*</span>
+                        )}
+                        {field.name}
+                      </span>
+                    }
+                    valuePropName={
+                      field.type.toUpperCase() === 'BOOLEAN'
+                        ? 'checked'
+                        : 'value'
+                    }
+                    rules={[
+                      {
+                        required: field.required,
+                        message: `${field.name} wajib diisi!`,
+                      },
+                    ]}
+                    extra={
+                      field.description && (
+                        <span className="text-[11px] text-gray-400 mt-1 font-poppins">
+                          {field.description}
+                        </span>
+                      )
+                    }
+                  >
+                    {renderFieldInput(field)}
+                  </Form.Item>
+                ))
+              )}
+            </Form>
+          </div>
         </div>
 
         {/* Sidebar Info Area */}
-        <div className="flex-1 space-y-8">
-          <div className="bg-white rounded-[32px] p-10 border border-gray-200 shadow-sm space-y-10">
+        <div className="flex-grow lg:max-w-[360px] shrink-0">
+          <div className="bg-white rounded-[32px] p-8 border border-gray-100 shadow-sm space-y-10">
             <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Status</h3>
-              <div className="flex justify-between items-center mb-10">
-                <span className="text-gray-500 font-medium">
-                  Current status
+              <h3 className="text-lg font-bold text-gray-900 mb-6 font-poppins">
+                Actions
+              </h3>
+              <div className="flex justify-between items-center mb-8 border-b border-gray-50 pb-4">
+                <span className="text-gray-500 font-medium text-sm">
+                  Status Konten
                 </span>
                 <Tag
-                  color="#FFF8C5"
-                  className="text-[#9A6700] border-none font-bold text-xs rounded-lg px-4 py-1 m-0"
+                  color={
+                    (existingEntry?.status || 'draft') === 'published'
+                      ? '#E6FFED'
+                      : '#FFF8C5'
+                  }
+                  className="border-none font-bold text-xs rounded-lg px-4 py-1 m-0 capitalize"
+                  style={{
+                    color:
+                      (existingEntry?.status || 'draft') === 'published'
+                        ? '#1A7F37'
+                        : '#9A6700',
+                  }}
                 >
-                  Draft
+                  {existingEntry?.status || 'draft'}
                 </Tag>
               </div>
               <div className="space-y-3">
                 <Button
                   type="primary"
                   block
-                  className="h-12 bg-[#2563EB] rounded-xl font-bold text-base"
+                  loading={createLoading || updateLoading}
+                  onClick={() =>
+                    form
+                      .validateFields()
+                      .then((values) => handleFinish(values, 'published'))
+                  }
+                  className="h-12 bg-[#2563EB] hover:bg-blue-700 rounded-xl font-bold text-sm border-none shadow-sm hover:shadow-md transition-all font-poppins"
                 >
-                  Publish
+                  Publish Content
                 </Button>
                 <Button
                   block
-                  className="h-12 border-gray-200 rounded-xl font-bold text-base text-gray-700"
+                  loading={createLoading || updateLoading}
+                  onClick={() =>
+                    form
+                      .validateFields()
+                      .then((values) => handleFinish(values, 'draft'))
+                  }
+                  className="h-12 border-gray-200 hover:border-gray-400 rounded-xl font-bold text-sm text-gray-700 bg-gray-50 hover:bg-gray-100 transition-all font-poppins"
                 >
                   Save as Draft
                 </Button>
               </div>
             </div>
 
-            <div className="pt-10 border-t border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-8">Info</h3>
-              <div className="space-y-6">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                      Content Type
-                    </p>
-                    <p className="text-sm font-bold text-gray-900">Product</p>
-                  </div>
-                  <Button
-                    type="link"
-                    className="text-[#2563EB] font-bold p-0 text-xs"
-                  >
-                    View Content Type
-                  </Button>
+            <div className="pt-8 border-t border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 font-poppins">
+                Model Info
+              </h3>
+              <div className="space-y-6 text-sm">
+                <div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                    Content Model Name
+                  </p>
+                  <p className="text-sm font-bold text-gray-900 font-poppins">
+                    {activeModel.name}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
                     Description
                   </p>
-                  <p className="text-sm font-bold text-gray-700 leading-relaxed">
-                    Product Listings and Details
+                  <p className="text-sm font-bold text-gray-700 leading-relaxed font-poppins">
+                    {activeModel.description || 'Tidak ada deskripsi.'}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                    Entry ID
-                  </p>
-                  <p className="text-xs font-mono text-gray-500">
-                    2SBuTLOQBaYn2gviWmMObk
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                    Content Type ID
-                  </p>
-                  <p className="text-sm font-bold text-gray-900">product</p>
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                    Created
-                  </p>
-                  <p className="text-sm font-bold text-gray-700">1 week ago</p>
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                    Created by
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Avatar
-                      size="small"
-                      icon={<UserOutlined />}
-                      className="bg-blue-50 text-[#2563EB]"
-                    />
-                    <span className="text-sm font-bold text-gray-900">
-                      User 1
-                    </span>
+                {entryId && (
+                  <div>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                      Entry ID
+                    </p>
+                    <p className="text-xs font-mono text-gray-500 select-all">
+                      {entryId}
+                    </p>
                   </div>
+                )}
+                <div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                    API Identifier
+                  </p>
+                  <p className="text-sm font-bold text-blue-600 font-mono">
+                    {activeModel.apiId}
+                  </p>
                 </div>
               </div>
             </div>
-
-            {activeTab === 'tags' && tags.length > 0 && (
-              <div className="pt-10 border-t border-gray-100">
-                <h3 className="text-sm font-bold text-gray-900 mb-6 uppercase tracking-widest">
-                  Selected Tags
-                </h3>
-                <div className="space-y-3">
-                  {tags.map((tag) => (
-                    <div
-                      key={tag}
-                      className="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100"
-                    >
-                      <span className="text-xs font-bold text-[#2563EB]">
-                        {tag}
-                      </span>
-                      <CloseOutlined
-                        className="text-[#2563EB] cursor-pointer text-xs"
-                        onClick={() => setTags(tags.filter((t) => t !== tag))}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

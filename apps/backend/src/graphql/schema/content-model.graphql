@@ -28,6 +28,7 @@ type ContentField {
 
 type ContentModel {
   id: ID!
+  workspaceId: String
   name: String!
   apiId: String!
   description: String
@@ -63,6 +64,7 @@ input CreateContentFieldInput {
 }
 
 input CreateContentModelInput {
+  workspaceId: String
   name: String!
   apiId: String!
   description: String

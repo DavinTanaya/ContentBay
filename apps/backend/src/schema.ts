@@ -1,10 +1,12 @@
 import { createSchema } from "graphql-yoga";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
+import { JSONResolver, DateTimeResolver } from "graphql-scalars";
 
 import { authResolvers } from "./graphql/resolvers/auth";
 import { contentModelResolvers } from "./graphql/resolvers/content-model";
 import { workspaceResolvers } from "./graphql/resolvers/workspace";
+import { contentResolvers } from "./graphql/resolvers/content";
 import { Context } from "./context";
 
 /**
@@ -31,7 +33,17 @@ export const schema = createSchema<Context>({
     loadSchema("user.graphql"),
     loadSchema("content-model.graphql"),
     loadSchema("workspace.graphql"),
+    loadSchema("content.graphql"),
   ],
 
-  resolvers: [authResolvers, contentModelResolvers, workspaceResolvers],
+  resolvers: [
+    {
+      JSON: JSONResolver,
+      DateTime: DateTimeResolver,
+    },
+    authResolvers,
+    contentModelResolvers,
+    workspaceResolvers,
+    contentResolvers,
+  ],
 });

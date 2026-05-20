@@ -1,6 +1,7 @@
 import type { ContentField, ContentModelIcon } from './types';
 
 export interface CreateContentModelRequest {
+  workspaceId?: string;
   name: string;
   apiId: string;
   description?: string;

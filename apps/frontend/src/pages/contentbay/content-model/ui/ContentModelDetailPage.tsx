@@ -2,7 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Tabs, Spin, Result, Typography } from 'antd';
 import { RenderModelIcon } from '@entities/content-model';
-import { PATH } from '@/shared/constants/routes';
+import { getContentModelPath } from '@/shared/constants/routes';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 import { useContentModelDetail } from '../model/useContentModelDetail';
 
@@ -13,6 +14,7 @@ import { ContentModelJson } from '@/widgets/content-model-json';
 
 export default function ContentModelDetailPage() {
   const navigate = useNavigate();
+  const activeSpaceId = useActiveWorkspaceId();
   const { id } = useParams();
 
   const { activeTab, setActiveTab, model, loading, error, jsonSchema } =
@@ -38,7 +40,7 @@ export default function ContentModelDetailPage() {
             type="text"
             shape="circle"
             className="text-gray-8 hover:text-black hover:bg-gray-2 mr-4 -ml-2"
-            onClick={() => navigate(PATH.contentbay.contentModel)}
+            onClick={() => navigate(getContentModelPath(activeSpaceId))}
             icon={<ArrowLeftOutlined style={{ fontSize: '20px' }} />}
           />
           <div className="w-10 h-10 rounded-full bg-blue-1 text-blue-6 flex items-center justify-center mr-4">

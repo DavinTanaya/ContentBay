@@ -1,11 +1,16 @@
 import React from 'react';
 import { Form, message } from 'antd';
 import { useCreateContentModelApi } from '@entities/content-model';
-import type { CreateContentModelRequest, ContentModelIcon } from '@entities/content-model';
+import type {
+  CreateContentModelRequest,
+  ContentModelIcon,
+} from '@entities/content-model';
+import { useActiveWorkspaceId } from '@/entities/workspace';
 
 export const useCreateContentModel = (onSuccess: () => void) => {
   const [createModel, { loading }] = useCreateContentModelApi();
   const [form] = Form.useForm();
+  const activeSpaceId = useActiveWorkspaceId();
 
   const formatToApiId = (str: string) => {
     return str
@@ -29,30 +34,18 @@ export const useCreateContentModel = (onSuccess: () => void) => {
   }
 
   const handleCreate = async (values: CreateContentModelFormValues) => {
-    const activeSpaceId = localStorage.getItem('active_workspace_id') || 'project-1';
-    const suffixedApiId = `${values.apiId}-${activeSpaceId}`;
-
     const input: CreateContentModelRequest = {
+      workspaceId: activeSpaceId,
       name: values.name,
-      apiId: suffixedApiId,
+      apiId: values.apiId,
       description: values.description || '',
       icon: values.icon || 'box',
     };
 
     try {
-      const res = await createModel({
+      await createModel({
         variables: { input },
       });
-      const newModelId = (res.data as any)?.createContentModel?.id;
-      if (newModelId) {
-        const activeSpaceId = localStorage.getItem('active_workspace_id') || 'project-1';
-        const storageKey = `contentbay_space_models_${activeSpaceId}`;
-        const spaceModelIds = JSON.parse(localStorage.getItem(storageKey) || '[]');
-        if (!spaceModelIds.includes(newModelId)) {
-          spaceModelIds.push(newModelId);
-          localStorage.setItem(storageKey, JSON.stringify(spaceModelIds));
-        }
-      }
       message.success('Content Model created successfully!');
       onSuccess();
     } catch (error) {

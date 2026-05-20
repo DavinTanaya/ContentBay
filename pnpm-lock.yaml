@@ -93,6 +93,9 @@ importers:
       antd:
         specifier: ^6.3.7
         version: 6.3.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      dayjs:
+        specifier: ^1.11.20
+        version: 1.11.20
       graphql:
         specifier: 16.11.0
         version: 16.11.0

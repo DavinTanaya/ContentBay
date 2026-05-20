@@ -4,6 +4,7 @@ export const GET_CONTENT_MODELS = gql`
   query GetContentModels {
     getContentModels {
       id
+      workspaceId
       name
       apiId
       description
@@ -28,6 +29,7 @@ export const GET_CONTENT_MODEL = gql`
   query GetContentModel($id: ID!) {
     getContentModel(id: $id) {
       id
+      workspaceId
       name
       apiId
       description

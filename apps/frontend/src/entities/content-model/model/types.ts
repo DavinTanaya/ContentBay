@@ -51,6 +51,7 @@ export interface ContentField {
 
 export interface ContentModel {
   id: string;
+  workspaceId: string;
   name: string;
   apiId: string;
   description?: string;

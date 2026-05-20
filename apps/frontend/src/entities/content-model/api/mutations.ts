@@ -4,6 +4,7 @@ export const CREATE_CONTENT_MODEL = gql`
   mutation CreateContentModel($input: CreateContentModelInput!) {
     createContentModel(input: $input) {
       id
+      workspaceId
       name
       apiId
       description

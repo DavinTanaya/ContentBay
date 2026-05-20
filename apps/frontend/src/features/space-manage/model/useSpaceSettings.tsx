@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Modal, message } from 'antd';
 import { useQuery, useMutation } from '@apollo/client/react';
-import { GET_WORKSPACE, UPDATE_WORKSPACE, DELETE_WORKSPACE } from '@/entities/workspace';
+import { GET_WORKSPACE, UPDATE_WORKSPACE, DELETE_WORKSPACE, useActiveWorkspaceId } from '@/entities/workspace';
 import type { Workspace } from '@/entities/workspace';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 export const useSpaceSettings = () => {
   const navigate = useNavigate();
-  const activeId = localStorage.getItem('active_workspace_id') || '';
+  const activeId = useActiveWorkspaceId();
   const [newName, setNewName] = useState('');
 
   // Fetch workspace details from the database using GraphQL query

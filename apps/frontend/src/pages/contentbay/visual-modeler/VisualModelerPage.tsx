@@ -1,18 +1,24 @@
 import React from 'react';
-import { useQuery } from '@apollo/client/react';
-import { GET_CONTENT_MODELS } from '@entities/content-model';
+import { useGetContentModelsApi } from '@entities/content-model';
 import { VisualModelerCanvas } from '@/widgets/visual-model-canvas';
 import { Spin, Result, Button } from 'antd';
 import { ArrowLeftOutlined, ApartmentOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import type { ContentModel } from '@entities/content-model';
+import { useActiveWorkspaceId } from '@/entities/workspace';
+import { getContentModelPath } from '@/shared/constants/routes';
 
 const VisualModelerPage: React.FC = () => {
   const navigate = useNavigate();
-  const { data, loading, error } = useQuery<{
-    getContentModels: ContentModel[];
-  }>(GET_CONTENT_MODELS);
+  const activeSpaceId = useActiveWorkspaceId();
+  const { data, loading, error } = useGetContentModelsApi();
   const models = data?.getContentModels || [];
+
+  const spaceModels = React.useMemo(() => {
+    return models.filter((m) => {
+      const modelWorkspaceId = m.workspaceId || 'project-1';
+      return modelWorkspaceId === activeSpaceId;
+    });
+  }, [models, activeSpaceId]);
 
   if (loading) {
     return (
@@ -33,7 +39,7 @@ const VisualModelerPage: React.FC = () => {
             <Button
               type="primary"
               key="back"
-              onClick={() => navigate('/content-model')}
+              onClick={() => navigate(getContentModelPath(activeSpaceId))}
             >
               Kembali ke Daftar
             </Button>,
@@ -49,7 +55,7 @@ const VisualModelerPage: React.FC = () => {
       <div className="h-20 bg-white border-b border-gray-100 px-10 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-6">
           <button
-            onClick={() => navigate('/content-model')}
+            onClick={() => navigate(getContentModelPath(activeSpaceId))}
             className="w-10 h-10 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:border-gray-300 transition-all shadow-sm"
           >
             <ArrowLeftOutlined />
@@ -72,14 +78,14 @@ const VisualModelerPage: React.FC = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-[13px] font-bold text-gray-500 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">
             <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
-            {models?.length || 0} Content Models
+            {spaceModels?.length || 0} Content Models
           </div>
         </div>
       </div>
 
       {/* Canvas Area */}
       <div className="flex-1 relative">
-        <VisualModelerCanvas models={models} />
+        <VisualModelerCanvas models={spaceModels} />
       </div>
     </div>
   );
