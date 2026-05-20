@@ -1,17 +1,18 @@
 import { Link } from 'react-router-dom';
 import { Book, Code, Video, MoveRight } from 'lucide-react';
+import { colors } from '@/shared/constants/colors';
 
 export function CategoryGrid() {
   const categories = [
     {
       title: 'Documentation',
       count: '150+ articles',
-      countColor: 'text-[#096DD9]',
+      countColor: 'text-blue-7',
       desc: 'Complete API reference and guides',
-      bgColor: 'bg-[#D6E4FF]/50',
-      strokeColor: 'border-[#597EF7]',
-      iconColor: '#096DD9',
-      bulletColor: 'bg-[#096DD9]',
+      bgColor: 'bg-geekblue-2/50',
+      strokeColor: 'border-geekblue-5',
+      iconColor: colors.blue[7],
+      bulletColor: 'bg-blue-7',
       Icon: Book,
       link: '/documentation',
       items: [
@@ -24,12 +25,12 @@ export function CategoryGrid() {
     {
       title: 'Code Examples',
       count: '50+ examples',
-      countColor: 'text-[#9254DE]',
+      countColor: 'text-purple-5',
       desc: 'Ready-to-use code snippets',
-      bgColor: 'bg-[#EFDBFF]/50',
-      strokeColor: 'border-[#9254DE]',
-      iconColor: '#9254DE',
-      bulletColor: 'bg-[#9254DE]',
+      bgColor: 'bg-purple-2/50',
+      strokeColor: 'border-purple-5',
+      iconColor: colors.purple[5],
+      bulletColor: 'bg-purple-5',
       Icon: Code,
       link: '#',
       items: [
@@ -42,12 +43,12 @@ export function CategoryGrid() {
     {
       title: 'Video Tutorials',
       count: '30+ videos',
-      countColor: 'text-[#A8071A]',
+      countColor: 'text-red-8',
       desc: 'Learn by watching',
-      bgColor: 'bg-[#FFCCC7]/50',
-      strokeColor: 'border-[#FF7875]',
-      iconColor: '#A8071A',
-      bulletColor: 'bg-[#A8071A]',
+      bgColor: 'bg-red-2/50',
+      strokeColor: 'border-red-4',
+      iconColor: colors.red[8],
+      bulletColor: 'bg-red-8',
       Icon: Video,
       link: '#',
       items: [
@@ -63,10 +64,10 @@ export function CategoryGrid() {
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-[40px] font-semibold text-slate-900 mb-2 leading-tight">
+          <h2 className="text-gray-13 text-slate-900 mb-2 leading-tight display-Sm-Semibold">
             Explore by category
           </h2>
-          <p className="text-slate-500 text-lg">
+          <p className="text-gray-19 body-Md-Regular">
             Find the resources you need, organized by topic
           </p>
         </div>
@@ -82,21 +83,21 @@ export function CategoryGrid() {
                 <cat.Icon size={24} color={cat.iconColor} />
               </div>
 
-              <h3 className="text-2xl font-semibold text-slate-900 mb-1">
+              <h3 className="text-gray-13 text-slate-900 mb-1 h6-semibold">
                 {cat.title}
               </h3>
-              <span className={`${cat.countColor} text-sm font-semibold mb-6 block`}>
+              <span className={`${cat.countColor} text-sm mb-6 block label-Sm-Regular`}>
                 {cat.count}
               </span>
               
-              <p className="text-slate-500 text-sm mb-5">
+              <p className="text-sm mb-5 body-Sm-Regular">
                 {cat.desc}
               </p>
 
               {/* List Items */}
               <ul className="space-y-3 mb-auto">
                 {cat.items.map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-slate-600 text-sm">
+                  <li key={i} className="text-gray-9 flex items-center gap-3 text-sm body-Sm-Regular">
                     <div className={`w-1.5 h-1.5 rounded-full ${cat.bulletColor}`} />
                     {item}
                   </li>
@@ -106,7 +107,7 @@ export function CategoryGrid() {
               {/* Explore Link */}
               <Link
                 to={cat.link}
-                className={`mt-8 flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-80`}
+                className={`mt-8 flex items-center gap-2 text-sm transition-opacity hover:opacity-80 label-Sm-Regular`}
                 style={{ color: cat.iconColor }}
               >
                 Explore <MoveRight size={16} />
