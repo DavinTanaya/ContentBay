@@ -7,6 +7,8 @@ export type {
   ContentModelCardProps,
   ContentModelGridProps,
   FieldsTableProps,
+  JSONSchemaField,
+  ContentModelJsonSchema,
   JSONSchemaPreviewProps,
   ModelMetadataSidebarProps,
   RenderFieldIconProps,
@@ -24,7 +26,7 @@ export * from './api/queries';
 export * from './api/mutations';
 
 // API: Hooks
-export { useCreateContentModelApi, useGetContentModelsApi } from './api/api';
+export { useCreateContentModelApi, useGetContentModelsApi, useGetContentModelApi } from './api/api';
 export { useContentModelCard } from './model/useContentModelCard';
 
 // Passive UI components

@@ -1,16 +1,13 @@
-import type { FC } from 'react';
 import { Spin, Empty, Alert } from 'antd';
-import { ContentModelGrid } from '@entities/content-model';
+import { ContentModelCard } from '@entities/content-model';
 import { useContentModelList } from '../model/useContentModelList';
+import type { ContentModelListProps } from '../model/types';
 
-interface ContentModelListProps {
-  onNavigateToSettings: (id: string) => void;
-}
-
-export const ContentModelList: FC<ContentModelListProps> = ({
+export function ContentModelList({
+  workspaceId,
   onNavigateToSettings,
-}) => {
-  const { models, loading, error } = useContentModelList();
+}: ContentModelListProps) {
+  const { models, loading, error } = useContentModelList(workspaceId);
 
   if (loading) {
     return (
@@ -37,7 +34,17 @@ export const ContentModelList: FC<ContentModelListProps> = ({
   return (
     <div>
       {models.length > 0 ? (
-        <ContentModelGrid models={models} onCardClick={onNavigateToSettings} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {models.map((model) => (
+            <ContentModelCard
+              key={model.id}
+              model={model}
+              authorName={model.authorName}
+              authorInitial={model.authorInitial}
+              onClick={onNavigateToSettings}
+            />
+          ))}
+        </div>
       ) : (
         <div className="mt-12">
           <Empty description="No Content Models found. Create your first one!" />
@@ -45,4 +52,4 @@ export const ContentModelList: FC<ContentModelListProps> = ({
       )}
     </div>
   );
-};
+}

@@ -48,10 +48,22 @@ export const typographyTokens = {
     fontWeight: 600,
     fontFamily: 'Poppins, sans-serif',
   },
+  h4Bold: {
+    fontSize: 28,
+    lineHeight: '36px',
+    fontWeight: 700,
+    fontFamily: 'Poppins, sans-serif',
+  },
   h4Semibold: {
     fontSize: 28,
     lineHeight: '36px',
     fontWeight: 600,
+    fontFamily: 'Poppins, sans-serif',
+  },
+  h4Regular: {
+    fontSize: 28,
+    lineHeight: '36px',
+    fontWeight: 400,
     fontFamily: 'Poppins, sans-serif',
   },
   h5Medium: {
@@ -182,6 +194,12 @@ export const typographyTokens = {
     fontSize: 14,
     lineHeight: '14px',
     fontWeight: 400,
+    fontFamily: 'Open Sans, sans-serif',
+  },
+  labelXxsBold: {
+    fontSize: 6,
+    lineHeight: '6px',
+    fontWeight: 800,
     fontFamily: 'Open Sans, sans-serif',
   },
 

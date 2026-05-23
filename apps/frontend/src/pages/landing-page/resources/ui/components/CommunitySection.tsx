@@ -1,15 +1,16 @@
 import { Button } from 'antd';
 import { ResourceAssets } from '../../assets';
 import { sharedUi } from '@/shared/ui';
+import { colors } from '@/shared/constants/colors';
 
 export function CommunitySection() {
   return (
-    <section className="py-24 bg-[#F5F5F5]">
+    <section className="py-24 bg-gray-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1">
             <div
-              className="inline-flex items-ce nter px-4 py-1.5 rounded-full text-white text-[13px] font-bold mb-6"
+              className="text-gray-1 text-sm inline-flex items-center px-3 py-1.5 rounded-full mb-6 label-Xxs-Bold"
               style={{
                 backgroundImage:
                   'linear-gradient(90deg, #0050B3 0%, #096DD9 100%)',
@@ -17,19 +18,18 @@ export function CommunitySection() {
             >
               Community
             </div>
-            <h2 className="text-[52px] font-semibold text-slate-900 mb-6 leading-[1.1]">
+            <h2 className="text-[52px] font-semibold text-slate-900 mb-6 leading-[1.1]"> 
               Join our{' '}
               <span
                 className="text-transparent bg-clip-text"
                 style={{
-                  backgroundImage:
-                    'linear-gradient(90deg, #0050B3 0%, #096DD9 100%)',
+                  backgroundImage: `linear-gradient(90deg, ${colors.blue[8]} 0%, ${colors.blue[7]} 100%)`,
                 }}
               >
                 developer community
               </span>
             </h2>
-            <p className="text-lg text-slate-500 mb-6 max-w-lg leading-relaxed">
+            <p className="text-gray-8 mb-6 max-w-lg leading-relaxed h4-Regular">
               Connect with 10.000+ developers, share knowledge, and get help
               from the community
             </p>
@@ -40,7 +40,7 @@ export function CommunitySection() {
                 className="border-none text-white flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
                 style={{
                   backgroundImage:
-                    'linear-gradient(90deg, #002766 0%, #0050B3 100%)',
+                    `linear-gradient(90deg, ${colors.blue[10]} 0%, ${colors.blue[8]} 100%)`,
                   width: '545px',
                   height: '71px',
                   display: 'flex',
@@ -53,13 +53,13 @@ export function CommunitySection() {
                 }}
               >
                 <div className="flex items-center gap-8">
-                  <sharedUi.icon.github className="w-10 h-10 text-white" />
-                  <span className="font-medium text-[16px] leading-[24px] text-white font-['Poppins']">
+                  <sharedUi.icon.github className="text-gray-1 w-10 h-10" />
+                  <span className="text-gray-1 leading-[24px] label-Sm-Medium">
                     View Github Discussions
                   </span>
                 </div>
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="text-gray-1 w-8 h-8"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -78,7 +78,7 @@ export function CommunitySection() {
                 className="border-none text-white flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
                 style={{
                   backgroundImage:
-                    'linear-gradient(90deg, #2F54EB 0%, #597EF7 100%)',
+                    `linear-gradient(90deg, ${colors.geekblue[6]} 0%, ${colors.geekblue[5]} 100%)`,
                   width: '545px',
                   height: '71px',
                   display: 'flex',
@@ -89,13 +89,13 @@ export function CommunitySection() {
                 }}
               >
                 <div className="flex items-center gap-8">
-                  <sharedUi.icon.discord className="w-10 h-10 text-white" />
-                  <span className="font-medium text-[16px] leading-[24px] text-white font-['Poppins']">
+                  <sharedUi.icon.discord className="text-gray-1 w-10 h-10" />
+                  <span className="text-gray-1 leading-[24px] label-Sm-Medium">
                     Join Discord Server
                   </span>
                 </div>
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="text-gray-1 w-8 h-8"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

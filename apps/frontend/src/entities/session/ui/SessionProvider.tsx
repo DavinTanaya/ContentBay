@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import type { User } from '@/entities/user/@x/session';
-import type { SessionPayload } from '../model/session.type';
-import { SessionContext } from '../model/session.context';
+import type { SessionPayload } from '../model/types';
+import { SessionContext } from '../model/context';
 import { apolloClient } from '@/shared/api/apollo';
 
 function getInitialUser(): User | null {
@@ -24,17 +24,22 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('user', JSON.stringify(payload.user));
 
     setUser(payload.user);
-    // Clear Apollo cache on login to ensure clean state
-    apolloClient.clearStore().catch((err) => console.error('Failed to clear Apollo store on login', err));
+    apolloClient
+      .clearStore()
+      .catch((err) =>
+        console.error('Failed to clear Apollo store on login', err),
+      );
   }
 
   function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-
     setUser(null);
-    // Clear Apollo cache on logout to prevent cross-account cache leaks
-    apolloClient.clearStore().catch((err) => console.error('Failed to clear Apollo store on logout', err));
+    apolloClient
+      .clearStore()
+      .catch((err) =>
+        console.error('Failed to clear Apollo store on logout', err),
+      );
   }
 
   return (

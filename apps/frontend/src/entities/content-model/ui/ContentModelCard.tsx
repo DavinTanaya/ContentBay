@@ -5,8 +5,16 @@ import { RenderModelIcon } from './RenderModelIcon';
 import type { ContentModelCardProps } from '../model/types';
 import { useContentModelCard } from '../model/useContentModelCard';
 
-export function ContentModelCard({ model, onClick }: ContentModelCardProps) {
-  const { displayName, initial, formattedDate } = useContentModelCard(model);
+export function ContentModelCard({
+  model,
+  authorName,
+  authorInitial,
+  onClick,
+}: ContentModelCardProps) {
+  const { formattedDate } = useContentModelCard(model);
+  const displayName = authorName || 'System';
+  console.log('author name: ', authorName);
+  const initial = authorInitial || 'S';
 
   return (
     <Card
