@@ -88,7 +88,8 @@ export default function WorkspacePage() {
           return (
             <div
               key={space.id}
-              className="relative bg-white border border-gray-4 rounded-[32px] p-8 flex flex-col justify-between min-h-[250px] shadow-sm hover:shadow-md hover:border-blue-3 transition-all duration-300 group"
+              onClick={() => navigate(getContentModelPath(space.id))}
+              className="relative bg-white border border-gray-4 rounded-[32px] p-8 flex flex-col justify-between min-h-[250px] shadow-sm hover:shadow-md hover:border-blue-3 transition-all duration-300 group cursor-pointer"
             >
               {/* Top part */}
               <div>
@@ -99,13 +100,15 @@ export default function WorkspacePage() {
                   </div>
 
                   {/* Actions Dropdown */}
-                  <Dropdown menu={{ items: menuItems }} trigger={['click']}>
-                    <Button
-                      type="text"
-                      shape="circle"
-                      icon={<EllipsisOutlined className="text-xl text-gray-7 hover:text-gray-10" />}
-                    />
-                  </Dropdown>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <Dropdown menu={{ items: menuItems }} trigger={['click']}>
+                      <Button
+                        type="text"
+                        shape="circle"
+                        icon={<EllipsisOutlined className="text-xl text-gray-7 hover:text-gray-10" />}
+                      />
+                    </Dropdown>
+                  </div>
                 </div>
 
                 {/* Workspace Title & Details */}
@@ -171,14 +174,11 @@ export default function WorkspacePage() {
                     ))}
                   </Avatar.Group>
 
-                  {/* Clickable Enter Project link */}
+                  {/* Enter Workspace link */}
                   <div
-                    onClick={() => {
-                      navigate(getContentModelPath(space.id));
-                    }}
                     className="font-poppins text-xs font-medium text-blue-9 hover:text-blue-7 flex items-center gap-1 cursor-pointer transition-colors group-hover:translate-x-0.5 duration-200"
                   >
-                    <span>Enter project</span>
+                    <span>Enter workspace</span>
                     <ArrowRightOutlined className="text-[10px]" />
                   </div>
                 </div>
