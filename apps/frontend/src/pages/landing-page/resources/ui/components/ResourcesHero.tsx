@@ -1,10 +1,9 @@
 import { Input } from 'antd';
 import { Search } from 'lucide-react';
-import { colors } from '@/shared/constants/colors';
 
 export function ResourcesHero() {
   return (
-    <section className="pt-24 pb-32" style={{backgroundImage: `linear-gradient(150deg, ${colors.gray[1]} 23%, ${colors.geekblue[2]} 100%)`}}>
+    <section className="w-full flex items-center py-20 bg-[linear-gradient(150deg,#FFFFFF_0%,#FFFFFF_20%,#E4EDFF_100%)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
         <span className="text-blue-7 font-semibold text-[20px] leading-[28px] mb-4 block font-['Poppins']">
           RESOURCES

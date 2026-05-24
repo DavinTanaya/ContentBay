@@ -13,7 +13,7 @@ export function CommunitySection() {
               className="text-gray-1 text-sm inline-flex items-center px-3 py-1.5 rounded-full mb-6 label-Xxs-Bold"
               style={{
                 backgroundImage:
-                  'linear-gradient(90deg, #0050B3 0%, #096DD9 100%)',
+                  'linear-gradient(90deg, #0050b3 0%, #096dd9 100%)',
               }}
             >
               Community
@@ -40,7 +40,7 @@ export function CommunitySection() {
                 className="border-none text-white flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
                 style={{
                   backgroundImage:
-                    `linear-gradient(90deg, ${colors.blue[10]} 0%, ${colors.blue[8]} 100%)`,
+                    `linear-gradient(90deg, #002766 0%, #0050b3 100%)`,
                   width: '545px',
                   height: '71px',
                   display: 'flex',
@@ -54,7 +54,7 @@ export function CommunitySection() {
               >
                 <div className="flex items-center gap-8">
                   <sharedUi.icon.github className="text-gray-1 w-10 h-10" />
-                  <span className="text-gray-1 leading-[24px] label-Sm-Medium">
+                  <span className="text-gray-1 label-Sm-Medium">
                     View Github Discussions
                   </span>
                 </div>
@@ -78,7 +78,7 @@ export function CommunitySection() {
                 className="border-none text-white flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
                 style={{
                   backgroundImage:
-                    `linear-gradient(90deg, ${colors.geekblue[6]} 0%, ${colors.geekblue[5]} 100%)`,
+                    `linear-gradient(90deg, #2f54eb 0%, #597ef7 100%)`,
                   width: '545px',
                   height: '71px',
                   display: 'flex',
@@ -90,7 +90,7 @@ export function CommunitySection() {
               >
                 <div className="flex items-center gap-8">
                   <sharedUi.icon.discord className="text-gray-1 w-10 h-10" />
-                  <span className="text-gray-1 leading-[24px] label-Sm-Medium">
+                  <span className="text-gray-1 label-Sm-Medium">
                     Join Discord Server
                   </span>
                 </div>
