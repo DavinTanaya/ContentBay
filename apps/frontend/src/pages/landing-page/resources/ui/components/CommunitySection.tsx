@@ -10,7 +10,7 @@ export function CommunitySection() {
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1">
             <div
-              className="text-gray-1 text-sm inline-flex items-center px-3 py-1.5 rounded-full mb-6 label-Xxs-Bold"
+              className="text-gray-1 text-sm inline-flex items-center px-3 py-1.5 rounded-full mb-6 label-xxs-bold"
               style={{
                 backgroundImage:
                   'linear-gradient(90deg, #0050b3 0%, #096dd9 100%)',
@@ -18,7 +18,7 @@ export function CommunitySection() {
             >
               Community
             </div>
-            <h2 className="text-[52px] font-semibold text-slate-900 mb-6 leading-[1.1]"> 
+            <h2 className="text-gray-13 mb-6 display-sm-semibold"> 
               Join our{' '}
               <span
                 className="text-transparent bg-clip-text"
@@ -29,7 +29,7 @@ export function CommunitySection() {
                 developer community
               </span>
             </h2>
-            <p className="text-gray-8 mb-6 max-w-lg leading-relaxed h4-Regular">
+            <p className="text-gray-8 mb-6 max-w-lg leading-relaxed h6-regular">
               Connect with 10.000+ developers, share knowledge, and get help
               from the community
             </p>
@@ -37,7 +37,7 @@ export function CommunitySection() {
             <div className="space-y-6 max-w-[545px]">
               <Button
                 shape="round"
-                className="border-none text-white flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
+                className="border-none text-gray-1 flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
                 style={{
                   backgroundImage:
                     `linear-gradient(90deg, #002766 0%, #0050b3 100%)`,
@@ -54,7 +54,7 @@ export function CommunitySection() {
               >
                 <div className="flex items-center gap-8">
                   <sharedUi.icon.github className="text-gray-1 w-10 h-10" />
-                  <span className="text-gray-1 label-Sm-Medium">
+                  <span className="text-gray-1 h6-medium">
                     View Github Discussions
                   </span>
                 </div>
@@ -75,7 +75,7 @@ export function CommunitySection() {
 
               <Button
                 shape="round"
-                className="border-none text-white flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
+                className="border-none text-gray-1 flex items-center justify-between gap-8 hover:opacity-90 transition-opacity shadow-xl group"
                 style={{
                   backgroundImage:
                     `linear-gradient(90deg, #2f54eb 0%, #597ef7 100%)`,
@@ -90,7 +90,7 @@ export function CommunitySection() {
               >
                 <div className="flex items-center gap-8">
                   <sharedUi.icon.discord className="text-gray-1 w-10 h-10" />
-                  <span className="text-gray-1 label-Sm-Medium">
+                  <span className="text-gray-1 h6-medium">
                     Join Discord Server
                   </span>
                 </div>

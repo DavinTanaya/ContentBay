@@ -14,7 +14,7 @@ export function CategoryGrid() {
       iconColor: colors.blue[7],
       bulletColor: 'bg-blue-7',
       Icon: Book,
-      link: '/documentation',
+      link: '#',
       items: [
         'API Reference',
         'Content Modeling',
@@ -64,10 +64,10 @@ export function CategoryGrid() {
     <section className="py-24 bg-gray-1">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-gray-13 mb-2 display-Sm-Semibold">
+          <h2 className="text-gray-13 mb-2 display-sm-semibold">
             Explore by category
           </h2>
-          <p className="text-gray-9 body-Md-Regular">
+          <p className="text-gray-9 body-md-regular">
             Find the resources you need, organized by topic
           </p>
         </div>
@@ -79,25 +79,25 @@ export function CategoryGrid() {
               className={`${cat.bgColor} ${cat.strokeColor} w-[360px] h-[480px] px-[52px] py-[49px] rounded-[20px] border flex flex-col items-start transition-all hover:shadow-lg`}
             >
               {/* Icon Container */}
-              <div className="w-14 h-14 bg-white rounded-xl shadow-[0_4px_8px_0_rgba(0,0,0,0.25)] flex items-center justify-center mb-8">
+              <div className="w-14 h-14 bg-gray-1 rounded-xl shadow-[0_4px_8px_0_rgba(0,0,0,0.25)] flex items-center justify-center mb-5">
                 <cat.Icon size={24} color={cat.iconColor} />
               </div>
 
               <h3 className="text-gray-13 mb-1 h6-semibold">
                 {cat.title}
               </h3>
-              <span className={`${cat.countColor} mb-6 label-Sm-Regular`}>
+              <span className={`${cat.countColor} mb-6 body-sm-regular`}>
                 {cat.count}
               </span>
               
-              <p className="mb-5 body-Sm-Regular">
+              <p className="text-gray-9 mb-3 body-sm-regular">
                 {cat.desc}
               </p>
 
               {/* List Items */}
-              <ul className="space-y-3 mb-auto">
+              <ul className="space-y-4 mb-auto">
                 {cat.items.map((item, i) => (
-                  <li key={i} className="text-gray-9 flex items-center gap-3 text-sm body-Sm-Regular">
+                  <li key={i} className="text-gray-9 flex items-center gap-3 label-xs-regular">
                     <div className={`w-1.5 h-1.5 rounded-full ${cat.bulletColor}`} />
                     {item}
                   </li>
@@ -107,7 +107,7 @@ export function CategoryGrid() {
               {/* Explore Link */}
               <Link
                 to={cat.link}
-                className={`mt-8 flex items-center gap-2 transition-opacity hover:opacity-80 label-Sm-Regular`}
+                className={`mt-2 flex items-center gap-2 transition-opacity hover:opacity-80 label-sm-regular`}
                 style={{ color: cat.iconColor }}
               >
                 Explore <MoveRight size={16} />

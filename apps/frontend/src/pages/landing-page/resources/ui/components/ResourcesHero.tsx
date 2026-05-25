@@ -5,14 +5,14 @@ export function ResourcesHero() {
   return (
     <section className="w-full flex items-center py-20 bg-[linear-gradient(150deg,#FFFFFF_0%,#FFFFFF_20%,#E4EDFF_100%)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-        <span className="text-blue-7 font-semibold text-[20px] leading-[28px] mb-4 block font-['Poppins']">
+        <span className="text-blue-7 mb-4 caption-xl-semibold">
           RESOURCES
         </span>
-        <h1 className="text-[48px] leading-[52.8px] font-semibold text-slate-900 mb-6 tracking-tight">
+        <h1 className="mb-6 display-sm-semibold">
           Everything you need to <br />
           <span className="text-blue-7">get started</span>
         </h1>
-        <p className="text-gray-9 mb-8 label-Md-Regular">
+        <p className="text-gray-9 mb-8 label-md-regular">
           Documentation, tutorials, and guides to help you build faster
         </p>
         <div className="w-full max-w-[600px] mx-auto">
