@@ -15,14 +15,14 @@ import { ContentModelJson } from '@/widgets/content-model-json';
 export default function ContentModelDetailPage() {
   const navigate = useNavigate();
   const activeSpaceId = useActiveWorkspaceId();
-  const { id } = useParams();
+  const { contentModelId } = useParams();
 
   const { activeTab, setActiveTab, model, loading, error, jsonSchema } =
-    useContentModelDetail(id || '');
+    useContentModelDetail(contentModelId || '');
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen text-magenta-">
         <Spin size="large" />
       </div>
     );

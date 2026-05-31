@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Form, Modal, message } from 'antd';
-import { useQuery, useMutation } from '@apollo/client/react';
 import { useGetWorkspacesApi } from '@/entities/workspace';
-import { useCreateWorkspace } from '../api/create-workspace.api';
-import { useDeleteWorkspace } from '../api/delete-workspace.api';
+import {
+  useCreateWorkspaceApi,
+  useDeleteWorkspaceApi,
+} from '@entities/workspace';
 import type { Workspace } from '@/entities/workspace';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
@@ -19,13 +20,13 @@ export const useWorkspace = () => {
   const { data, loading, refetch } = useGetWorkspacesApi();
   const workspaces: Workspace[] = data?.getWorkspaces ?? [];
 
-  const [createWorkspace] = useCreateWorkspace({
+  const [createWorkspace] = useCreateWorkspaceApi({
     onCompleted: () => {
       refetch();
     },
   });
 
-  const [deleteWorkspace] = useDeleteWorkspace({
+  const [deleteWorkspace] = useDeleteWorkspaceApi({
     onCompleted: () => {
       refetch();
     },
@@ -57,15 +58,31 @@ export const useWorkspace = () => {
         <div className="flex flex-col items-center text-center p-4">
           {/* Elegant Circular Blue Icon Container */}
           <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 mb-6 shadow-sm shadow-blue-500/10">
-            <ExclamationCircleOutlined style={{ fontSize: '32px', color: '#1890ff' }} />
+            <ExclamationCircleOutlined
+              style={{ fontSize: '32px', color: '#1890ff' }}
+            />
           </div>
-          
+
           <h3 className="font-poppins text-lg font-bold text-gray-13 mb-3 leading-snug">
             Are you absolutely sure?
           </h3>
-          
+
           <p className="font-poppins text-sm text-gray-8 leading-relaxed mb-0">
-            This action is <span className="font-semibold text-red-5" style={{ color: '#ff4d4f' }}>irreversible</span> and will permanently delete the workspace <span className="font-semibold text-gray-10" style={{ color: '#262626' }}>"{name}"</span> along with all nested content schemas and configuration histories.
+            This action is{' '}
+            <span
+              className="font-semibold text-red-5"
+              style={{ color: '#ff4d4f' }}
+            >
+              irreversible
+            </span>{' '}
+            and will permanently delete the workspace{' '}
+            <span
+              className="font-semibold text-gray-10"
+              style={{ color: '#262626' }}
+            >
+              "{name}"
+            </span>{' '}
+            along with all nested content schemas and configuration histories.
           </p>
         </div>
       ),
@@ -81,14 +98,15 @@ export const useWorkspace = () => {
           backgroundColor: '#ff4d4f',
           borderColor: '#ff4d4f',
           color: '#ffffff',
-        }
+        },
       },
       cancelButtonProps: {
         size: 'large',
-        className: 'rounded-xl h-11 px-6 font-medium font-poppins border-gray-4 text-gray-8 hover:text-gray-13 hover:border-gray-6',
+        className:
+          'rounded-xl h-11 px-6 font-medium font-poppins border-gray-4 text-gray-8 hover:text-gray-13 hover:border-gray-6',
         style: {
           borderRadius: '12px',
-        }
+        },
       },
       onOk: async () => {
         try {
@@ -103,7 +121,10 @@ export const useWorkspace = () => {
     });
   };
 
-  const getSpaceMembers = (spaceId: string, defaultInitials: string[]): string[] => {
+  const getSpaceMembers = (
+    spaceId: string,
+    defaultInitials: string[],
+  ): string[] => {
     const userStorageKey = `contentbay_users_${spaceId}`;
     const stored = localStorage.getItem(userStorageKey);
     if (stored) {
@@ -117,7 +138,7 @@ export const useWorkspace = () => {
         }
       } catch {}
     }
-    
+
     // Fallback: Use dynamic logged-in user initial instead of hardcoded 'U'
     if (currentUser) {
       const initial = currentUser.firstName
@@ -125,26 +146,31 @@ export const useWorkspace = () => {
         : currentUser.email.charAt(0).toUpperCase();
       return [initial];
     }
-    
+
     return defaultInitials || ['U'];
   };
 
-  const getRelativeTime = (updatedStr: string, createdAtStr?: string): string => {
+  const getRelativeTime = (
+    updatedStr: string,
+    createdAtStr?: string,
+  ): string => {
     if (!createdAtStr) return updatedStr || 'Updated just now';
     const createdAtTimestamp = Date.parse(createdAtStr);
     if (isNaN(createdAtTimestamp)) return updatedStr || 'Updated just now';
     const diffMs = Date.now() - createdAtTimestamp;
     const diffMins = Math.floor(diffMs / 60000);
     if (diffMins < 1) return 'Updated just now';
-    if (diffMins < 60) return `Updated ${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
+    if (diffMins < 60)
+      return `Updated ${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
     const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `Updated ${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+    if (diffHours < 24)
+      return `Updated ${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
     const diffDays = Math.floor(diffHours / 24);
     return `Updated ${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
   };
 
   const filteredWorkspaces = workspaces.filter((w) =>
-    w.name.toLowerCase().includes(searchQuery.toLowerCase())
+    w.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return {

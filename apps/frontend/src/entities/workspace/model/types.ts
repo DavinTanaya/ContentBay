@@ -1,4 +1,4 @@
-import type { User } from '@/entities/user/@x';
+import type { User } from '@/entities/user/@x/workspace';
 
 export interface Workspace {
   id: string;

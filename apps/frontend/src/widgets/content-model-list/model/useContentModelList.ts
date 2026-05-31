@@ -1,6 +1,5 @@
 import {
   useGetContentModelsApi,
-  useContentModelCard,
   type ContentModel,
 } from '@entities/content-model';
 import { useUsersManagement } from '@features/user-manage';
@@ -44,14 +43,11 @@ export const useContentModelList = (workspaceId: string) => {
       ? matchedUser.name.charAt(0).toUpperCase()
       : 'U';
 
-    const { formattedDate } = useContentModelCard(m);
-
     return {
       ...m,
       apiId: cleanApiId,
       authorName: displayName,
       authorInitial: initial,
-      formattedDate,
     };
   });
 

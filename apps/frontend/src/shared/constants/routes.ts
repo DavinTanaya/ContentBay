@@ -14,7 +14,8 @@ export const PATH = {
     contentModel: '/workspace/:workspaceId/content-model',
     content: '/workspace/:workspaceId/content',
     contentModelCreate: '/workspace/:workspaceId/content-model/create',
-    contentModelSettings: '/workspace/:workspaceId/content-model/:id',
+    contentModelSettings:
+      '/workspace/:workspaceId/content-model/:contentModelId',
     contentCreate: '/workspace/:workspaceId/content/create',
     schemaModeler: '/workspace/:workspaceId/schema-modeler',
     spaceSettings: '/workspace/:workspaceId/space-settings',
@@ -22,8 +23,16 @@ export const PATH = {
   },
 } as const;
 
-export const getContentModelSettings = (workspaceId: string, id: string | number) =>
-  `/workspace/${workspaceId}/content-model/${id}`;
+export const getContentModelSettings = ({
+  workspaceId,
+  contentModelId,
+}: {
+  workspaceId: string;
+  contentModelId: string | number;
+}) =>
+  PATH.contentbay.contentModelSettings
+    .replace(':workspaceId', workspaceId)
+    .replace(':contentModelId', String(contentModelId));
 
 export const getContentModelPath = (workspaceId: string) =>
   `/workspace/${workspaceId}/content-model`;

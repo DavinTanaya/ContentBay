@@ -1,6 +1,5 @@
-import { useMutation } from '@apollo/client/react';
 import { message } from 'antd';
-import { useUpdateContentModelApi } from '../api/update-content-model.api';
+import { useUpdateContentModelApi } from '@entities/content-model';
 import type { ContentModelIcon } from '@entities/content-model';
 
 interface UpdateIdentityInput {

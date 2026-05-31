@@ -1,4 +1,10 @@
-export type { Workspace } from './model/workspace.types';
-export { useGetWorkspacesApi, useGetWorkspaceApi } from './api/get-workspaces.api';
-export { GET_WORKSPACES, GET_WORKSPACE } from './api/get-workspaces.query';
+export type { Workspace } from './model/types.ts';
+export {
+  useGetWorkspacesApi,
+  useGetWorkspaceApi,
+  useCreateWorkspaceApi,
+  useDeleteWorkspaceApi,
+  useUpdateWorkspaceApi,
+} from './api/api';
+export { GET_WORKSPACES, GET_WORKSPACE } from './api/queries';
 export { useActiveWorkspaceId } from './model/useActiveWorkspaceId';

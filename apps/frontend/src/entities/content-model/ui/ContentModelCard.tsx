@@ -14,8 +14,13 @@ export function ContentModelCard({
   authorName,
   authorInitial,
   onClick,
-  formattedDate = 'N/A',
+  formattedDate: propFormattedDate,
 }: ContentModelCardPropsExtended) {
+  const { formattedDate: hookFormattedDate } = useContentModelCard(model);
+  const formattedDate =
+    propFormattedDate && propFormattedDate !== 'N/A'
+      ? propFormattedDate
+      : hookFormattedDate;
   const displayName = authorName || 'System';
   console.log('author name: ', authorName);
   const initial = authorInitial || 'S';
@@ -23,7 +28,7 @@ export function ContentModelCard({
   return (
     <Card
       hoverable
-      className="rounded-[32px] border border-gray-4 overflow-hidden group shadow-sm hover:shadow-md hover:border-blue-4 transition-all cursor-pointer h-full flex flex-col bg-gray-1"
+      className="rounded-4xl border border-gray-4 overflow-hidden group shadow-sm hover:shadow-md hover:border-blue-4 transition-all cursor-pointer h-full flex flex-col bg-gray-1"
       bodyStyle={{
         padding: 0,
         height: '100%',

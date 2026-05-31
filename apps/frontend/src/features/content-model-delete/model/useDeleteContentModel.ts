@@ -1,13 +1,10 @@
-import { useMutation } from '@apollo/client/react';
-import { DELETE_CONTENT_MODEL, GET_CONTENT_MODELS } from '@entities/content-model';
+import { useDeleteContentModelApi } from '@entities/content-model';
 
-export const useDeleteContentModel = () => {
-  const [deleteModel, { loading }] = useMutation(DELETE_CONTENT_MODEL, {
-    refetchQueries: [GET_CONTENT_MODELS],
-  });
+export const useDeleteContentModel = (modelId: string) => {
+  const [deleteMutation, { loading }] = useDeleteContentModelApi(modelId);
 
   return {
-    deleteModel: (id: string) => deleteModel({ variables: { id } }),
+    deleteModel: () => deleteMutation({ variables: { id: modelId } }),
     loading,
   };
 };

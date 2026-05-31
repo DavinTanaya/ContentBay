@@ -2,9 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Modal, message } from 'antd';
-import { useActiveWorkspaceId, useGetWorkspaceApi } from '@/entities/workspace';
-import { useUpdateWorkspace } from '../api/update-workspace.api';
-import { useDeleteWorkspace } from '@/features/workspace-manage/api/delete-workspace.api';
+import { useActiveWorkspaceId, useGetWorkspaceApi, useUpdateWorkspaceApi } from '@/entities/workspace';
+import { useDeleteWorkspaceApi } from '@entities/workspace';
 import type { Workspace } from '@/entities/workspace';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
@@ -25,7 +24,7 @@ export const useSpaceSettings = () => {
     }
   }, [activeSpace]);
 
-  const [updateWorkspace] = useUpdateWorkspace({
+  const [updateWorkspace] = useUpdateWorkspaceApi({
     onCompleted: (res: any) => {
       message.success(`Workspace renamed to "${res.updateWorkspace.name}" successfully!`);
       refetch();
@@ -35,7 +34,7 @@ export const useSpaceSettings = () => {
     },
   });
 
-  const [deleteWorkspace] = useDeleteWorkspace({
+  const [deleteWorkspace] = useDeleteWorkspaceApi({
     onCompleted: () => {
       message.success(`Workspace has been deleted.`);
       localStorage.removeItem('active_workspace_id');

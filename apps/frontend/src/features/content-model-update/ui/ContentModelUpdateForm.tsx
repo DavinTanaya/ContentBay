@@ -11,9 +11,26 @@ import {
   MapPin,
   Database,
 } from 'lucide-react';
-import { useContentModelUpdateForm } from '../model/useContentModelUpdateForm';
-import type { ContentModelUpdateFormProps } from '../model/content-model-update.types';
+import { useUpdateContentModel } from '../model/useUpdateContentModel';
+import type { ContentModelIcon } from '@entities/content-model';
 
+export interface ContentModelInitialValues {
+  id: string;
+  name: string;
+  apiId: string;
+  desc?: string;
+  icon?: ContentModelIcon;
+}
+
+export interface ContentModelUpdateFormProps {
+  initialValues: ContentModelInitialValues;
+}
+
+interface ContentModelFormValues {
+  name: string;
+  description?: string;
+  icon?: ContentModelIcon;
+}
 const ICON_OPTIONS = [
   {
     value: 'person',
@@ -92,8 +109,17 @@ const ICON_OPTIONS = [
 export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
   initialValues,
 }) => {
-  const { form, isUpdating, onFinish } =
-    useContentModelUpdateForm(initialValues);
+  const [form] = Form.useForm<ContentModelFormValues>();
+  const { updateIdentity, isUpdating } = useUpdateContentModel(initialValues.id);
+
+  const onFinish = (values: ContentModelFormValues) => {
+    updateIdentity({
+      name: values.name,
+      description: values.description,
+      apiId: initialValues.apiId,
+      icon: values.icon,
+    });
+  };
 
   return (
     <div className="w-full max-w-3xl mx-auto">

@@ -5,8 +5,8 @@ type Workspace {
   types: Int!
   env: Int!
   records: String!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input CreateWorkspaceInput {

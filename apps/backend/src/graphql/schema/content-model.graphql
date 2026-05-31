@@ -34,8 +34,8 @@ type ContentModel {
   description: String
   icon: String!
   status: ContentModelStatus!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   createdBy: Int!
   updatedBy: Int
   fields: [ContentField!]!

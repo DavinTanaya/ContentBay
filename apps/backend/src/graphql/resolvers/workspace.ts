@@ -17,11 +17,16 @@ export const workspaceResolvers = {
     },
   },
   Mutation: {
-    createWorkspace: (_: unknown, { input }: { input: { name: string; description?: string } }, context: Context) => {
+    createWorkspace: async (_: unknown, { input }: { input: { name: string; description?: string } }, context: Context) => {
       if (!context.userId) {
         throw new Error("Unauthorized");
       }
-      return WorkspaceService.create(input, context.userId);
+      try {
+        return await WorkspaceService.create(input, context.userId);
+      } catch (err) {
+        console.error('Error creating workspace:', err);
+        throw err;
+      }
     },
     updateWorkspace: (_: unknown, { id, name }: { id: string; name: string }, context: Context) => {
       if (!context.userId) {

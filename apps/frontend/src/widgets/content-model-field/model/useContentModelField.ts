@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import { useMutation } from '@apollo/client/react';
 import { message } from 'antd';
-import {
-  GET_CONTENT_MODEL,
-} from '@entities/content-model';
-import { useUpdateContentModelApi } from '@/features/content-model-update/api/update-content-model.api';
+
+import { useUpdateContentModelApi } from '@entities/content-model';
 import type {
   ContentField,
   FieldType,
@@ -87,7 +84,7 @@ export const useContentModelField = (model: ContentModel) => {
     try {
       const res = await updateContentModel({ variables: { id: model.id, input } });
       const updatedFields = res.data?.updateContentModel?.fields || [];
-      const newlyAddedField = updatedFields.find((f: any) => f.apiId === data.apiId);
+      const newlyAddedField = updatedFields.find((f: ContentField) => f.apiId === data.apiId);
 
       message.success('Field added');
       setIsFieldConfigOpen(false);

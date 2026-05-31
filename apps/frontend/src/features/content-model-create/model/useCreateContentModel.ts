@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, message } from 'antd';
-import { useCreateContentModelApi } from '../api/create-content-model.api';
+import { useCreateContentModelApi } from '@entities/content-model';
 import type {
   CreateContentModelDto,
   ContentModelIcon,

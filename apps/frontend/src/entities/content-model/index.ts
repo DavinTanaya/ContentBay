@@ -21,16 +21,22 @@ export type {
   UpdateContentModelDto,
 } from './model/dto';
 
-// API: Queries
-export { GET_CONTENT_MODEL, GET_CONTENT_MODELS } from './api/get-content-models.query';
-export { useGetContentModelsApi, useGetContentModelApi } from './api/get-content-models.api';
+// API: Mutations & Queries
+export * from './api/queries';
+export * from './api/mutations';
 
-// Passive Hooks
+// API: Hooks
+export {
+  useGetContentModelsApi,
+  useGetContentModelApi,
+  useCreateContentModelApi,
+  useDeleteContentModelApi,
+  useUpdateContentModelApi,
+} from './api/api';
 export { useContentModelCard } from './model/useContentModelCard';
 
 // Passive UI components
 export { ContentModelCard } from './ui/ContentModelCard';
-export { ContentModelGrid } from './ui/ContentModelGrid';
 export { JSONSchemaPreview } from './ui/JSONSchemaPreview';
 export { ModelMetadataSidebar } from './ui/ModelMetadataSidebar';
 export { FieldsTable } from './ui/FieldsTable';

@@ -7,7 +7,7 @@ export function CTA() {
   const navigate = useNavigate();
   return (
     <section className="py-20 px-6">
-      <div className="max-w-[1200px] mx-auto overflow-hidden rounded-[2.5rem] bg-geekblue-1 p-12 md:p-20 border border-geekblue-2">
+      <div className="max-w-300 mx-auto overflow-hidden rounded-[2.5rem] bg-geekblue-1 p-12 md:p-20 border border-geekblue-2">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-1 text-left">
@@ -35,7 +35,7 @@ export function CTA() {
             <img
               src={ctaImg}
               alt="Start building with ContentBay"
-              className="w-full max-w-[500px] h-auto object-contain"
+              className="w-full max-w-125 h-auto object-contain"
             />
           </div>
         </div>
