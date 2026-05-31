@@ -1,4 +1,4 @@
-import { ContentListView } from '@features/content/components/ContentListView';
+import { ContentListView } from '@features/content';
 
 export default function ContentListPage() {
   return <ContentListView />;

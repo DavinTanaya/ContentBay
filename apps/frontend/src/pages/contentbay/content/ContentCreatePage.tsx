@@ -1,4 +1,4 @@
-import { ContentCreateForm } from '@features/content/components/ContentCreateForm';
+import { ContentCreateForm } from '@features/content';
 
 export default function ContentCreatePage() {
   return <ContentCreateForm />;

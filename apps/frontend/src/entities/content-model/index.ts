@@ -17,16 +17,15 @@ export type {
 
 // DTO
 export type {
-  CreateContentModelRequest,
-  UpdateContentModelRequest,
+  CreateContentModelDto,
+  UpdateContentModelDto,
 } from './model/dto';
 
-// API: Mutations & Queries
-export * from './api/queries';
-export * from './api/mutations';
+// API: Queries
+export { GET_CONTENT_MODEL, GET_CONTENT_MODELS } from './api/get-content-models.query';
+export { useGetContentModelsApi, useGetContentModelApi } from './api/get-content-models.api';
 
-// API: Hooks
-export { useCreateContentModelApi, useGetContentModelsApi, useGetContentModelApi } from './api/api';
+// Passive Hooks
 export { useContentModelCard } from './model/useContentModelCard';
 
 // Passive UI components

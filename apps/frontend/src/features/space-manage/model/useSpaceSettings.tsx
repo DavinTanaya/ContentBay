@@ -2,8 +2,9 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Modal, message } from 'antd';
-import { useQuery, useMutation } from '@apollo/client/react';
-import { GET_WORKSPACE, UPDATE_WORKSPACE, DELETE_WORKSPACE, useActiveWorkspaceId } from '@/entities/workspace';
+import { useActiveWorkspaceId, useGetWorkspaceApi } from '@/entities/workspace';
+import { useUpdateWorkspace } from '../api/update-workspace.api';
+import { useDeleteWorkspace } from '@/features/workspace-manage/api/delete-workspace.api';
 import type { Workspace } from '@/entities/workspace';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
@@ -12,12 +13,8 @@ export const useSpaceSettings = () => {
   const activeId = useActiveWorkspaceId();
   const [newName, setNewName] = useState('');
 
-  // Fetch workspace details from the database using GraphQL query
-  const { data, loading, refetch } = useQuery(GET_WORKSPACE, {
-    variables: { id: activeId },
-    skip: !activeId,
-    fetchPolicy: 'network-only',
-  });
+  // Fetch workspace details using FSD compliant entity hook
+  const { data, loading, refetch } = useGetWorkspaceApi(activeId);
 
   const activeSpace: Workspace | null = data?.getWorkspace || null;
 
@@ -28,23 +25,23 @@ export const useSpaceSettings = () => {
     }
   }, [activeSpace]);
 
-  const [updateWorkspace] = useMutation(UPDATE_WORKSPACE, {
-    onCompleted: (res) => {
+  const [updateWorkspace] = useUpdateWorkspace({
+    onCompleted: (res: any) => {
       message.success(`Workspace renamed to "${res.updateWorkspace.name}" successfully!`);
       refetch();
     },
-    onError: (err) => {
+    onError: (err: any) => {
       message.error(err.message || 'Failed to rename workspace space.');
     },
   });
 
-  const [deleteWorkspace] = useMutation(DELETE_WORKSPACE, {
+  const [deleteWorkspace] = useDeleteWorkspace({
     onCompleted: () => {
       message.success(`Workspace has been deleted.`);
       localStorage.removeItem('active_workspace_id');
       navigate('/workspace');
     },
-    onError: (err) => {
+    onError: (err: any) => {
       message.error(err.message || 'Failed to delete workspace.');
     },
   });

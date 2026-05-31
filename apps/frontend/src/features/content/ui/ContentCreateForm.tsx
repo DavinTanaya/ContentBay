@@ -14,12 +14,13 @@ import {
 import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useActiveWorkspaceId } from '@/entities/workspace';
-import { useGetContentModelsApi } from '@entities/content-model';
+import { useCreateContentApi } from '../api/create-content.api';
 import {
-  useCreateContentApi,
   useUpdateContentApi,
-  useGetContentApi,
-} from '@entities/content';
+  useDeleteContentApi,
+} from '../api/mutation-content.api';
+import { useGetContentsApi, useGetContentApi } from '@entities/content';
+import { useGetContentModelsApi } from '@entities/content-model';
 import dayjs from 'dayjs';
 
 export const ContentCreateForm: React.FC = () => {

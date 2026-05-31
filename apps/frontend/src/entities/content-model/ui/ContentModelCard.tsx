@@ -5,13 +5,17 @@ import { RenderModelIcon } from './RenderModelIcon';
 import type { ContentModelCardProps } from '../model/types';
 import { useContentModelCard } from '../model/useContentModelCard';
 
+export interface ContentModelCardPropsExtended extends ContentModelCardProps {
+  formattedDate?: string;
+}
+
 export function ContentModelCard({
   model,
   authorName,
   authorInitial,
   onClick,
-}: ContentModelCardProps) {
-  const { formattedDate } = useContentModelCard(model);
+  formattedDate = 'N/A',
+}: ContentModelCardPropsExtended) {
   const displayName = authorName || 'System';
   console.log('author name: ', authorName);
   const initial = authorInitial || 'S';

@@ -1,8 +1,9 @@
-import React from 'react';
 import { useState } from 'react';
 import { Form, Modal, message } from 'antd';
 import { useQuery, useMutation } from '@apollo/client/react';
-import { GET_WORKSPACES, CREATE_WORKSPACE, DELETE_WORKSPACE } from '@/entities/workspace';
+import { useGetWorkspacesApi } from '@/entities/workspace';
+import { useCreateWorkspace } from '../api/create-workspace.api';
+import { useDeleteWorkspace } from '../api/delete-workspace.api';
 import type { Workspace } from '@/entities/workspace';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
@@ -14,19 +15,17 @@ export const useWorkspace = () => {
   const [form] = Form.useForm();
   const { user: currentUser } = useSession();
 
-  // Load workspaces directly from the database using GraphQL Query
-  const { data, loading, refetch } = useQuery(GET_WORKSPACES, {
-    fetchPolicy: 'network-only',
-  });
-  const workspaces: Workspace[] = data?.getWorkspaces || [];
+  // Load workspaces using FSD compliant hook
+  const { data, loading, refetch } = useGetWorkspacesApi();
+  const workspaces: Workspace[] = data?.getWorkspaces ?? [];
 
-  const [createWorkspace] = useMutation(CREATE_WORKSPACE, {
+  const [createWorkspace] = useCreateWorkspace({
     onCompleted: () => {
       refetch();
     },
   });
 
-  const [deleteWorkspace] = useMutation(DELETE_WORKSPACE, {
+  const [deleteWorkspace] = useDeleteWorkspace({
     onCompleted: () => {
       refetch();
     },

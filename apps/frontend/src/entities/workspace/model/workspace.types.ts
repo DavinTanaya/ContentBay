@@ -1,3 +1,5 @@
+import type { User } from '@/entities/user/@x';
+
 export interface Workspace {
   id: string;
   name: string;
@@ -6,7 +8,9 @@ export interface Workspace {
   env: number;
   records: string;
   updated: string;
-  members: string[];
+  members: User[];
   createdAt?: string;
   updatedAt?: string;
+  createdBy?: User;
+  updatedBy?: User;
 }

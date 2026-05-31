@@ -3,8 +3,8 @@ import { useMutation } from '@apollo/client/react';
 import { message } from 'antd';
 import {
   GET_CONTENT_MODEL,
-  UPDATE_CONTENT_MODEL,
 } from '@entities/content-model';
+import { useUpdateContentModelApi } from '@/features/content-model-update/api/update-content-model.api';
 import type {
   ContentField,
   FieldType,
@@ -21,10 +21,7 @@ export const useContentModelField = (model: ContentModel) => {
     null,
   );
 
-  const [updateContentModel] = useMutation(UPDATE_CONTENT_MODEL, {
-    refetchQueries: [{ query: GET_CONTENT_MODEL, variables: { id: model.id } }],
-    awaitRefetchQueries: true,
-  });
+  const [updateContentModel] = useUpdateContentModelApi(model.id);
 
   const handleEditField = (field: ContentField) => {
     setSelectedField(field);

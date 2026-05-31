@@ -1,6 +1,6 @@
 import type { ContentField, ContentModelIcon } from './types';
 
-export interface CreateContentModelRequest {
+export interface CreateContentModelDto {
   workspaceId?: string;
   name: string;
   apiId: string;
@@ -9,7 +9,7 @@ export interface CreateContentModelRequest {
   fields?: Array<Omit<ContentField, 'id'>>;
 }
 
-export interface UpdateContentModelRequest {
+export interface UpdateContentModelDto {
   name?: string;
   description?: string;
   icon?: ContentModelIcon;

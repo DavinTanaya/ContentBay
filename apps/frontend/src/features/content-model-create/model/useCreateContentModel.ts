@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, message } from 'antd';
-import { useCreateContentModelApi } from '@entities/content-model';
+import { useCreateContentModelApi } from '../api/create-content-model.api';
 import type {
-  CreateContentModelRequest,
+  CreateContentModelDto,
   ContentModelIcon,
 } from '@entities/content-model';
 import { useActiveWorkspaceId } from '@/entities/workspace';
@@ -34,7 +34,7 @@ export const useCreateContentModel = (onSuccess: () => void) => {
   }
 
   const handleCreate = async (values: CreateContentModelFormValues) => {
-    const input: CreateContentModelRequest = {
+    const input: CreateContentModelDto = {
       workspaceId: activeSpaceId,
       name: values.name,
       apiId: values.apiId,

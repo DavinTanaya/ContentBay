@@ -1,4 +1,4 @@
 export type { Workspace } from './model/workspace.types';
-export * from './api/workspace.queries';
-export * from './api/workspace.mutations';
+export { useGetWorkspacesApi, useGetWorkspaceApi } from './api/get-workspaces.api';
+export { GET_WORKSPACES, GET_WORKSPACE } from './api/get-workspaces.query';
 export { useActiveWorkspaceId } from './model/useActiveWorkspaceId';

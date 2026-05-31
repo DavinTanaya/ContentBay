@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client/react';
 import { message } from 'antd';
-import { UPDATE_CONTENT_MODEL } from '@entities/content-model';
+import { useUpdateContentModelApi } from '../api/update-content-model.api';
 import type { ContentModelIcon } from '@entities/content-model';
 
 interface UpdateIdentityInput {
@@ -11,7 +11,7 @@ interface UpdateIdentityInput {
 }
 
 export const useUpdateContentModel = (modelId: string) => {
-  const [updateMutation, { loading }] = useMutation(UPDATE_CONTENT_MODEL);
+  const [updateMutation, { loading }] = useUpdateContentModelApi(modelId);
 
   const updateIdentity = async (input: UpdateIdentityInput) => {
     try {

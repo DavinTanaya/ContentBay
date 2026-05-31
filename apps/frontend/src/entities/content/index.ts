@@ -1,4 +1,3 @@
-export * from './model/types';
-export * from './api/api';
-export * from './api/queries';
-export * from './api/mutations';
+export type { Content } from './model/types';
+export { GET_CONTENTS, GET_CONTENT } from './api/get-contents.query';
+export { useGetContentsApi, useGetContentApi } from './api/get-contents.api';

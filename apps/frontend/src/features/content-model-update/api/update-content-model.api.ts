@@ -1,22 +1,6 @@
 import { gql } from '@apollo/client';
-
-export const CREATE_CONTENT_MODEL = gql`
-  mutation CreateContentModel($input: CreateContentModelInput!) {
-    createContentModel(input: $input) {
-      id
-      workspaceId
-      name
-      apiId
-      description
-      icon
-      status
-      createdAt
-      updatedAt
-      createdBy
-      updatedBy
-    }
-  }
-`;
+import { useMutation } from '@apollo/client/react';
+import { GET_CONTENT_MODELS, GET_CONTENT_MODEL, type ContentModel } from '@/entities/content-model';
 
 export const UPDATE_CONTENT_MODEL = gql`
   mutation UpdateContentModel($id: ID!, $input: CreateContentModelInput!) {
@@ -55,8 +39,12 @@ export const UPDATE_CONTENT_MODEL = gql`
   }
 `;
 
-export const DELETE_CONTENT_MODEL = gql`
-  mutation DeleteContentModel($id: ID!) {
-    deleteContentModel(id: $id)
-  }
-`;
+export const useUpdateContentModelApi = (id: string, options?: any) => {
+  return useMutation<{ updateContentModel: ContentModel }>(UPDATE_CONTENT_MODEL, {
+    refetchQueries: [
+      { query: GET_CONTENT_MODEL, variables: { id } },
+      { query: GET_CONTENT_MODELS },
+    ],
+    ...options,
+  });
+};

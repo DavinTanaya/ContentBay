@@ -41,6 +41,7 @@ export function ContentModelList({
               model={model}
               authorName={model.authorName}
               authorInitial={model.authorInitial}
+              formattedDate={(model as any).formattedDate}
               onClick={onNavigateToSettings}
             />
           ))}

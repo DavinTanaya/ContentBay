@@ -4,7 +4,8 @@ import { PlusOutlined, MoreOutlined, UserOutlined, ClockCircleOutlined, DeleteOu
 import { useNavigate } from 'react-router-dom';
 import { useActiveWorkspaceId } from '@/entities/workspace';
 import { useGetContentModelsApi } from '@entities/content-model';
-import { useGetContentsApi, useDeleteContentApi } from '@entities/content';
+import { useGetContentsApi } from '@entities/content';
+import { useDeleteContentApi } from '../api/mutation-content.api';
 import { getContentPath } from '@/shared/constants/routes';
 
 export const ContentListView: React.FC = () => {
