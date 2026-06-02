@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { Form } from 'antd';
 import { useGetWorkspacesApi } from '@/entities/workspace';
 import {
   useCreateWorkspaceApi,
@@ -7,11 +6,11 @@ import {
 } from '@/entities/workspace';
 import { useSession } from '@/entities/session';
 import { mapWorkspaceToViewModel } from '@/entities/workspace/model/workspace.model';
+import type { CreateWorkspaceDto } from '@/entities/workspace/model/dto';
 
 export const useWorkspace = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
   const { user: currentUser } = useSession();
 
   // Load workspaces using FSD compliant hook
@@ -35,7 +34,7 @@ export const useWorkspace = () => {
     },
   });
 
-  const handleAddWorkspace = async (values: { name: string; description?: string }) => {
+  const handleAddWorkspace = async (values: CreateWorkspaceDto) => {
     return await createWorkspaceMutation({
       variables: {
         input: {
@@ -65,7 +64,6 @@ export const useWorkspace = () => {
     setSearchQuery,
     isModalOpen,
     setIsModalOpen,
-    form,
     handleAddWorkspace,
     handleDeleteWorkspace,
     loading,

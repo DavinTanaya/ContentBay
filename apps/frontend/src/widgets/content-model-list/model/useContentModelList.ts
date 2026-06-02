@@ -2,7 +2,7 @@ import {
   useGetContentModelsApi,
   type ContentModel,
 } from '@entities/content-model';
-import { useUsersManagement } from '@features/user-manage';
+import { useUsersManagement } from '@features/workspace-manage';
 import { useSession } from '@/entities/session';
 
 export const useContentModelList = (workspaceId: string) => {

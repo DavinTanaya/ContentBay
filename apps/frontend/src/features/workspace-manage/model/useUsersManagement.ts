@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Form, message } from 'antd';
 import { useActiveWorkspaceId, useGetWorkspaceApi, useInviteMemberApi, GET_WORKSPACE } from '@/entities/workspace';
 import type { WorkspaceMemberViewModel } from '@/entities/workspace/model/types';
+import type { InviteMemberDto } from '@/entities/workspace/model/dto';
 
 export interface ManagedUser {
   id: string;
@@ -23,18 +23,11 @@ export const useUsersManagement = () => {
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
-  const [form] = Form.useForm();
 
   const { data, loading, refetch } = useGetWorkspaceApi(activeSpaceId);
   const [inviteMember] = useInviteMemberApi({
     onCompleted: () => {
-      message.success(`User invited successfully!`);
-      setIsInviteModalOpen(false);
-      form.resetFields();
       refetch();
-    },
-    onError: (err: any) => {
-      message.error(err.message || 'Failed to invite user.');
     },
     // Refetch the specific workspace to update member list
     refetchQueries: [{ query: GET_WORKSPACE, variables: { id: activeSpaceId } }]
@@ -72,12 +65,14 @@ export const useUsersManagement = () => {
   const handleInviteUser = async (values: { email: string; role: string }) => {
     if (!activeSpaceId) return;
     
-    await inviteMember({
-      variables: {
-        workspaceId: activeSpaceId,
-        email: values.email,
-        role: values.role
-      }
+    const input: InviteMemberDto = {
+      workspaceId: activeSpaceId,
+      email: values.email,
+      role: values.role
+    };
+
+    return await inviteMember({
+      variables: input
     });
   };
 
@@ -152,7 +147,6 @@ export const useUsersManagement = () => {
     handleSelectAll,
     handleSelectUser,
     handleInviteUser,
-    form,
     startIndex,
     endIndex,
     loading

@@ -10,12 +10,14 @@ import SafetyOutlined from '@ant-design/icons/SafetyOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
 import CodeOutlined from '@ant-design/icons/CodeOutlined';
 import AppstoreOutlined from '@ant-design/icons/AppstoreOutlined';
-import { useUsersManagement } from '@/features/user-manage';
+import { useUsersManagement } from '@/features/workspace-manage';
 import { getAvatarColor } from '@/entities/workspace/model/workspace.model';
-import { Avatar } from 'antd';
+import { Avatar, message } from 'antd';
 
 export default function UsersManagementPage() {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+  
   const {
     users,
     paginatedUsers,
@@ -39,10 +41,21 @@ export default function UsersManagementPage() {
     handleSelectAll,
     handleSelectUser,
     handleInviteUser,
-    form,
     startIndex,
     endIndex,
   } = useUsersManagement();
+
+  const onInvite = async (values: { email: string; role: string }) => {
+    try {
+      await handleInviteUser(values);
+      message.success(`User invited successfully!`);
+      setIsInviteModalOpen(false);
+      form.resetFields();
+    } catch (err: unknown) {
+      const error = err as Error;
+      message.error(error.message || 'Failed to invite user.');
+    }
+  };
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
@@ -323,7 +336,7 @@ export default function UsersManagementPage() {
         <Form
           form={form}
           layout="vertical"
-          onFinish={handleInviteUser}
+          onFinish={onInvite}
           className="mt-6"
           requiredMark={false}
         >

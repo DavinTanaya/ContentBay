@@ -140,5 +140,5 @@ export interface UpdateContentModelInput {
   description?: string;
   icon?: ContentModelIcon;
   status?: 'LIVE' | 'DRAFT';
-  fields?: ContentField[];
+  fields?: Array<Omit<ContentField, 'id'>>;
 }

@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { Input, Button, Divider } from 'antd';
+import { Input, Button, Divider, message, Modal } from 'antd';
 import {
   ArrowLeftOutlined,
   SettingOutlined,
   CopyOutlined,
   EditOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { useSpaceSettings } from '@/features/space-manage';
+import { useSpaceSettings } from '@/features/workspace-detail';
 
 export default function SpaceSettingsPage() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function SpaceSettingsPage() {
     setNewName,
     handleCopyId,
     handleRename,
-    handleDelete,
+    handleDeleteConfirm,
   } = useSpaceSettings();
 
   if (!activeSpace) {
@@ -26,6 +27,64 @@ export default function SpaceSettingsPage() {
       </div>
     );
   }
+
+  const onRename = async () => {
+    try {
+      await handleRename();
+      message.success(`Workspace renamed successfully!`);
+    } catch (err: any) {
+      message.error(err.message || 'Failed to rename workspace.');
+    }
+  };
+
+  const onDelete = () => {
+    Modal.confirm({
+      icon: null,
+      title: null,
+      content: (
+        <div className="flex flex-col items-center text-center p-4">
+          <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 mb-6 shadow-sm shadow-blue-500/10">
+            <ExclamationCircleOutlined style={{ fontSize: '32px', color: '#1890ff' }} />
+          </div>
+          <h3 className="font-poppins text-lg font-bold text-gray-13 mb-3 leading-snug">
+            Are you absolutely sure?
+          </h3>
+          <p className="font-poppins text-sm text-gray-8 leading-relaxed mb-0">
+            This action is <span className="font-semibold text-red-5" style={{ color: '#ff4d4f' }}>irreversible</span> and will permanently delete the workspace <span className="font-semibold text-gray-10" style={{ color: '#262626' }}>"{activeSpace.name}"</span> along with all nested content schemas.
+          </p>
+        </div>
+      ),
+      okText: 'Yes, Delete Space',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      centered: true,
+      width: 440,
+      okButtonProps: {
+        size: 'large',
+        className: 'rounded-xl h-11 px-6 font-medium font-poppins shadow-sm',
+        style: { backgroundColor: '#ff4d4f', borderColor: '#ff4d4f', color: '#ffffff' }
+      },
+      cancelButtonProps: {
+        size: 'large',
+        className: 'rounded-xl h-11 px-6 font-medium font-poppins border-gray-4 text-gray-8 hover:text-gray-13 hover:border-gray-6',
+        style: { borderRadius: '12px' }
+      },
+      onOk: async () => {
+        try {
+          await handleDeleteConfirm();
+          message.success(`Workspace has been deleted.`);
+        } catch (err: any) {
+          message.error(err.message || 'Failed to delete workspace.');
+        }
+      },
+    });
+  };
+
+  const onCopy = () => {
+    if (handleCopyId()) {
+      message.success('Space ID copied to clipboard!');
+    }
+  };
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
@@ -67,7 +126,7 @@ export default function SpaceSettingsPage() {
                   type="text"
                   shape="circle"
                   icon={<CopyOutlined className="text-gray-7 hover:text-blue-6" />}
-                  onClick={handleCopyId}
+                  onClick={onCopy}
                   className="hover:bg-gray-3 border-none flex items-center justify-center"
                 />
               }
@@ -94,7 +153,7 @@ export default function SpaceSettingsPage() {
                 variant="solid"
                 color="geekblue"
                 size="large"
-                onClick={handleRename}
+                onClick={onRename}
                 className="h-12 px-6 rounded-xl shadow-sm shrink-0"
               >
                 Rename space
@@ -117,7 +176,7 @@ export default function SpaceSettingsPage() {
             type="primary"
             danger
             size="large"
-            onClick={handleDelete}
+            onClick={onDelete}
             className="rounded-xl h-12 px-6 shadow-sm"
           >
             Delete space

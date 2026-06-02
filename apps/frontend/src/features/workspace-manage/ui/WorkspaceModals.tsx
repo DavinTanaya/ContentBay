@@ -1,20 +1,21 @@
 import React from 'react';
 import { Modal, Form, Input, Button, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import type { CreateWorkspaceDto } from '@/entities/workspace/model/dto';
 
 interface WorkspaceModalsProps {
   isAddModalOpen: boolean;
   onAddModalCancel: () => void;
-  addForm: any;
-  onAddSubmit: (values: { name: string; description?: string }) => Promise<void>;
+  onAddSubmit: (values: CreateWorkspaceDto) => Promise<unknown>;
 }
 
 export const WorkspaceModals: React.FC<WorkspaceModalsProps> = ({
   isAddModalOpen,
   onAddModalCancel,
-  addForm,
   onAddSubmit,
 }) => {
+  const [form] = Form.useForm<CreateWorkspaceDto>();
+
   return (
     <>
       {/* Add Workspace Modal */}
@@ -31,17 +32,18 @@ export const WorkspaceModals: React.FC<WorkspaceModalsProps> = ({
         centered
         width={480}
       >
-        <Form
-          form={addForm}
+        <Form<CreateWorkspaceDto>
+          form={form}
           layout="vertical"
           onFinish={async (values) => {
             try {
               await onAddSubmit(values);
               message.success(`Workspace "${values.name}" created successfully!`);
               onAddModalCancel();
-              addForm.resetFields();
-            } catch (err: any) {
-              message.error(err.message || 'Failed to create workspace.');
+              form.resetFields();
+            } catch (err: unknown) {
+              const error = err as Error;
+              message.error(error.message || 'Failed to create workspace.');
             }
           }}
           className="mt-6"
@@ -53,6 +55,13 @@ export const WorkspaceModals: React.FC<WorkspaceModalsProps> = ({
             rules={[{ required: true, message: 'Please enter space name!' }]}
           >
             <Input placeholder="e.g. Production CMS, Staging Space" size="large" />
+          </Form.Item>
+
+          <Form.Item
+            name="description"
+            label={<span className="font-semibold text-gray-9 text-sm">Description</span>}
+          >
+            <Input.TextArea placeholder="Describe the purpose of this workspace" rows={3} />
           </Form.Item>
 
           <div className="flex justify-end gap-3 mt-8">
@@ -72,7 +81,7 @@ export const WorkspaceModals: React.FC<WorkspaceModalsProps> = ({
 export const showDeleteConfirmation = (
   id: string, 
   name: string, 
-  onConfirm: (id: string) => Promise<any>
+  onConfirm: (id: string) => Promise<unknown>
 ) => {
   Modal.confirm({
     icon: null,
@@ -109,8 +118,9 @@ export const showDeleteConfirmation = (
       try {
         await onConfirm(id);
         message.success(`Workspace "${name}" has been deleted.`);
-      } catch (err: any) {
-        message.error(err.message || 'Failed to delete workspace.');
+      } catch (err: unknown) {
+        const error = err as Error;
+        message.error(error.message || 'Failed to delete workspace.');
       }
     },
   });

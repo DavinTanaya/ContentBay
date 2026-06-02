@@ -6,7 +6,28 @@ import type {
   ContentField,
   FieldType,
   ContentModel,
+  FieldIcon,
 } from '@entities/content-model';
+
+interface SanitizedField {
+  name: string;
+  apiId: string;
+  type: string;
+  icon: FieldIcon;
+  localized: boolean;
+  required: boolean;
+  isTitle: boolean;
+  description: string;
+  validations?: {
+    required?: boolean;
+    unique?: boolean;
+    minCount?: number;
+    maxCount?: number;
+    matchPattern?: string;
+    prohibitPattern?: string;
+    allowedValues?: string[];
+  };
+}
 
 export const useContentModelField = (model: ContentModel) => {
   const [isFieldModalVisible, setIsFieldModalVisible] = useState(false);
@@ -71,35 +92,43 @@ export const useContentModelField = (model: ContentModel) => {
     updatedField: Omit<ContentField, 'id'>,
   ) => {
     const existingFields = model.fields || [];
-    
+
     // Check if we are adding a totally new field OR editing an existing one
-    const isNewField = !existingFields.find(f => f.apiId === originalApiId);
+    const isNewField = !existingFields.find((f) => f.apiId === originalApiId);
 
-    const sanitizeField = (f: any) => ({
-      name: f.name,
-      apiId: f.apiId,
-      type: f.type,
-      icon: f.icon || 'text',
-      localized: f.localized || false,
-      required: f.required || false,
-      isTitle: f.isTitle || false,
-      description: f.description || '',
-      validations: f.validations ? {
-        required: f.validations.required,
-        unique: f.validations.unique,
-        minCount: f.validations.minCount,
-        maxCount: f.validations.maxCount,
-        matchPattern: f.validations.matchPattern,
-        prohibitPattern: f.validations.prohibitPattern,
-        allowedValues: f.validations.allowedValues,
-      } : undefined,
-    });
+    const sanitizeField = (
+      f: ContentField | Omit<ContentField, 'id'>,
+    ): SanitizedField => {
+      const sanitized: SanitizedField = {
+        name: f.name,
+        apiId: f.apiId,
+        type: f.type,
+        icon: f.icon || 'text',
+        localized: f.localized || false,
+        required: f.required || false,
+        isTitle: f.isTitle || false,
+        description: f.description || '',
+        validations: f.validations
+          ? {
+              required: f.validations.required,
+              unique: f.validations.unique,
+              minCount: f.validations.minCount,
+              maxCount: f.validations.maxCount,
+              matchPattern: f.validations.matchPattern,
+              prohibitPattern: f.validations.prohibitPattern,
+              allowedValues: f.validations.allowedValues,
+            }
+          : undefined,
+      };
 
-    let newFieldsArray;
+      return sanitized;
+    };
+
+    let newFieldsArray: SanitizedField[];
     if (isNewField) {
       newFieldsArray = [
         ...existingFields.map(sanitizeField),
-        sanitizeField(updatedField)
+        sanitizeField(updatedField),
       ];
     } else {
       newFieldsArray = existingFields.map((f) => {
@@ -120,12 +149,16 @@ export const useContentModelField = (model: ContentModel) => {
 
     try {
       await updateContentModel({ variables: { id: model.id, input } });
-      message.success(isNewField ? 'Field added successfully' : 'Field updated successfully');
+      message.success(
+        isNewField ? 'Field added successfully' : 'Field updated successfully',
+      );
       setIsFieldModalVisible(false);
       setSelectedField(null);
     } catch (err) {
       console.error(err);
-      message.error(isNewField ? 'Failed to add field' : 'Failed to update field');
+      message.error(
+        isNewField ? 'Failed to add field' : 'Failed to update field',
+      );
     }
   };
 

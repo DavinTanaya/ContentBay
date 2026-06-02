@@ -14,7 +14,6 @@ export default function WorkspacePage() {
     setSearchQuery,
     isModalOpen,
     setIsModalOpen,
-    form,
     handleAddWorkspace,
     handleDeleteWorkspace,
     currentUser,
@@ -67,7 +66,6 @@ export default function WorkspacePage() {
       <WorkspaceModals
         isAddModalOpen={isModalOpen}
         onAddModalCancel={() => setIsModalOpen(false)}
-        addForm={form}
         onAddSubmit={handleAddWorkspace}
       />
     </div>

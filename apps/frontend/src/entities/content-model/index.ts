@@ -15,6 +15,7 @@ export type {
   RenderModelIconProps,
   CreateContentModelInput,
   UpdateContentModelInput,
+  FieldIcon,
 } from './model/types';
 
 // API: Mutations & Queries
