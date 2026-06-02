@@ -9,18 +9,19 @@ datasource db {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  email         String         @unique
-  firstName     String?
-  lastName      String?
-  password      String?
-  picture       String?
-  provider      String
-  createdAt     DateTime       @default(now())
-  createdModels ContentModel[] @relation("ModelCreator")
-  updatedModels ContentModel[] @relation("ModelUpdater")
-  workspaces    Workspace[]    @relation("WorkspaceCreator")
-  posts         Post[]
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  firstName        String?
+  lastName         String?
+  password         String?
+  picture          String?
+  provider         String
+  createdAt        DateTime          @default(now())
+  createdModels    ContentModel[]    @relation("ModelCreator")
+  updatedModels    ContentModel[]    @relation("ModelUpdater")
+  workspaces       Workspace[]       @relation("WorkspaceCreator")
+  workspaceMembers WorkspaceMember[]
+  posts            Post[]
 }
 
 model Post {
@@ -38,7 +39,7 @@ model Post {
 model ContentModel {
   id          String             @id @default(cuid())
   name        String
-  apiId       String             @unique
+  apiId       String
   description String?
   status      ContentModelStatus @default(DRAFT)
   createdAt   DateTime           @default(now())
@@ -52,21 +53,38 @@ model ContentModel {
   workspaceId String?
   workspace   Workspace?         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   contents    Content[]
+
+  @@unique([workspaceId, apiId])
 }
 
 model Workspace {
-  id          String         @id @default(cuid())
+  id          String            @id @default(cuid())
   name        String
   description String?
-  types       Int            @default(0)
-  env         Int            @default(1)
-  records     String         @default("0")
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  types       Int               @default(0)
+  env         Int               @default(1)
+  records     String            @default("0")
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  isDeleted   Boolean           @default(false)
+  deletedAt   DateTime?
   createdBy   Int
-  creator     User           @relation("WorkspaceCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  creator     User              @relation("WorkspaceCreator", fields: [createdBy], references: [id], onDelete: Cascade)
   models      ContentModel[]
   contents    Content[]
+  members     WorkspaceMember[]
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  workspaceId String
+  userId      Int
+  role        String    @default("Developer")
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
 }
 
 model ContentField {

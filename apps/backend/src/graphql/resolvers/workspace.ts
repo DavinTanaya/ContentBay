@@ -40,5 +40,11 @@ export const workspaceResolvers = {
       }
       return WorkspaceService.delete(id, context.userId);
     },
+    inviteMember: (_: unknown, { workspaceId, email, role }: { workspaceId: string; email: string; role: string }, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
+      return WorkspaceService.inviteMember(workspaceId, email, role, context.userId);
+    },
   },
 };

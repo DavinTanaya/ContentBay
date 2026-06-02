@@ -11,6 +11,24 @@ export const GET_WORKSPACES = gql`
       records
       createdAt
       updatedAt
+      isDeleted
+      deletedAt
+      _count {
+        models
+        contents
+      }
+      members {
+        id
+        userId
+        role
+        user {
+          id
+          firstName
+          lastName
+          email
+          picture
+        }
+      }
     }
   }
 `;
@@ -26,6 +44,24 @@ export const GET_WORKSPACE = gql`
       records
       createdAt
       updatedAt
+      isDeleted
+      deletedAt
+      _count {
+        models
+        contents
+      }
+      members {
+        id
+        userId
+        role
+        user {
+          id
+          firstName
+          lastName
+          email
+          picture
+        }
+      }
     }
   }
 `;

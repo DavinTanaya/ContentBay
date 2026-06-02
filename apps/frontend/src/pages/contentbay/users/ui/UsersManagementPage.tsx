@@ -11,6 +11,8 @@ import EditOutlined from '@ant-design/icons/EditOutlined';
 import CodeOutlined from '@ant-design/icons/CodeOutlined';
 import AppstoreOutlined from '@ant-design/icons/AppstoreOutlined';
 import { useUsersManagement } from '@/features/user-manage';
+import { getAvatarColor } from '@/entities/workspace/model/workspace.model';
+import { Avatar } from 'antd';
 
 export default function UsersManagementPage() {
   const navigate = useNavigate();
@@ -221,12 +223,20 @@ export default function UsersManagementPage() {
 
               {/* User Avatar + Details */}
               <div className="col-span-4 flex items-center gap-3">
-                <div className="w-[30px] h-[30px] rounded-xl bg-blue-1 flex items-center justify-center shrink-0">
-                  <UserOutlined className="text-blue-7 text-[13px]" />
-                </div>
+                <Avatar
+                  className="shrink-0 font-semibold text-white border-none"
+                  style={{
+                    backgroundColor: getAvatarColor(user.email),
+                    width: '32px',
+                    height: '32px',
+                    lineHeight: '32px',
+                  }}
+                >
+                  {(user.name || user.email || 'U').charAt(0).toUpperCase()}
+                </Avatar>
                 <div className="flex flex-col">
                   <span className="font-poppins font-medium text-sm text-gray-13 leading-tight">
-                    {user.name}
+                    {user.name || 'Anonymous User'}
                   </span>
                   <span className="text-xs text-gray-8 font-poppins">
                     {user.email}
@@ -317,22 +327,6 @@ export default function UsersManagementPage() {
           className="mt-6"
           requiredMark={false}
         >
-          <Form.Item
-            name="name"
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 shrink-0">
-                  <UserOutlined />
-                </div>
-                <span className="font-semibold text-gray-9 text-sm">
-                  Full Name
-                </span>
-              </span>
-            }
-            rules={[{ required: true, message: 'Please enter user name!' }]}
-          >
-            <Input placeholder="e.g. John Doe" size="large" />
-          </Form.Item>
 
           <Form.Item
             name="email"

@@ -1,4 +1,5 @@
 import { ContentModelService } from '../../services/content-model.service';
+import { Context } from '../../context';
 
 export const contentModelResolvers = {
   Query: {
@@ -10,13 +11,22 @@ export const contentModelResolvers = {
     },
   },
   Mutation: {
-    createContentModel: (_: unknown, { input }: { input: any }) => {
-      return ContentModelService.create(input);
+    createContentModel: (_: unknown, { input }: { input: any }, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
+      return ContentModelService.create({ ...input, createdBy: context.userId });
     },
-    updateContentModel: (_: unknown, { id, input }: { id: string, input: any }) => {
-      return ContentModelService.update(id, input);
+    updateContentModel: (_: unknown, { id, input }: { id: string, input: any }, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
+      return ContentModelService.update(id, { ...input, updatedBy: context.userId });
     },
-    deleteContentModel: (_: unknown, { id }: { id: string }) => {
+    deleteContentModel: (_: unknown, { id }: { id: string }, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
       return ContentModelService.delete(id);
     },
   },

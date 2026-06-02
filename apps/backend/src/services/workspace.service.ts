@@ -20,4 +20,8 @@ export class WorkspaceService {
   static async delete(id: string, userId: number) {
     return WorkspaceRepository.delete(id, userId);
   }
+
+  static async inviteMember(workspaceId: string, email: string, role: string, userId: number) {
+    return WorkspaceRepository.inviteMember(workspaceId, email, role, userId);
+  }
 }

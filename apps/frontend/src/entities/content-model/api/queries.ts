@@ -21,6 +21,18 @@ export const GET_CONTENT_MODELS = gql`
         apiId
         icon
       }
+      creator {
+        id
+        firstName
+        lastName
+        email
+      }
+      updater {
+        id
+        firstName
+        lastName
+        email
+      }
     }
   }
 `;

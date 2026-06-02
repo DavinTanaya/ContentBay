@@ -39,6 +39,8 @@ type ContentModel {
   createdBy: Int!
   updatedBy: Int
   fields: [ContentField!]!
+  creator: User
+  updater: User
 }
 
 input FieldValidationsInput {

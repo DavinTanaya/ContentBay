@@ -1,2 +1,3 @@
-export { useWorkspace } from './model/useWorkspace.tsx';
-export type { Workspace } from '@/entities/workspace';
+export { useWorkspace } from './model/useWorkspace';
+export { WorkspaceList } from './ui/WorkspaceList';
+export { WorkspaceModals, showDeleteConfirmation } from './ui/WorkspaceModals';

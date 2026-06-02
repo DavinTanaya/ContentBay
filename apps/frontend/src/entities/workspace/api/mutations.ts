@@ -35,3 +35,9 @@ export const UPDATE_WORKSPACE = gql`
     }
   }
 `;
+
+export const INVITE_MEMBER = gql`
+  mutation InviteMember($workspaceId: ID!, $email: String!, $role: String!) {
+    inviteMember(workspaceId: $workspaceId, email: $email, role: $role)
+  }
+`;

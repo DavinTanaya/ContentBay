@@ -5,6 +5,8 @@ export class ContentModelRepository {
     return prisma.contentModel.findMany({
       include: {
         fields: true,
+        creator: true,
+        updater: true,
       },
       orderBy: {
         updatedAt: 'desc',
@@ -17,6 +19,8 @@ export class ContentModelRepository {
       where: { id },
       include: {
         fields: true,
+        creator: true,
+        updater: true,
       },
     });
   }

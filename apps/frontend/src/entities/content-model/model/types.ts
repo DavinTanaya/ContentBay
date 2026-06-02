@@ -1,3 +1,5 @@
+import type { User } from '@/entities/user/@x/workspace';
+
 export type ContentModelIcon =
   | 'person'
   | 'folder'
@@ -62,6 +64,8 @@ export interface ContentModel {
   updatedAt?: string;
   createdBy: number;
   updatedBy?: number;
+  creator?: User;
+  updater?: User;
 }
 
 export interface ContentModelCardProps {

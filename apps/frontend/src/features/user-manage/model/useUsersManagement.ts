@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, message } from 'antd';
-import { useSession } from '@/entities/session';
-import { useActiveWorkspaceId } from '@/entities/workspace';
+import { useActiveWorkspaceId, useGetWorkspaceApi, useInviteMemberApi, GET_WORKSPACE } from '@/entities/workspace';
+import type { WorkspaceMemberViewModel } from '@/entities/workspace/model/types';
 
 export interface ManagedUser {
   id: string;
@@ -10,22 +10,11 @@ export interface ManagedUser {
   role: string;
   lastActive: string;
   twoFactorStatus: string;
+  userId: number;
 }
 
-export const DEFAULT_USERS: ManagedUser[] = [
-  {
-    id: 'user-1',
-    name: 'User 1',
-    email: 'user1@gmail.com',
-    role: 'Owner',
-    lastActive: 'An hour ago',
-    twoFactorStatus: '⎯⎯',
-  },
-];
-
 export const useUsersManagement = () => {
-  const { user: currentUser } = useSession();
-  const [users, setUsers] = useState<ManagedUser[]>([]);
+  const activeSpaceId = useActiveWorkspaceId();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState('Any');
   const [selectedStatus, setSelectedStatus] = useState('Any');
@@ -36,85 +25,60 @@ export const useUsersManagement = () => {
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [form] = Form.useForm();
 
-  const activeSpaceId = useActiveWorkspaceId();
-  const userStorageKey = `contentbay_users_${activeSpaceId}`;
+  const { data, loading, refetch } = useGetWorkspaceApi(activeSpaceId);
+  const [inviteMember] = useInviteMemberApi({
+    onCompleted: () => {
+      message.success(`User invited successfully!`);
+      setIsInviteModalOpen(false);
+      form.resetFields();
+      refetch();
+    },
+    onError: (err: any) => {
+      message.error(err.message || 'Failed to invite user.');
+    },
+    // Refetch the specific workspace to update member list
+    refetchQueries: [{ query: GET_WORKSPACE, variables: { id: activeSpaceId } }]
+  });
 
-  useEffect(() => {
-    const ownerName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}`.trim() : 'User Owner';
-    const ownerEmail = currentUser?.email || 'owner@gmail.com';
+  const members: WorkspaceMemberViewModel[] = (data?.getWorkspace?.members || []).map(m => ({
+    id: m.id,
+    userId: m.userId,
+    name: `${m.user.firstName || ''} ${m.user.lastName || ''}`.trim() || '',
+    email: m.user.email,
+    role: m.role,
+    picture: m.user.picture || undefined,
+  })).sort((a, b) => {
+    if (a.role === 'Owner' && b.role !== 'Owner') return -1;
+    if (a.role !== 'Owner' && b.role === 'Owner') return 1;
+    return a.name.localeCompare(b.name);
+  });
 
-    const stored = localStorage.getItem(userStorageKey);
-    if (stored) {
-      try {
-        const parsed: ManagedUser[] = JSON.parse(stored);
-        // Selalu sinkronkan Owner dengan user yang login sekarang
-        const updated = parsed.map((u) => {
-          if (u.role === 'Owner') {
-            return {
-              ...u,
-              name: ownerName,
-              email: ownerEmail,
-            };
-          }
-          return u;
-        });
-        setUsers(updated);
-        localStorage.setItem(userStorageKey, JSON.stringify(updated));
-      } catch {
-        const fallback = [
-          {
-            id: 'owner-id',
-            name: ownerName,
-            email: ownerEmail,
-            role: 'Owner',
-            lastActive: 'Online now',
-            twoFactorStatus: '⎯⎯',
-          }
-        ];
-        setUsers(fallback);
-        localStorage.setItem(userStorageKey, JSON.stringify(fallback));
-      }
-    } else {
-      const initialUsersForSpace = [
-        {
-          id: 'owner-id',
-          name: ownerName,
-          email: ownerEmail,
-          role: 'Owner',
-          lastActive: 'Online now',
-          twoFactorStatus: '⎯⎯',
-        }
-      ];
-      setUsers(initialUsersForSpace);
-      localStorage.setItem(userStorageKey, JSON.stringify(initialUsersForSpace));
-    }
-  }, [userStorageKey, activeSpaceId, currentUser]);
+  // Map to ManagedUser format for the table
+  const users: ManagedUser[] = members.map(m => ({
+    id: m.id,
+    userId: m.userId,
+    name: m.name,
+    email: m.email,
+    role: m.role,
+    lastActive: '⎯⎯', // Not implemented in DB yet
+    twoFactorStatus: '⎯⎯',
+  }));
 
   // Reset page to 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, selectedRole, selectedStatus, pageSize]);
 
-  const saveUsers = (updated: ManagedUser[]) => {
-    setUsers(updated);
-    localStorage.setItem(userStorageKey, JSON.stringify(updated));
-  };
-
-  const handleInviteUser = (values: { name: string; email: string; role: string }) => {
-    const newUser: ManagedUser = {
-      id: `user-${Date.now()}`,
-      name: values.name,
-      email: values.email,
-      role: values.role,
-      lastActive: 'Just now',
-      twoFactorStatus: '⎯⎯',
-    };
-
-    const updated = [...users, newUser];
-    saveUsers(updated);
-    setIsInviteModalOpen(false);
-    form.resetFields();
-    message.success(`Invited user "${values.name}" successfully!`);
+  const handleInviteUser = async (values: { email: string; role: string }) => {
+    if (!activeSpaceId) return;
+    
+    await inviteMember({
+      variables: {
+        workspaceId: activeSpaceId,
+        email: values.email,
+        role: values.role
+      }
+    });
   };
 
   const handleSelectAll = (checked: boolean) => {
@@ -134,9 +98,13 @@ export const useUsersManagement = () => {
   };
 
   const filteredUsers = users.filter((u) => {
+    const name = u.name || '';
+    const email = u.email || '';
+    const search = searchQuery?.toLowerCase() || '';
+
     const matchesSearch =
-      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchQuery.toLowerCase());
+      name.toLowerCase().includes(search) ||
+      email.toLowerCase().includes(search);
     
     const matchesRole = selectedRole === 'Any' || u.role === selectedRole;
     const matchesStatus =
@@ -187,5 +155,6 @@ export const useUsersManagement = () => {
     form,
     startIndex,
     endIndex,
+    loading
   };
 };

@@ -46,7 +46,9 @@ export const useContentModelField = (model: ContentModel) => {
   }) => {
     if (!selectedFieldType) return;
 
-    const newField = {
+    // Don't call API yet. Just prepare local object and show detail modal.
+    const tempNewField: ContentField = {
+      id: `new-${Date.now()}`, // temporary ID
       name: data.name,
       apiId: data.apiId,
       type: selectedFieldType.title,
@@ -55,48 +57,13 @@ export const useContentModelField = (model: ContentModel) => {
       required: false,
       isTitle: false,
       description: '',
-      validations: undefined,
+      validations: { required: false, unique: false },
     };
 
-    const existingFields = model.fields || [];
-
-    const input = {
-      name: model.name,
-      apiId: model.apiId,
-      description: model.description || '',
-      icon: model.icon,
-      fields: [
-        ...existingFields.map((f) => ({
-          name: f.name,
-          apiId: f.apiId,
-          type: f.type,
-          icon: f.icon,
-          localized: f.localized,
-          required: f.required,
-          isTitle: f.isTitle,
-          description: f.description,
-          validations: f.validations,
-        })),
-        newField,
-      ],
-    };
-
-    try {
-      const res = await updateContentModel({ variables: { id: model.id, input } });
-      const updatedFields = res.data?.updateContentModel?.fields || [];
-      const newlyAddedField = updatedFields.find((f: ContentField) => f.apiId === data.apiId);
-
-      message.success('Field added');
-      setIsFieldConfigOpen(false);
-
-      if (newlyAddedField) {
-        setSelectedField(newlyAddedField);
-        setIsFieldModalVisible(true);
-      }
-    } catch (err) {
-      console.error(err);
-      message.error('Failed to add field');
-    }
+    setSelectedField(tempNewField);
+    setIsFieldConfigOpen(false);
+    setIsFieldModalVisible(true);
+    setSelectedFieldType(null);
   };
 
   const handleEditFieldConfirm = async (
@@ -104,63 +71,61 @@ export const useContentModelField = (model: ContentModel) => {
     updatedField: Omit<ContentField, 'id'>,
   ) => {
     const existingFields = model.fields || [];
+    
+    // Check if we are adding a totally new field OR editing an existing one
+    const isNewField = !existingFields.find(f => f.apiId === originalApiId);
+
+    const sanitizeField = (f: any) => ({
+      name: f.name,
+      apiId: f.apiId,
+      type: f.type,
+      icon: f.icon || 'text',
+      localized: f.localized || false,
+      required: f.required || false,
+      isTitle: f.isTitle || false,
+      description: f.description || '',
+      validations: f.validations ? {
+        required: f.validations.required,
+        unique: f.validations.unique,
+        minCount: f.validations.minCount,
+        maxCount: f.validations.maxCount,
+        matchPattern: f.validations.matchPattern,
+        prohibitPattern: f.validations.prohibitPattern,
+        allowedValues: f.validations.allowedValues,
+      } : undefined,
+    });
+
+    let newFieldsArray;
+    if (isNewField) {
+      newFieldsArray = [
+        ...existingFields.map(sanitizeField),
+        sanitizeField(updatedField)
+      ];
+    } else {
+      newFieldsArray = existingFields.map((f) => {
+        if (f.apiId === originalApiId) {
+          return sanitizeField(updatedField);
+        }
+        return sanitizeField(f);
+      });
+    }
 
     const input = {
       name: model.name,
       apiId: model.apiId,
       description: model.description || '',
       icon: model.icon,
-      fields: existingFields.map((f) => {
-        if (f.apiId === originalApiId) {
-          return {
-            name: updatedField.name,
-            apiId: updatedField.apiId,
-            type: updatedField.type,
-            icon: updatedField.icon,
-            localized: updatedField.localized || false,
-            required: updatedField.required || false,
-            isTitle: updatedField.isTitle || false,
-            description: updatedField.description || '',
-            validations: updatedField.validations ? {
-              required: updatedField.validations.required,
-              unique: updatedField.validations.unique,
-              minCount: updatedField.validations.minCount,
-              maxCount: updatedField.validations.maxCount,
-              matchPattern: updatedField.validations.matchPattern,
-              prohibitPattern: updatedField.validations.prohibitPattern,
-              allowedValues: updatedField.validations.allowedValues,
-            } : undefined,
-          };
-        }
-        return {
-          name: f.name,
-          apiId: f.apiId,
-          type: f.type,
-          icon: f.icon,
-          localized: f.localized,
-          required: f.required,
-          isTitle: f.isTitle,
-          description: f.description || '',
-          validations: f.validations ? {
-            required: f.validations.required,
-            unique: f.validations.unique,
-            minCount: f.validations.minCount,
-            maxCount: f.validations.maxCount,
-            matchPattern: f.validations.matchPattern,
-            prohibitPattern: f.validations.prohibitPattern,
-            allowedValues: f.validations.allowedValues,
-          } : undefined,
-        };
-      }),
+      fields: newFieldsArray,
     };
 
     try {
       await updateContentModel({ variables: { id: model.id, input } });
-      message.success('Field updated successfully');
+      message.success(isNewField ? 'Field added successfully' : 'Field updated successfully');
       setIsFieldModalVisible(false);
+      setSelectedField(null);
     } catch (err) {
       console.error(err);
-      message.error('Failed to update field');
+      message.error(isNewField ? 'Failed to add field' : 'Failed to update field');
     }
   };
 

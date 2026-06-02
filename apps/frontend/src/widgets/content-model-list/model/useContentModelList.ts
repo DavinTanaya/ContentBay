@@ -26,28 +26,20 @@ export const useContentModelList = (workspaceId: string) => {
       .replace(/-project-\d+$/i, '')
       .replace(/-project-\w+$/i, '');
 
-    const targetUserId = m.updatedBy || m.createdBy;
+    const author = m.creator;
+    const authorName = author 
+      ? `${author.firstName || ''} ${author.lastName || ''}`.trim() || author.email
+      : 'System';
 
-    const matchedUser = users.find((u) => {
-      return (
-        u.id === String(targetUserId) ||
-        (u.role === 'Owner' && currentUser && currentUser.id === targetUserId)
-      );
-    });
-
-    const displayName = matchedUser
-      ? matchedUser.name
-      : `User #${targetUserId}`;
-
-    const initial = matchedUser
-      ? matchedUser.name.charAt(0).toUpperCase()
-      : 'U';
+    const authorInitial = author?.firstName 
+      ? author.firstName.charAt(0).toUpperCase()
+      : (author?.email?.charAt(0).toUpperCase() || 'S');
 
     return {
       ...m,
       apiId: cleanApiId,
-      authorName: displayName,
-      authorInitial: initial,
+      authorName,
+      authorInitial,
     };
   });
 

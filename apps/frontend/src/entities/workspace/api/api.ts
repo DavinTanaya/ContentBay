@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client/react';
 import { GET_WORKSPACES, GET_WORKSPACE } from './queries';
-import { CREATE_WORKSPACE, DELETE_WORKSPACE, UPDATE_WORKSPACE } from './mutations';
-import type { Workspace } from '../model/types.ts';
+import { CREATE_WORKSPACE, DELETE_WORKSPACE, UPDATE_WORKSPACE, INVITE_MEMBER } from './mutations';
+import type { Workspace } from '../model/types';
 
 export const useGetWorkspacesApi = () => {
   return useQuery<{ getWorkspaces: Workspace[] }>(GET_WORKSPACES, {
@@ -41,4 +41,8 @@ export const useUpdateWorkspaceApi = (options?: any) => {
     ],
     ...options,
   });
+};
+
+export const useInviteMemberApi = (options?: any) => {
+  return useMutation(INVITE_MEMBER, options);
 };
