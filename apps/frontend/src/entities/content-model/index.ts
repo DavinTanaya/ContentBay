@@ -13,13 +13,9 @@ export type {
   ModelMetadataSidebarProps,
   RenderFieldIconProps,
   RenderModelIconProps,
+  CreateContentModelInput,
+  UpdateContentModelInput,
 } from './model/types';
-
-// DTO
-export type {
-  CreateContentModelDto,
-  UpdateContentModelDto,
-} from './model/dto';
 
 // API: Mutations & Queries
 export * from './api/queries';

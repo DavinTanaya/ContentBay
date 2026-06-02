@@ -19,7 +19,7 @@ export const CREATE_CONTENT_MODEL = gql`
 `;
 
 export const UPDATE_CONTENT_MODEL = gql`
-  mutation UpdateContentModel($id: ID!, $input: CreateContentModelInput!) {
+  mutation UpdateContentModel($id: ID!, $input: UpdateContentModelInput!) {
     updateContentModel(id: $id, input: $input) {
       id
       workspaceId
