@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useActiveWorkspaceId, useGetWorkspaceApi, useInviteMemberApi, GET_WORKSPACE } from '@/entities/workspace';
-import type { WorkspaceMemberViewModel } from '@/entities/workspace/model/types';
-import type { InviteMemberDto } from '@/entities/workspace/model/dto';
+import type { WorkspaceMember } from '@/entities/workspace/model/types';
+import type { InviteMemberRequest } from '@/entities/workspace/model/dto';
 
 export interface ManagedUser {
   id: string;
@@ -33,29 +33,22 @@ export const useUsersManagement = () => {
     refetchQueries: [{ query: GET_WORKSPACE, variables: { id: activeSpaceId } }]
   });
 
-  const members: WorkspaceMemberViewModel[] = (data?.getWorkspace?.members || []).map(m => ({
+  const rawMembers: any[] = data?.getWorkspace?.members || [];
+  
+  // Map to ManagedUser format for the table
+  const users: ManagedUser[] = rawMembers.map((m: any) => ({
     id: m.id,
     userId: m.userId,
-    name: `${m.user.firstName || ''} ${m.user.lastName || ''}`.trim() || '',
-    email: m.user.email,
+    name: `${m.user?.firstName || ''} ${m.user?.lastName || ''}`.trim() || '',
+    email: m.user?.email || '',
     role: m.role,
-    picture: m.user.picture || undefined,
+    lastActive: '⎯⎯', // Not implemented in DB yet
+    twoFactorStatus: '⎯⎯',
   })).sort((a, b) => {
     if (a.role === 'Owner' && b.role !== 'Owner') return -1;
     if (a.role !== 'Owner' && b.role === 'Owner') return 1;
     return a.name.localeCompare(b.name);
   });
-
-  // Map to ManagedUser format for the table
-  const users: ManagedUser[] = members.map(m => ({
-    id: m.id,
-    userId: m.userId,
-    name: m.name,
-    email: m.email,
-    role: m.role,
-    lastActive: '⎯⎯', // Not implemented in DB yet
-    twoFactorStatus: '⎯⎯',
-  }));
 
   // Reset page to 1 when filters change
   useEffect(() => {
@@ -65,7 +58,7 @@ export const useUsersManagement = () => {
   const handleInviteUser = async (values: { email: string; role: string }) => {
     if (!activeSpaceId) return;
     
-    const input: InviteMemberDto = {
+    const input: InviteMemberRequest = {
       workspaceId: activeSpaceId,
       email: values.email,
       role: values.role

@@ -1,11 +1,11 @@
 import { Input, Button } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { 
-  useWorkspace, 
-  WorkspaceList, 
-  WorkspaceModals, 
-  showDeleteConfirmation 
+import { useWorkspace } from '@/entities/workspace';
+import {
+  WorkspaceModals,
+  showDeleteConfirmation,
 } from '@/features/workspace-manage';
+import { WorkspaceList } from '@/widgets/workspace-list';
 
 export default function WorkspacePage() {
   const {
@@ -21,12 +21,12 @@ export default function WorkspacePage() {
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
-      {/* Header and Controls Row */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12">
         <div className="flex flex-col gap-1">
           <h1 className="h3-semibold text-gray-10 m-0">Workspace</h1>
           <p className="body-sm-regular text-gray-8 m-0 max-w-[600px]">
-            Manage your organization’s content architectures and delivery environments.
+            Manage your organization’s content architectures and delivery
+            environments.
           </p>
         </div>
 
@@ -54,15 +54,15 @@ export default function WorkspacePage() {
         </div>
       </div>
 
-      {/* Grid of Workspaces */}
       <WorkspaceList
         workspaces={filteredWorkspaces}
-        onDelete={(id, name) => showDeleteConfirmation(id, name, handleDeleteWorkspace)}
+        onDelete={(id, name) =>
+          showDeleteConfirmation(id, name, handleDeleteWorkspace)
+        }
         onAddClick={() => setIsModalOpen(true)}
         currentUser={currentUser}
       />
 
-      {/* Workspace Modals (Add / Delete logic) */}
       <WorkspaceModals
         isAddModalOpen={isModalOpen}
         onAddModalCancel={() => setIsModalOpen(false)}

@@ -1,4 +1,5 @@
-export type { Workspace, ApiWorkspace, WorkspaceViewModel } from './model/types';
+export type { Workspace, WorkspaceMember } from './model/types';
+export { useWorkspace, useWorkspaceFormatter, getSpaceMembersInitials, getRelativeTimeText, getAvatarColor } from './model/useWorkspace';
 export {
   useGetWorkspacesApi,
   useGetWorkspaceApi,

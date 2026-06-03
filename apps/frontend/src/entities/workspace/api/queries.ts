@@ -6,17 +6,10 @@ export const GET_WORKSPACES = gql`
       id
       name
       description
-      types
-      env
-      records
       createdAt
       updatedAt
       isDeleted
       deletedAt
-      _count {
-        models
-        contents
-      }
       members {
         id
         userId
@@ -39,17 +32,10 @@ export const GET_WORKSPACE = gql`
       id
       name
       description
-      types
-      env
-      records
       createdAt
       updatedAt
       isDeleted
       deletedAt
-      _count {
-        models
-        contents
-      }
       members {
         id
         userId

@@ -5,20 +5,30 @@ import {
   UPDATE_CONTENT_MODEL,
 } from './mutations';
 import { GET_CONTENT_MODEL, GET_CONTENT_MODELS } from './queries';
-import type { ContentModel, CreateContentModelInput, UpdateContentModelInput } from '../model/types';
+import type { ContentModel } from '../model/types';
+import type {
+  CreateContentModelInput,
+  UpdateContentModelInput,
+} from '../model/dto';
 
 export const useCreateContentModelApi = () => {
-  return useMutation<{ createContentModel: ContentModel }, { input: CreateContentModelInput }>(CREATE_CONTENT_MODEL, {
+  return useMutation<
+    { createContentModel: ContentModel },
+    { input: CreateContentModelInput }
+  >(CREATE_CONTENT_MODEL, {
     refetchQueries: [{ query: GET_CONTENT_MODELS }],
     awaitRefetchQueries: true,
   });
 };
 
 export const useGetContentModelApi = (id: string) => {
-  return useQuery<{ getContentModel: ContentModel }, { id: string }>(GET_CONTENT_MODEL, {
-    variables: { id },
-    skip: !id,
-  });
+  return useQuery<{ getContentModel: ContentModel }, { id: string }>(
+    GET_CONTENT_MODEL,
+    {
+      variables: { id },
+      skip: !id,
+    },
+  );
 };
 
 export const useGetContentModelsApi = () => {
@@ -26,7 +36,10 @@ export const useGetContentModelsApi = () => {
 };
 
 export const useUpdateContentModelApi = (id: string) => {
-  return useMutation<{ updateContentModel: ContentModel }, { id: string; input: UpdateContentModelInput }>(UPDATE_CONTENT_MODEL, {
+  return useMutation<
+    { updateContentModel: ContentModel },
+    { id: string; input: UpdateContentModelInput }
+  >(UPDATE_CONTENT_MODEL, {
     refetchQueries: [
       { query: GET_CONTENT_MODEL, variables: { id } },
       { query: GET_CONTENT_MODELS },
@@ -36,11 +49,14 @@ export const useUpdateContentModelApi = (id: string) => {
 };
 
 export const useDeleteContentModelApi = (id: string) => {
-  return useMutation<{ deleteContentModel: boolean }, { id: string }>(DELETE_CONTENT_MODEL, {
-    refetchQueries: [
-      { query: GET_CONTENT_MODEL, variables: { id } },
-      { query: GET_CONTENT_MODELS },
-    ],
-    awaitRefetchQueries: true,
-  });
+  return useMutation<{ deleteContentModel: boolean }, { id: string }>(
+    DELETE_CONTENT_MODEL,
+    {
+      refetchQueries: [
+        { query: GET_CONTENT_MODEL, variables: { id } },
+        { query: GET_CONTENT_MODELS },
+      ],
+      awaitRefetchQueries: true,
+    },
+  );
 };

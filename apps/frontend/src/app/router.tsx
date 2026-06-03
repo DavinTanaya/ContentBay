@@ -24,7 +24,7 @@ import Login from '@/pages/auth/login';
 import Register from '@/pages/auth/register';
 import { Protect } from '@/features/auth';
 
-export const router = createBrowserRouter([
+export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     element: <LandingLayout />,
     children: [

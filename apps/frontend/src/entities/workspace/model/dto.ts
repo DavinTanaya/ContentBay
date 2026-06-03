@@ -1,26 +1,15 @@
-import type { User } from '@/entities/user/@x/workspace';
-
-export interface CreateWorkspaceDto {
+export interface CreateWorkspaceInput {
   name: string;
-  description?: string;
+  description?: string | null;
 }
 
-export interface UpdateWorkspaceDto {
-  name?: string;
-  description?: string;
+export interface UpdateWorkspaceInput {
+  name?: string | null;
+  description?: string | null;
 }
 
-export interface InviteMemberDto {
+export interface InviteMemberRequest {
   workspaceId: string;
   email: string;
   role: string;
-}
-
-export interface WorkspaceResponseDto {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  createdBy?: User;
 }

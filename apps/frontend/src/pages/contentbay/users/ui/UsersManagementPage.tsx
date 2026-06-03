@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Input, Button, Modal, Form, Select, Checkbox, Pagination } from 'antd';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
-import UserOutlined from '@ant-design/icons/UserOutlined';
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import UserAddOutlined from '@ant-design/icons/UserAddOutlined';
 import MailOutlined from '@ant-design/icons/MailOutlined';
@@ -11,7 +10,7 @@ import EditOutlined from '@ant-design/icons/EditOutlined';
 import CodeOutlined from '@ant-design/icons/CodeOutlined';
 import AppstoreOutlined from '@ant-design/icons/AppstoreOutlined';
 import { useUsersManagement } from '@/features/workspace-manage';
-import { getAvatarColor } from '@/entities/workspace/model/workspace.model';
+import { getAvatarColor } from '@/entities/workspace';
 import { Avatar, message } from 'antd';
 
 export default function UsersManagementPage() {

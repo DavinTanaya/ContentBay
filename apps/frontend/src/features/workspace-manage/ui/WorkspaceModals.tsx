@@ -1,20 +1,20 @@
 import React from 'react';
 import { Modal, Form, Input, Button, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import type { CreateWorkspaceDto } from '@/entities/workspace/model/dto';
+import type { CreateWorkspaceInput } from '@/entities/workspace/model/dto';
 
 interface WorkspaceModalsProps {
   isAddModalOpen: boolean;
   onAddModalCancel: () => void;
-  onAddSubmit: (values: CreateWorkspaceDto) => Promise<unknown>;
+  onAddSubmit: (values: CreateWorkspaceInput) => Promise<unknown>;
 }
 
-export const WorkspaceModals: React.FC<WorkspaceModalsProps> = ({
+export function WorkspaceModals({
   isAddModalOpen,
   onAddModalCancel,
   onAddSubmit,
-}) => {
-  const [form] = Form.useForm<CreateWorkspaceDto>();
+}: WorkspaceModalsProps) {
+  const [form] = Form.useForm<CreateWorkspaceInput>();
 
   return (
     <>
@@ -32,7 +32,7 @@ export const WorkspaceModals: React.FC<WorkspaceModalsProps> = ({
         centered
         width={480}
       >
-        <Form<CreateWorkspaceDto>
+        <Form<CreateWorkspaceInput>
           form={form}
           layout="vertical"
           onFinish={async (values) => {

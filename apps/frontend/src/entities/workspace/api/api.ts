@@ -1,5 +1,4 @@
 import { useQuery, useMutation } from '@apollo/client/react';
-import type { MutationHookOptions } from '@apollo/client';
 import { GET_WORKSPACES, GET_WORKSPACE } from './queries';
 import {
   CREATE_WORKSPACE,
@@ -9,9 +8,9 @@ import {
 } from './mutations';
 import type { Workspace } from '../model/types';
 import type {
-  CreateWorkspaceDto,
-  UpdateWorkspaceDto,
-  InviteMemberDto,
+  CreateWorkspaceInput,
+  UpdateWorkspaceInput,
+  InviteMemberRequest,
 } from '../model/dto';
 
 export const useGetWorkspacesApi = () => {
@@ -28,24 +27,17 @@ export const useGetWorkspaceApi = (id: string) => {
   });
 };
 
-export const useCreateWorkspaceApi = (
-  options?: MutationHookOptions<
-    { createWorkspace: Workspace },
-    { input: CreateWorkspaceDto }
-  >,
-) => {
+export const useCreateWorkspaceApi = (options?: useMutation.Options<{ createWorkspace: Workspace }, { input: CreateWorkspaceInput }>) => {
   return useMutation<
     { createWorkspace: Workspace },
-    { input: CreateWorkspaceDto }
+    { input: CreateWorkspaceInput }
   >(CREATE_WORKSPACE, {
     refetchQueries: [{ query: GET_WORKSPACES }],
     ...options,
   });
 };
 
-export const useDeleteWorkspaceApi = (
-  options?: MutationHookOptions<{ deleteWorkspace: boolean }, { id: string }>,
-) => {
+export const useDeleteWorkspaceApi = (options?: useMutation.Options<{ deleteWorkspace: boolean }, { id: string }>) => {
   return useMutation<{ deleteWorkspace: boolean }, { id: string }>(
     DELETE_WORKSPACE,
     {
@@ -55,15 +47,10 @@ export const useDeleteWorkspaceApi = (
   );
 };
 
-export const useUpdateWorkspaceApi = (
-  options?: MutationHookOptions<
-    { updateWorkspace: Workspace },
-    { id: string; name?: string; description?: string }
-  >,
-) => {
+export const useUpdateWorkspaceApi = (options?: useMutation.Options<{ updateWorkspace: Workspace }, { id: string } & UpdateWorkspaceInput>) => {
   return useMutation<
     { updateWorkspace: Workspace },
-    { id: string; name?: string; description?: string }
+    { id: string } & UpdateWorkspaceInput
   >(UPDATE_WORKSPACE, {
     refetchQueries: (result) => [
       {
@@ -75,10 +62,8 @@ export const useUpdateWorkspaceApi = (
   });
 };
 
-export const useInviteMemberApi = (
-  options?: MutationHookOptions<{ inviteMember: boolean }, InviteMemberDto>,
-) => {
-  return useMutation<{ inviteMember: boolean }, InviteMemberDto>(
+export const useInviteMemberApi = (options?: useMutation.Options<{ inviteMember: boolean }, InviteMemberRequest>) => {
+  return useMutation<{ inviteMember: boolean }, InviteMemberRequest>(
     INVITE_MEMBER,
     options,
   );
