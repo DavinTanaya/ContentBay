@@ -11,6 +11,7 @@ import type {
   CreateWorkspaceInput,
   UpdateWorkspaceInput,
   InviteMemberRequest,
+  DeleteWorkspaceInput,
 } from '../model/dto';
 
 export const useGetWorkspacesApi = () => {
@@ -37,8 +38,8 @@ export const useCreateWorkspaceApi = (options?: useMutation.Options<{ createWork
   });
 };
 
-export const useDeleteWorkspaceApi = (options?: useMutation.Options<{ deleteWorkspace: boolean }, { id: string }>) => {
-  return useMutation<{ deleteWorkspace: boolean }, { id: string }>(
+export const useDeleteWorkspaceApi = (options?: useMutation.Options<{ deleteWorkspace: boolean }, { input: DeleteWorkspaceInput }>) => {
+  return useMutation<{ deleteWorkspace: boolean }, { input: DeleteWorkspaceInput }>(
     DELETE_WORKSPACE,
     {
       refetchQueries: [{ query: GET_WORKSPACES }],

@@ -3,12 +3,11 @@ import { getContentModelPath } from '@/shared/constants/routes';
 import { FolderOpenOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Empty } from 'antd';
 import { WorkspaceCard } from '@/entities/workspace/ui/WorkspaceCard';
-import { WorkspaceCardActions } from '@/features/workspace-manage';
+import { WorkspaceCardDropdown } from './WorkspaceCardDropdown';
 import type { WorkspaceListProps } from '../model/types';
 
 export function WorkspaceList({
   workspaces,
-  onDelete,
   onAddClick,
 }: WorkspaceListProps) {
   const navigate = useNavigate();
@@ -50,10 +49,9 @@ export function WorkspaceList({
               workspace={workspace}
               onClick={(id) => navigate(getContentModelPath(id))}
               actionSlot={
-                <WorkspaceCardActions
+                <WorkspaceCardDropdown
                   workspaceId={workspace.id}
                   workspaceName={workspace.name}
-                  onDelete={onDelete}
                 />
               }
             />

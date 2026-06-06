@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useActiveWorkspaceId, useGetWorkspaceApi, useInviteMemberApi, GET_WORKSPACE } from '@/entities/workspace';
+import { useState } from 'react';
+import { useActiveWorkspaceId, useGetWorkspaceApi } from '@/entities/workspace';
 import type { WorkspaceMember } from '@/entities/workspace/model/types';
-import type { InviteMemberRequest } from '@/entities/workspace/model/dto';
 
 export interface ManagedUser {
   id: string;
@@ -13,61 +12,43 @@ export interface ManagedUser {
   userId: number;
 }
 
-export const useUsersManagement = () => {
+export const useWorkspaceUsers = () => {
   const activeSpaceId = useActiveWorkspaceId();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState('Any');
   const [selectedStatus, setSelectedStatus] = useState('Any');
   const [sortBy, setSortBy] = useState('Newest');
-  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 
-  const { data, loading, refetch } = useGetWorkspaceApi(activeSpaceId);
-  const [inviteMember] = useInviteMemberApi({
-    onCompleted: () => {
-      refetch();
-    },
-    // Refetch the specific workspace to update member list
-    refetchQueries: [{ query: GET_WORKSPACE, variables: { id: activeSpaceId } }]
-  });
+  const { data, loading } = useGetWorkspaceApi(activeSpaceId);
 
-  const rawMembers: any[] = data?.getWorkspace?.members || [];
-  
-  // Map to ManagedUser format for the table
-  const users: ManagedUser[] = rawMembers.map((m: any) => ({
-    id: m.id,
-    userId: m.userId,
-    name: `${m.user?.firstName || ''} ${m.user?.lastName || ''}`.trim() || '',
-    email: m.user?.email || '',
-    role: m.role,
-    lastActive: '⎯⎯', // Not implemented in DB yet
-    twoFactorStatus: '⎯⎯',
-  })).sort((a, b) => {
-    if (a.role === 'Owner' && b.role !== 'Owner') return -1;
-    if (a.role !== 'Owner' && b.role === 'Owner') return 1;
-    return a.name.localeCompare(b.name);
-  });
+  const rawMembers: WorkspaceMember[] = data?.getWorkspace?.members || [];
+
+  const users: ManagedUser[] = rawMembers
+    .map((m: WorkspaceMember) => ({
+      id: m.id,
+      userId: m.userId,
+      name: `${m.user?.firstName || ''} ${m.user?.lastName || ''}`.trim() || '',
+      email: m.user?.email || '',
+      role: m.role,
+      lastActive: '⎯⎯', // Not implemented in DB yet
+      twoFactorStatus: '⎯⎯',
+    }))
+    .sort((a, b) => {
+      if (a.role === 'Owner' && b.role !== 'Owner') return -1;
+      if (a.role !== 'Owner' && b.role === 'Owner') return 1;
+      return a.name.localeCompare(b.name);
+    });
 
   // Reset page to 1 when filters change
-  useEffect(() => {
+  const currentFilterKey = `${searchQuery}-${selectedRole}-${selectedStatus}-${pageSize}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(currentFilterKey);
+  if (prevFilterKey !== currentFilterKey) {
+    setPrevFilterKey(currentFilterKey);
     setCurrentPage(1);
-  }, [searchQuery, selectedRole, selectedStatus, pageSize]);
-
-  const handleInviteUser = async (values: { email: string; role: string }) => {
-    if (!activeSpaceId) return;
-    
-    const input: InviteMemberRequest = {
-      workspaceId: activeSpaceId,
-      email: values.email,
-      role: values.role
-    };
-
-    return await inviteMember({
-      variables: input
-    });
-  };
+  }
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -93,7 +74,7 @@ export const useUsersManagement = () => {
     const matchesSearch =
       name.toLowerCase().includes(search) ||
       email.toLowerCase().includes(search);
-    
+
     const matchesRole = selectedRole === 'Any' || u.role === selectedRole;
     const matchesStatus =
       selectedStatus === 'Any' ||
@@ -130,8 +111,6 @@ export const useUsersManagement = () => {
     setSelectedStatus,
     sortBy,
     setSortBy,
-    isInviteModalOpen,
-    setIsInviteModalOpen,
     pageSize,
     setPageSize,
     currentPage,
@@ -139,9 +118,8 @@ export const useUsersManagement = () => {
     selectedUserIds,
     handleSelectAll,
     handleSelectUser,
-    handleInviteUser,
     startIndex,
     endIndex,
-    loading
+    loading,
   };
 };

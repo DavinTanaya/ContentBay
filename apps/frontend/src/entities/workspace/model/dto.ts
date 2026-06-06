@@ -13,3 +13,7 @@ export interface InviteMemberRequest {
   email: string;
   role: string;
 }
+
+export interface DeleteWorkspaceInput {
+  workspaceId: string;
+}

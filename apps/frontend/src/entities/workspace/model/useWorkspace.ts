@@ -1,12 +1,8 @@
 import { useState, useMemo } from 'react';
-import {
-  useGetWorkspacesApi,
-  useCreateWorkspaceApi,
-  useDeleteWorkspaceApi,
-} from '@/entities/workspace';
+import { useGetWorkspacesApi } from '@/entities/workspace';
 import { useSession } from '@/entities/session';
-import type { CreateWorkspaceInput } from './dto';
 import type { Workspace, WorkspaceMember } from './types';
+
 
 export const getAvatarColor = (identifier: string | number): string => {
   const colors = [
@@ -75,7 +71,6 @@ export const useWorkspaceFormatter = (workspace: Workspace) => {
 // Hook for managing Workspace list and operations
 export const useWorkspace = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { user: currentUser } = useSession();
 
   const { data, loading, refetch } = useGetWorkspacesApi();
@@ -85,31 +80,6 @@ export const useWorkspace = () => {
     if (!Array.isArray(rawWorkspaces)) return [];
     return rawWorkspaces;
   }, [data]);
-
-  const [createWorkspaceMutation] = useCreateWorkspaceApi({
-    onCompleted: () => refetch(),
-  });
-
-  const [deleteWorkspaceMutation] = useDeleteWorkspaceApi({
-    onCompleted: () => refetch(),
-  });
-
-  const handleAddWorkspace = async (values: CreateWorkspaceInput) => {
-    return await createWorkspaceMutation({
-      variables: {
-        input: {
-          name: values.name,
-          description: values.description || '',
-        },
-      },
-    });
-  };
-
-  const handleDeleteWorkspace = async (id: string) => {
-    return await deleteWorkspaceMutation({
-      variables: { id },
-    });
-  };
 
   const filteredWorkspaces = useMemo(() => {
     return workspaces.filter((w) =>
@@ -122,11 +92,8 @@ export const useWorkspace = () => {
     filteredWorkspaces,
     searchQuery,
     setSearchQuery,
-    isModalOpen,
-    setIsModalOpen,
-    handleAddWorkspace,
-    handleDeleteWorkspace,
     loading,
     currentUser,
+    refetch,
   };
 };

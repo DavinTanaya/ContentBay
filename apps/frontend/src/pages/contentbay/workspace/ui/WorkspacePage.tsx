@@ -1,10 +1,7 @@
 import { Input, Button } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useWorkspace } from '@/entities/workspace';
-import {
-  WorkspaceModals,
-  showDeleteConfirmation,
-} from '@/features/workspace-manage';
+import { WorkspaceCreateModal, useCreateWorkspace } from '@/features/workspace-create';
 import { WorkspaceList } from '@/widgets/workspace-list';
 
 export default function WorkspacePage() {
@@ -12,12 +9,13 @@ export default function WorkspacePage() {
     filteredWorkspaces,
     searchQuery,
     setSearchQuery,
-    isModalOpen,
-    setIsModalOpen,
-    handleAddWorkspace,
-    handleDeleteWorkspace,
     currentUser,
+    refetch,
   } = useWorkspace();
+
+  const { isModalOpen, openModal, closeModal, submitCreate, loading } = useCreateWorkspace(() => {
+    refetch();
+  });
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
@@ -46,7 +44,7 @@ export default function WorkspacePage() {
             color="geekblue"
             size="large"
             icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}
+            onClick={openModal}
             className="shadow-sm"
           >
             Add new spaces
@@ -56,17 +54,15 @@ export default function WorkspacePage() {
 
       <WorkspaceList
         workspaces={filteredWorkspaces}
-        onDelete={(id, name) =>
-          showDeleteConfirmation(id, name, handleDeleteWorkspace)
-        }
-        onAddClick={() => setIsModalOpen(true)}
+        onAddClick={openModal}
         currentUser={currentUser}
       />
 
-      <WorkspaceModals
-        isAddModalOpen={isModalOpen}
-        onAddModalCancel={() => setIsModalOpen(false)}
-        onAddSubmit={handleAddWorkspace}
+      <WorkspaceCreateModal
+        isOpen={isModalOpen}
+        onCancel={closeModal}
+        onSubmit={submitCreate}
+        loading={loading}
       />
     </div>
   );

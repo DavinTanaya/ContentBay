@@ -1,22 +1,20 @@
 import { useNavigate } from 'react-router-dom';
-import { Input, Button, Modal, Form, Select, Checkbox, Pagination } from 'antd';
+import { Input, Button, Select, Checkbox, Pagination } from 'antd';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
-import UserAddOutlined from '@ant-design/icons/UserAddOutlined';
-import MailOutlined from '@ant-design/icons/MailOutlined';
 import CrownOutlined from '@ant-design/icons/CrownOutlined';
 import SafetyOutlined from '@ant-design/icons/SafetyOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
 import CodeOutlined from '@ant-design/icons/CodeOutlined';
 import AppstoreOutlined from '@ant-design/icons/AppstoreOutlined';
-import { useUsersManagement } from '@/features/workspace-manage';
 import { getAvatarColor } from '@/entities/workspace';
-import { Avatar, message } from 'antd';
+import { useWorkspaceUsers } from '@/features/workspace-users';
+import { WorkspaceInviteButton } from '@/features/workspace-invite';
+import { Avatar } from 'antd';
 
 export default function UsersManagementPage() {
   const navigate = useNavigate();
-  const [form] = Form.useForm();
-  
+
   const {
     users,
     paginatedUsers,
@@ -30,8 +28,6 @@ export default function UsersManagementPage() {
     setSelectedStatus,
     sortBy,
     setSortBy,
-    isInviteModalOpen,
-    setIsInviteModalOpen,
     pageSize,
     setPageSize,
     currentPage,
@@ -39,22 +35,9 @@ export default function UsersManagementPage() {
     selectedUserIds,
     handleSelectAll,
     handleSelectUser,
-    handleInviteUser,
     startIndex,
     endIndex,
-  } = useUsersManagement();
-
-  const onInvite = async (values: { email: string; role: string }) => {
-    try {
-      await handleInviteUser(values);
-      message.success(`User invited successfully!`);
-      setIsInviteModalOpen(false);
-      form.resetFields();
-    } catch (err: unknown) {
-      const error = err as Error;
-      message.error(error.message || 'Failed to invite user.');
-    }
-  };
+  } = useWorkspaceUsers();
 
   return (
     <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
@@ -81,17 +64,7 @@ export default function UsersManagementPage() {
             prefix={<SearchOutlined className="text-gray-6" />}
             allowClear
           />
-          <Button
-            type="primary"
-            variant="solid"
-            color="geekblue"
-            size="large"
-            icon={<UserAddOutlined />}
-            onClick={() => setIsInviteModalOpen(true)}
-            className="shadow-sm font-semibold"
-          >
-            Invite users
-          </Button>
+          <WorkspaceInviteButton />
         </div>
       </div>
 
@@ -314,128 +287,6 @@ export default function UsersManagementPage() {
           size="small"
         />
       </div>
-
-      {/* Invite Modal */}
-      <Modal
-        title={
-          <span className="font-poppins font-semibold text-lg text-gray-13">
-            Invite a New User
-          </span>
-        }
-        open={isInviteModalOpen}
-        onCancel={() => {
-          setIsInviteModalOpen(false);
-          form.resetFields();
-        }}
-        footer={null}
-        destroyOnClose
-        centered
-        width={480}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onInvite}
-          className="mt-6"
-          requiredMark={false}
-        >
-
-          <Form.Item
-            name="email"
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 shrink-0">
-                  <MailOutlined />
-                </div>
-                <span className="font-semibold text-gray-9 text-sm">
-                  Email Address
-                </span>
-              </span>
-            }
-            rules={[
-              { required: true, message: 'Please enter email address!' },
-              { type: 'email', message: 'Please enter a valid email address!' },
-            ]}
-          >
-            <Input placeholder="e.g. johndoe@company.com" size="large" />
-          </Form.Item>
-
-          <Form.Item
-            name="role"
-            label={
-              <span className="font-semibold text-gray-9 text-sm">
-                Project Role
-              </span>
-            }
-            rules={[{ required: true, message: 'Please select a role!' }]}
-            initialValue="Developer"
-          >
-            <Select
-              size="large"
-              options={[
-                {
-                  value: 'Owner',
-                  label: (
-                    <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <CrownOutlined style={{ color: '#faad14' }} />
-                      <span>Owner</span>
-                    </div>
-                  ),
-                },
-                {
-                  value: 'Admin',
-                  label: (
-                    <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <SafetyOutlined style={{ color: '#1890ff' }} />
-                      <span>Admin</span>
-                    </div>
-                  ),
-                },
-                {
-                  value: 'Editor',
-                  label: (
-                    <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <EditOutlined style={{ color: '#722ed1' }} />
-                      <span>Editor</span>
-                    </div>
-                  ),
-                },
-                {
-                  value: 'Developer',
-                  label: (
-                    <div className="flex items-center gap-2 text-gray-9 font-poppins">
-                      <CodeOutlined style={{ color: '#52c41a' }} />
-                      <span>Developer</span>
-                    </div>
-                  ),
-                },
-              ]}
-              optionLabelProp="label"
-            />
-          </Form.Item>
-
-          <div className="flex justify-end gap-3 mt-8">
-            <Button
-              size="large"
-              onClick={() => {
-                setIsInviteModalOpen(false);
-                form.resetFields();
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="primary"
-              variant="solid"
-              color="geekblue"
-              htmlType="submit"
-              size="large"
-            >
-              Invite User
-            </Button>
-          </div>
-        </Form>
-      </Modal>
     </div>
   );
 }
