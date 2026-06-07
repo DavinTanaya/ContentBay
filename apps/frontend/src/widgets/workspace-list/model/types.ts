@@ -5,4 +5,5 @@ export interface WorkspaceListProps {
   workspaces: Workspace[];
   onAddClick: () => void;
   currentUser: User | null;
+  loading?: boolean;
 }

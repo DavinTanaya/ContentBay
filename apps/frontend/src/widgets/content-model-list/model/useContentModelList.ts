@@ -2,13 +2,8 @@ import {
   useGetContentModelsApi,
   type ContentModel,
 } from '@entities/content-model';
-import { useUsersManagement } from '@features/workspace-manage';
-import { useSession } from '@/entities/session';
-
 export const useContentModelList = (workspaceId: string) => {
   const { data, loading, error } = useGetContentModelsApi();
-  const { users } = useUsersManagement();
-  const { user: currentUser } = useSession();
   const models = data?.getContentModels || [];
 
   console.log('data from content models: ', data);
@@ -27,13 +22,14 @@ export const useContentModelList = (workspaceId: string) => {
       .replace(/-project-\w+$/i, '');
 
     const author = m.creator;
-    const authorName = author 
-      ? `${author.firstName || ''} ${author.lastName || ''}`.trim() || author.email
+    const authorName = author
+      ? `${author.firstName || ''} ${author.lastName || ''}`.trim() ||
+        author.email
       : 'System';
 
-    const authorInitial = author?.firstName 
+    const authorInitial = author?.firstName
       ? author.firstName.charAt(0).toUpperCase()
-      : (author?.email?.charAt(0).toUpperCase() || 'S');
+      : author?.email?.charAt(0).toUpperCase() || 'S';
 
     return {
       ...m,

@@ -1,4 +1,5 @@
 import { WorkspaceRepository } from "../repositories/workspace.repo";
+import mailerService from "./mailer.service";
 
 export class WorkspaceService {
   static async findAll(userId: number) {
@@ -22,6 +23,32 @@ export class WorkspaceService {
   }
 
   static async inviteMember(workspaceId: string, email: string, role: string, userId: number) {
-    return WorkspaceRepository.inviteMember(workspaceId, email, role, userId);
+    const { token, isResend } = await WorkspaceRepository.inviteMember(workspaceId, email, role, userId);
+    
+    try {
+      const workspace = await WorkspaceRepository.findById(workspaceId, userId);
+      const workspaceName = workspace?.name || 'ContentBay Workspace';
+      await mailerService.sendInvitationEmail(email, workspaceName, role, token);
+    } catch (error) {
+      console.error('Failed to send invitation email:', error);
+    }
+    
+    return true;
+  }
+
+  static async acceptInvitation(token: string, userId: number) {
+    return WorkspaceRepository.acceptInvitation(token, userId);
+  }
+
+  static async getInvitationDetails(token: string) {
+    return WorkspaceRepository.getInvitationDetails(token);
+  }
+
+  static async getMyPendingInvitations(userId: number) {
+    return WorkspaceRepository.getMyPendingInvitations(userId);
+  }
+
+  static async declineInvitation(id: string, userId: number) {
+    return WorkspaceRepository.declineInvitation(id, userId);
   }
 }

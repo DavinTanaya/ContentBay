@@ -51,3 +51,25 @@ export const GET_WORKSPACE = gql`
     }
   }
 `;
+
+export const GET_INVITATION_DETAILS = gql`
+  query GetInvitationDetails($token: String!) {
+    getInvitationDetails(token: $token) {
+      id
+      workspaceId
+      email
+      role
+      token
+      status
+      expiresAt
+      workspace {
+        name
+      }
+      inviter {
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;

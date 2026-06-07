@@ -32,9 +32,24 @@ input CreateWorkspaceInput {
   description: String
 }
 
+type WorkspaceInvitation {
+  id: ID!
+  workspaceId: String!
+  email: String!
+  role: String!
+  token: String!
+  status: String!
+  expiresAt: DateTime!
+  createdAt: DateTime!
+  workspace: Workspace!
+  inviter: User!
+}
+
 type Query {
   getWorkspaces: [Workspace!]!
   getWorkspace(id: ID!): Workspace
+  getInvitationDetails(token: String!): WorkspaceInvitation
+  getMyPendingInvitations: [WorkspaceInvitation!]!
 }
 
 type Mutation {
@@ -42,4 +57,6 @@ type Mutation {
   updateWorkspace(id: ID!, name: String!): Workspace!
   deleteWorkspace(id: ID!): Boolean!
   inviteMember(workspaceId: ID!, email: String!, role: String!): Boolean!
+  acceptInvitation(token: String!): Boolean!
+  declineInvitation(id: ID!): Boolean!
 }

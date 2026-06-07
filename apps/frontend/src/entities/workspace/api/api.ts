@@ -1,10 +1,11 @@
 import { useQuery, useMutation } from '@apollo/client/react';
-import { GET_WORKSPACES, GET_WORKSPACE } from './queries';
+import { GET_WORKSPACES, GET_WORKSPACE, GET_INVITATION_DETAILS } from './queries';
 import {
   CREATE_WORKSPACE,
   DELETE_WORKSPACE,
   UPDATE_WORKSPACE,
   INVITE_MEMBER,
+  ACCEPT_INVITATION,
 } from './mutations';
 import type { Workspace } from '../model/types';
 import type {
@@ -66,6 +67,21 @@ export const useUpdateWorkspaceApi = (options?: useMutation.Options<{ updateWork
 export const useInviteMemberApi = (options?: useMutation.Options<{ inviteMember: boolean }, InviteMemberRequest>) => {
   return useMutation<{ inviteMember: boolean }, InviteMemberRequest>(
     INVITE_MEMBER,
+    options,
+  );
+};
+
+export const useGetInvitationDetailsApi = (token: string) => {
+  return useQuery<{ getInvitationDetails: any }, { token: string }>(GET_INVITATION_DETAILS, {
+    variables: { token },
+    skip: !token,
+    fetchPolicy: 'network-only',
+  });
+};
+
+export const useAcceptInvitationApi = (options?: useMutation.Options<{ acceptInvitation: boolean }, { token: string }>) => {
+  return useMutation<{ acceptInvitation: boolean }, { token: string }>(
+    ACCEPT_INVITATION,
     options,
   );
 };

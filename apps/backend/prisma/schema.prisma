@@ -22,6 +22,7 @@ model User {
   workspaces       Workspace[]       @relation("WorkspaceCreator")
   workspaceMembers WorkspaceMember[]
   posts            Post[]
+  sentInvitations  WorkspaceInvitation[]
 }
 
 model Post {
@@ -73,6 +74,7 @@ model Workspace {
   models      ContentModel[]
   contents    Content[]
   members     WorkspaceMember[]
+  invitations WorkspaceInvitation[]
 }
 
 model WorkspaceMember {
@@ -85,6 +87,30 @@ model WorkspaceMember {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([workspaceId, userId])
+}
+
+model WorkspaceInvitation {
+  id          String   @id @default(cuid())
+  workspaceId String
+  email       String
+  role        String   @default("Developer")
+  token       String   @unique
+  status      InvitationStatus @default(PENDING)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  inviterId   Int
+  
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  inviter     User      @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, email, status])
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+  EXPIRED
 }
 
 model ContentField {

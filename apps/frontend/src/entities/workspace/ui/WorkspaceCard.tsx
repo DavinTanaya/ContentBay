@@ -1,9 +1,12 @@
 import React from 'react';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Tag } from 'antd';
 import {
   FolderOpenOutlined,
   ClockCircleOutlined,
   ArrowRightOutlined,
+  CodepenOutlined,
+  ProductOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
 import type { Workspace } from '../model/types';
 import { useWorkspaceFormatter } from '../model/useWorkspace';
@@ -19,7 +22,8 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
   actionSlot,
   onClick,
 }) => {
-  const { initials, updatedAtText, modelsCount, contentsCount } = useWorkspaceFormatter(workspace);
+  const { initials, updatedAtText, modelsCount, contentsCount } =
+    useWorkspaceFormatter(workspace);
   console.log('workspace: ', workspace);
   return (
     <Card
@@ -38,31 +42,24 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
       <div>
         <div className="flex items-start justify-between mb-4">
           <div className="w-[50px] h-[50px] rounded-xl bg-blue-1 flex items-center justify-center">
-            <FolderOpenOutlined className="text-blue-7 text-2xl" />
+            <FolderOpenOutlined className="text-geekblue-6 text-2xl" />
           </div>
           {actionSlot && <div>{actionSlot}</div>}
         </div>
         <h3 className="font-poppins text-lg font-semibold text-gray-13 mb-3 leading-snug">
           {workspace.name}
         </h3>
-        <div className="flex flex-wrap items-center gap-3 text-xs text-gray-7 mb-4">
-          <span>
-            <strong className="font-semibold text-gray-10">
-              {modelsCount}
-            </strong>{' '}
-            Models
-          </span>
-          <span className="w-1 h-1 bg-gray-4 rounded-full" />
-          <span>
-            <strong className="font-semibold text-gray-10">
-              {contentsCount}
-            </strong>{' '}
-            Contents
-          </span>
+        <div className="flex flex-wrap items-center gap-3 text-xs mb-4 font-medium">
+          <Tag color={'geekblue'} variant="outlined" icon={<ProductOutlined />}>
+            <span className="font-bold">{modelsCount}</span> Models
+          </Tag>
+          <Tag color={'purple'} variant="outlined" icon={<FileTextOutlined />}>
+            <span className="font-bold">{contentsCount}</span> Contents
+          </Tag>
         </div>
 
         <div className="flex items-center gap-1.5 text-xs text-gray-7 mb-6">
-          <ClockCircleOutlined className="text-[11px]" />
+          <ClockCircleOutlined className="text-sm" />
           <span>{updatedAtText}</span>
         </div>
       </div>

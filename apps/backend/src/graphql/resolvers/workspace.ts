@@ -15,6 +15,15 @@ export const workspaceResolvers = {
       }
       return WorkspaceService.findById(id, context.userId);
     },
+    getInvitationDetails: (_: unknown, { token }: { token: string }) => {
+      return WorkspaceService.getInvitationDetails(token);
+    },
+    getMyPendingInvitations: (_: unknown, __: unknown, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
+      return WorkspaceService.getMyPendingInvitations(context.userId);
+    },
   },
   Mutation: {
     createWorkspace: async (_: unknown, { input }: { input: { name: string; description?: string } }, context: Context) => {
@@ -45,6 +54,18 @@ export const workspaceResolvers = {
         throw new Error("Unauthorized");
       }
       return WorkspaceService.inviteMember(workspaceId, email, role, context.userId);
+    },
+    acceptInvitation: (_: unknown, { token }: { token: string }, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
+      return WorkspaceService.acceptInvitation(token, context.userId);
+    },
+    declineInvitation: (_: unknown, { id }: { id: string }, context: Context) => {
+      if (!context.userId) {
+        throw new Error("Unauthorized");
+      }
+      return WorkspaceService.declineInvitation(id, context.userId);
     },
   },
 };

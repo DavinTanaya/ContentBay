@@ -23,6 +23,7 @@ import { AuthLayout } from './layout/AuthLayout';
 import Login from '@/pages/auth/login';
 import Register from '@/pages/auth/register';
 import { Protect } from '@/features/auth';
+import { InvitationPage } from '@/pages/invite/ui/InvitationPage';
 
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
         element: <VisualModeler />,
       },
     ],
+  },
+  {
+    path: '/invite',
+    element: <InvitationPage />,
   },
   {
     path: '*',

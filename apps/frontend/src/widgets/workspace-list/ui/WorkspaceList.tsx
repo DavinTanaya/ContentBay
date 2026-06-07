@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getContentModelPath } from '@/shared/constants/routes';
 import { FolderOpenOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Empty } from 'antd';
+import { Button, Empty, Skeleton } from 'antd';
 import { WorkspaceCard } from '@/entities/workspace/ui/WorkspaceCard';
 import { WorkspaceCardDropdown } from './WorkspaceCardDropdown';
 import type { WorkspaceListProps } from '../model/types';
@@ -9,8 +9,24 @@ import type { WorkspaceListProps } from '../model/types';
 export function WorkspaceList({
   workspaces,
   onAddClick,
+  loading,
 }: WorkspaceListProps) {
   const navigate = useNavigate();
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {[1, 2, 3].map((key) => (
+          <div
+            key={key}
+            className="bg-white rounded-xl border border-gray-3 p-6 h-[200px]"
+          >
+            <Skeleton active title={false} paragraph={{ rows: 4 }} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>

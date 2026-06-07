@@ -21,6 +21,8 @@ import { UserMenuHeader } from '@/entities/user/ui/UserMenuHeader';
 import { useNavbarContent } from '../model/useNavbarContent';
 import { useActiveWorkspaceId } from '@/entities/workspace';
 
+import { InvitationNotificationWidget } from '@/features/invitation-notification';
+
 const navItems: TabsProps['items'] = [
   {
     key: 'content-model',
@@ -101,6 +103,7 @@ export function NavbarContent() {
           />
         )}
         <div className="flex items-center gap-6 ml-auto shrink-0">
+          <InvitationNotificationWidget />
           {!isWorkspacePage && (
             <Dropdown menu={{ items: settingsMenuItems }} trigger={['click']} placement="bottomRight" arrow>
               <Button shape="circle" type="text">

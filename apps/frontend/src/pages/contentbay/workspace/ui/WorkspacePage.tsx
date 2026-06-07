@@ -11,6 +11,7 @@ export default function WorkspacePage() {
     setSearchQuery,
     currentUser,
     refetch,
+    loading: isWorkspacesLoading,
   } = useWorkspace();
 
   const { isModalOpen, openModal, closeModal, submitCreate, loading } = useCreateWorkspace(() => {
@@ -56,6 +57,7 @@ export default function WorkspacePage() {
         workspaces={filteredWorkspaces}
         onAddClick={openModal}
         currentUser={currentUser}
+        loading={isWorkspacesLoading}
       />
 
       <WorkspaceCreateModal

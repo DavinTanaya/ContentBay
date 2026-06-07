@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useActiveWorkspaceId, useInviteMemberApi, GET_WORKSPACE } from '@/entities/workspace';
 import type { InviteMemberRequest } from '@/entities/workspace/model/dto';
+import type { InviteEmailPayload } from './types';
 
 export const useWorkspaceInvite = (providedWorkspaceId?: string) => {
   const activeSpaceId = useActiveWorkspaceId();
@@ -14,7 +15,7 @@ export const useWorkspaceInvite = (providedWorkspaceId?: string) => {
     refetchQueries: workspaceId ? [{ query: GET_WORKSPACE, variables: { id: workspaceId } }] : [],
   });
 
-  const handleInvite = async (values: Omit<InviteMemberRequest, 'workspaceId'>) => {
+  const handleInvite = async (values: InviteEmailPayload) => {
     if (!workspaceId) throw new Error("Workspace ID is not defined.");
 
     const input: InviteMemberRequest = {

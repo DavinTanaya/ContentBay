@@ -35,3 +35,9 @@ export const INVITE_MEMBER = gql`
     inviteMember(workspaceId: $workspaceId, email: $email, role: $role)
   }
 `;
+
+export const ACCEPT_INVITATION = gql`
+  mutation AcceptInvitation($token: String!) {
+    acceptInvitation(token: $token)
+  }
+`;

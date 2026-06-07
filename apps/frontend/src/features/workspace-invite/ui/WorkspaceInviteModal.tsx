@@ -6,12 +6,12 @@ import {
   EditOutlined,
   CodeOutlined,
 } from '@ant-design/icons';
-import type { InviteMemberRequest } from '@/entities/workspace/model/dto';
+import type { InviteEmailPayload } from '../model/types';
 
 export interface WorkspaceInviteModalProps {
   isOpen: boolean;
   onCancel: () => void;
-  onInvite: (values: Omit<InviteMemberRequest, 'workspaceId'>) => Promise<void>;
+  onInvite: (values: InviteEmailPayload) => Promise<void>;
 }
 
 export function WorkspaceInviteModal({
@@ -22,16 +22,19 @@ export function WorkspaceInviteModal({
   const [form] = Form.useForm();
 
   const handleFinish = async (
-    values: Omit<InviteMemberRequest, 'workspaceId'>,
+    values: InviteEmailPayload,
   ) => {
     try {
       await onInvite(values);
       message.success('User invited successfully!');
       onCancel();
       form.resetFields();
-    } catch (err: unknown) {
-      const error = err as Error;
-      message.error(error.message || 'Failed to invite user.');
+    } catch (err: any) {
+      const errorMessage =
+        err?.graphQLErrors?.[0]?.message ||
+        err?.message ||
+        'Failed to invite user.';
+      message.error(errorMessage);
     }
   };
 
