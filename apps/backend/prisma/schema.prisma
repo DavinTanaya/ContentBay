@@ -109,6 +109,7 @@ model WorkspaceInvitation {
 enum InvitationStatus {
   PENDING
   ACCEPTED
+  REJECTED
   REVOKED
   EXPIRED
 }
