@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetContentModelsApi } from '@entities/content-model';
+import { useGetContentModelsApi } from '@/entities/content-model/hooks/useContentModelQueries';
 import { VisualModelerCanvas } from '@/widgets/visual-model-canvas';
 import { Spin, Result, Button } from 'antd';
 import { ArrowLeftOutlined, ApartmentOutlined } from '@ant-design/icons';

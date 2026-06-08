@@ -5,7 +5,7 @@ import {
   DeleteOutlined,
   KeyOutlined,
 } from '@ant-design/icons';
-import { useGetApiTokensApi } from '@/entities/api-token';
+import { useGetApiTokensApi } from '@/entities/api-token/hooks/useApiTokenQueries';
 import {
   useGenerateApiToken,
   GenerateApiTokenModal,
@@ -24,7 +24,7 @@ export function WorkspaceCredentialsWidget({
 }) {
   const { data, loading: fetchingTokens } = useGetApiTokensApi(workspaceId);
   const tokens = data?.getApiTokens || [];
-  
+
   // Find the single active token (assuming only one active token per workspace makes sense)
   const activeToken = tokens.find((t: any) => t.status !== 'REVOKED');
 
@@ -55,7 +55,8 @@ export function WorkspaceCredentialsWidget({
             API Credential
           </h2>
           <p className="text-[14px] text-gray-6 mt-1.5 m-0 max-w-lg">
-            Manage the primary API key used to authenticate external applications and SDKs to your ContentBay workspace.
+            Manage the primary API key used to authenticate external
+            applications and SDKs to your ContentBay workspace.
           </p>
         </div>
       </div>
@@ -90,19 +91,21 @@ export function WorkspaceCredentialsWidget({
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-              <Button 
-                icon={<SyncOutlined />} 
-                onClick={() => handleRegenerate(activeToken.id, activeToken.name)}
+              <Button
+                icon={<SyncOutlined />}
+                onClick={() =>
+                  handleRegenerate(activeToken.id, activeToken.name)
+                }
                 loading={regenerating}
                 className="font-medium h-[38px] px-4"
               >
                 Regenerate Key
               </Button>
-              <Button 
-                danger 
-                icon={<DeleteOutlined />} 
+              <Button
+                danger
+                icon={<DeleteOutlined />}
                 onClick={() => handleRevoke(activeToken.id, activeToken.name)}
                 loading={revoking}
                 className="font-medium h-[38px]"
@@ -116,9 +119,12 @@ export function WorkspaceCredentialsWidget({
             <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center ring-1 ring-slate-200 mx-auto mb-5 shadow-sm">
               <KeyOutlined className="text-gray-5 text-2xl" />
             </div>
-            <h3 className="font-poppins text-lg font-bold text-gray-10 mb-2">No API Key Configured</h3>
+            <h3 className="font-poppins text-lg font-bold text-gray-10 mb-2">
+              No API Key Configured
+            </h3>
             <p className="text-sm text-gray-6 mb-7 max-w-sm mx-auto">
-              Generate an API key to securely connect external applications, websites, and SDKs to your ContentBay workspace.
+              Generate an API key to securely connect external applications,
+              websites, and SDKs to your ContentBay workspace.
             </p>
             <Button
               type="primary"

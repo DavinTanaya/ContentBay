@@ -2,7 +2,7 @@ import { useState, type ReactNode } from 'react';
 import type { User } from '@/entities/user/@x/session';
 import type { SessionPayload } from '../model/types';
 import { SessionContext } from '../model/context';
-import { apolloClient } from '@/shared/api/apollo';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 
 function getInitialUser(): User | null {
   const saved = localStorage.getItem('user');

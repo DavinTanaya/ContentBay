@@ -1,24 +1,55 @@
-import { useMutation, useQuery } from '@apollo/client/react';
-import { GET_CONTENTS, GET_CONTENT } from './queries';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 import { CREATE_CONTENT, UPDATE_CONTENT, DELETE_CONTENT } from './mutations';
+import { GET_CONTENTS } from './queries';
 import type { Content } from '../model/types';
 
-export const useGetContentsApi = (workspaceId: string, contentModelId?: string) => {
-  return useQuery<{ getContents: Content[] }>(GET_CONTENTS, {
-    variables: { workspaceId, contentModelId },
-    skip: !workspaceId,
+export async function createContentApi(
+  input: any,
+  workspaceId: string,
+  contentModelId?: string,
+) {
+  const { data } = await apolloClient.mutate<{ createContent: Content }>({
+    mutation: CREATE_CONTENT,
+    variables: input, // Asumsi variabel diteruskan secara flat, sesuaikan dengan input
+    refetchQueries: [
+      {
+        query: GET_CONTENTS,
+        variables: { workspaceId, contentModelId },
+      },
+    ],
+    awaitRefetchQueries: true,
   });
-};
+  return data?.createContent;
+}
 
-export const useGetContentApi = (id: string) => {
-  return useQuery<{ getContent: Content }>(GET_CONTENT, {
+export async function updateContentApi(
+  id: string,
+  input: any,
+  workspaceId: string,
+  contentModelId?: string,
+) {
+  const { data } = await apolloClient.mutate<{ updateContent: Content }>({
+    mutation: UPDATE_CONTENT,
+    variables: { id, ...input }, // Asumsi variabel
+    refetchQueries: [
+      {
+        query: GET_CONTENTS,
+        variables: { workspaceId, contentModelId },
+      },
+    ],
+    awaitRefetchQueries: true,
+  });
+  return data?.updateContent;
+}
+
+export async function deleteContentApi(
+  id: string,
+  workspaceId: string,
+  contentModelId?: string,
+) {
+  const { data } = await apolloClient.mutate<{ deleteContent: boolean }>({
+    mutation: DELETE_CONTENT,
     variables: { id },
-    skip: !id,
-  });
-};
-
-export const useCreateContentApi = (workspaceId: string, contentModelId?: string) => {
-  return useMutation<{ createContent: Content }>(CREATE_CONTENT, {
     refetchQueries: [
       {
         query: GET_CONTENTS,
@@ -27,28 +58,5 @@ export const useCreateContentApi = (workspaceId: string, contentModelId?: string
     ],
     awaitRefetchQueries: true,
   });
-};
-
-export const useUpdateContentApi = (workspaceId: string, contentModelId?: string) => {
-  return useMutation<{ updateContent: Content }>(UPDATE_CONTENT, {
-    refetchQueries: [
-      {
-        query: GET_CONTENTS,
-        variables: { workspaceId, contentModelId },
-      },
-    ],
-    awaitRefetchQueries: true,
-  });
-};
-
-export const useDeleteContentApi = (workspaceId: string, contentModelId?: string) => {
-  return useMutation<boolean>(DELETE_CONTENT, {
-    refetchQueries: [
-      {
-        query: GET_CONTENTS,
-        variables: { workspaceId, contentModelId },
-      },
-    ],
-    awaitRefetchQueries: true,
-  });
-};
+  return data?.deleteContent;
+}

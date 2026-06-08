@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { message } from 'antd';
-import { useUpdateContentModelApi } from '@entities/content-model';
+import { updateContentModelApi } from '@entities/content-model';
 import type { ContentModelIcon } from '@entities/content-model';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 interface UpdateIdentityInput {
   name: string;
@@ -10,25 +12,22 @@ interface UpdateIdentityInput {
 }
 
 export const useUpdateContentModel = (modelId: string) => {
-  const [updateMutation, { loading }] = useUpdateContentModelApi(modelId);
+  const [loading, setLoading] = useState(false);
 
   const updateIdentity = async (input: UpdateIdentityInput) => {
+    setLoading(true);
     try {
-      await updateMutation({
-        variables: {
-          id: modelId,
-          input: {
-            name: input.name,
-            description: input.description,
-            apiId: input.apiId,
-            icon: input.icon,
-          },
-        },
+      await updateContentModelApi(modelId, {
+        name: input.name,
+        description: input.description,
+        apiId: input.apiId,
+        icon: input.icon,
       });
       message.success('Content model identity updated successfully');
-    } catch (error) {
-      console.error('Update failed:', error);
-      message.error('Failed to update content model identity');
+    } catch (error: unknown) {
+      message.error(getErrorMessage(error, 'Failed to update content model identity'));
+    } finally {
+      setLoading(false);
     }
   };
 

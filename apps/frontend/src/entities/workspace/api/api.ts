@@ -1,5 +1,4 @@
-import { useQuery, useMutation } from '@apollo/client/react';
-import { GET_WORKSPACES, GET_WORKSPACE, GET_INVITATION_DETAILS } from './queries';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 import {
   CREATE_WORKSPACE,
   DELETE_WORKSPACE,
@@ -15,73 +14,42 @@ import type {
   DeleteWorkspaceInput,
 } from '../model/dto';
 
-export const useGetWorkspacesApi = () => {
-  return useQuery<{ getWorkspaces: Workspace[] }>(GET_WORKSPACES, {
-    fetchPolicy: 'network-only',
+export async function createWorkspaceApi(input: CreateWorkspaceInput) {
+  const { data } = await apolloClient.mutate<{ createWorkspace: Workspace }>({
+    mutation: CREATE_WORKSPACE,
+    variables: { input },
   });
-};
+  return data?.createWorkspace;
+}
 
-export const useGetWorkspaceApi = (id: string) => {
-  return useQuery<{ getWorkspace: Workspace }, { id: string }>(GET_WORKSPACE, {
-    variables: { id },
-    skip: !id,
-    fetchPolicy: 'network-only',
+export async function deleteWorkspaceApi(input: DeleteWorkspaceInput) {
+  const { data } = await apolloClient.mutate<{ deleteWorkspace: boolean }>({
+    mutation: DELETE_WORKSPACE,
+    variables: { input },
   });
-};
+  return data?.deleteWorkspace;
+}
 
-export const useCreateWorkspaceApi = (options?: useMutation.Options<{ createWorkspace: Workspace }, { input: CreateWorkspaceInput }>) => {
-  return useMutation<
-    { createWorkspace: Workspace },
-    { input: CreateWorkspaceInput }
-  >(CREATE_WORKSPACE, {
-    refetchQueries: [{ query: GET_WORKSPACES }],
-    ...options,
+export async function updateWorkspaceApi(id: string, input: UpdateWorkspaceInput) {
+  const { data } = await apolloClient.mutate<{ updateWorkspace: Workspace }>({
+    mutation: UPDATE_WORKSPACE,
+    variables: { id, ...input },
   });
-};
+  return data?.updateWorkspace;
+}
 
-export const useDeleteWorkspaceApi = (options?: useMutation.Options<{ deleteWorkspace: boolean }, { input: DeleteWorkspaceInput }>) => {
-  return useMutation<{ deleteWorkspace: boolean }, { input: DeleteWorkspaceInput }>(
-    DELETE_WORKSPACE,
-    {
-      refetchQueries: [{ query: GET_WORKSPACES }],
-      ...options,
-    },
-  );
-};
-
-export const useUpdateWorkspaceApi = (options?: useMutation.Options<{ updateWorkspace: Workspace }, { id: string } & UpdateWorkspaceInput>) => {
-  return useMutation<
-    { updateWorkspace: Workspace },
-    { id: string } & UpdateWorkspaceInput
-  >(UPDATE_WORKSPACE, {
-    refetchQueries: (result) => [
-      {
-        query: GET_WORKSPACE,
-        variables: { id: result.data?.updateWorkspace.id },
-      },
-    ],
-    ...options,
+export async function inviteMemberApi(request: InviteMemberRequest) {
+  const { data } = await apolloClient.mutate<{ inviteMember: boolean }>({
+    mutation: INVITE_MEMBER,
+    variables: request,
   });
-};
+  return data?.inviteMember;
+}
 
-export const useInviteMemberApi = (options?: useMutation.Options<{ inviteMember: boolean }, InviteMemberRequest>) => {
-  return useMutation<{ inviteMember: boolean }, InviteMemberRequest>(
-    INVITE_MEMBER,
-    options,
-  );
-};
-
-export const useGetInvitationDetailsApi = (token: string) => {
-  return useQuery<{ getInvitationDetails: any }, { token: string }>(GET_INVITATION_DETAILS, {
+export async function acceptInvitationApi(token: string) {
+  const { data } = await apolloClient.mutate<{ acceptInvitation: boolean }>({
+    mutation: ACCEPT_INVITATION,
     variables: { token },
-    skip: !token,
-    fetchPolicy: 'network-only',
   });
-};
-
-export const useAcceptInvitationApi = (options?: useMutation.Options<{ acceptInvitation: boolean }, { token: string }>) => {
-  return useMutation<{ acceptInvitation: boolean }, { token: string }>(
-    ACCEPT_INVITATION,
-    options,
-  );
-};
+  return data?.acceptInvitation;
+}

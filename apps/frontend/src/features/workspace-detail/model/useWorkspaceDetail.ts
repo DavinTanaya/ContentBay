@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import {
   useActiveWorkspaceId,
   useGetWorkspaceApi,
-  useUpdateWorkspaceApi,
+  updateWorkspaceApi,
+  deleteWorkspaceApi,
 } from '@/entities/workspace';
-import { useDeleteWorkspaceApi } from '@entities/workspace';
 import type { Workspace } from '@/entities/workspace';
 import type { DeleteWorkspaceInput } from '@/entities/workspace/model/dto';
 
@@ -13,9 +13,10 @@ export const useWorkspaceDetail = () => {
   const navigate = useNavigate();
   const activeId = useActiveWorkspaceId();
   const [newName, setNewName] = useState('');
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
   // Fetch workspace details using FSD compliant entity hook
-  const { data, loading, refetch } = useGetWorkspaceApi(activeId);
+  const { data, loading: fetchLoading, refetch } = useGetWorkspaceApi(activeId);
 
   const activeSpace: Workspace | null = data?.getWorkspace || null;
 
@@ -26,19 +27,6 @@ export const useWorkspaceDetail = () => {
     setPrevSpaceId(activeSpace.id);
     setNewName(activeSpace.name);
   }
-
-  const [updateWorkspace] = useUpdateWorkspaceApi({
-    onCompleted: () => {
-      refetch();
-    },
-  });
-
-  const [deleteWorkspace] = useDeleteWorkspaceApi({
-    onCompleted: () => {
-      localStorage.removeItem('active_workspace_id');
-      navigate('/workspace');
-    },
-  });
 
   const handleCopyId = () => {
     if (activeSpace?.id) {
@@ -54,12 +42,14 @@ export const useWorkspaceDetail = () => {
     }
     if (!activeId) return;
 
-    return await updateWorkspace({
-      variables: {
-        id: activeId,
-        name: newName,
-      },
-    });
+    setIsActionLoading(true);
+    try {
+      const res = await updateWorkspaceApi(activeId, { name: newName });
+      refetch();
+      return res;
+    } finally {
+      setIsActionLoading(false);
+    }
   };
 
   const handleDeleteConfirm = async () => {
@@ -67,9 +57,14 @@ export const useWorkspaceDetail = () => {
 
     const input: DeleteWorkspaceInput = { workspaceId: activeId };
 
-    return await deleteWorkspace({
-      variables: { input },
-    });
+    setIsActionLoading(true);
+    try {
+      await deleteWorkspaceApi(input);
+      localStorage.removeItem('active_workspace_id');
+      navigate('/workspace');
+    } finally {
+      setIsActionLoading(false);
+    }
   };
 
   return {
@@ -79,6 +74,6 @@ export const useWorkspaceDetail = () => {
     handleCopyId,
     handleRename,
     handleDeleteConfirm,
-    loading,
+    loading: fetchLoading || isActionLoading,
   };
 };

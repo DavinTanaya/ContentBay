@@ -1,19 +1,10 @@
-import { useQuery, useMutation } from '@apollo/client/react';
-import { GET_MY_PENDING_INVITATIONS } from './queries';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 import { DECLINE_INVITATION } from './mutations';
 
-export const useGetMyPendingInvitationsApi = () => {
-  return useQuery<{ getMyPendingInvitations: any[] }>(GET_MY_PENDING_INVITATIONS, {
-    fetchPolicy: 'cache-and-network',
+export async function declineInvitationApi(id: string) {
+  const { data } = await apolloClient.mutate<{ declineInvitation: boolean }>({
+    mutation: DECLINE_INVITATION,
+    variables: { id },
   });
-};
-
-export const useDeclineInvitationApi = (options?: useMutation.Options<{ declineInvitation: boolean }, { id: string }>) => {
-  return useMutation<{ declineInvitation: boolean }, { id: string }>(
-    DECLINE_INVITATION,
-    {
-      refetchQueries: [{ query: GET_MY_PENDING_INVITATIONS }],
-      ...options,
-    }
-  );
-};
+  return data?.declineInvitation;
+}

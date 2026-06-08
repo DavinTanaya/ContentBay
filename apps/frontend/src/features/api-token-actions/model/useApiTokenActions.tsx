@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Modal, message } from 'antd';
 import { ExclamationCircleOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 
-import { useRevokeApiTokenApi, useRegenerateApiTokenApi } from '@/entities/api-token';
+import { revokeApiTokenApi, regenerateApiTokenApi } from '@/entities/api-token';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 const { confirm } = Modal;
 
 export const useApiTokenActions = () => {
-  const [revokeApiToken, { loading: revoking }] = useRevokeApiTokenApi();
-  const [regenerateApiToken, { loading: regenerating }] = useRegenerateApiTokenApi();
+  const [revoking, setRevoking] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
   const [regeneratedToken, setRegeneratedToken] = useState<string | null>(null);
 
   const closeRegenerateDisplay = () => setRegeneratedToken(null);
@@ -22,11 +23,14 @@ export const useApiTokenActions = () => {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk: async () => {
+        setRevoking(true);
         try {
-          await revokeApiToken({ variables: { tokenId } });
+          await revokeApiTokenApi(tokenId);
           message.success(`Token "${name}" has been revoked successfully.`);
-        } catch (err: any) {
-          message.error(err?.message || 'Failed to revoke token.');
+        } catch (err: unknown) {
+          message.error(getErrorMessage(err, 'Failed to revoke token.'));
+        } finally {
+          setRevoking(false);
         }
       },
     });
@@ -40,14 +44,17 @@ export const useApiTokenActions = () => {
       okText: 'Yes, Regenerate',
       cancelText: 'Cancel',
       onOk: async () => {
+        setRegenerating(true);
         try {
-          const res = await regenerateApiToken({ variables: { tokenId } });
-          if (res.data) {
-            setRegeneratedToken(res.data.regenerateApiToken.plainTextToken);
+          const res = await regenerateApiTokenApi(tokenId);
+          if (res) {
+            setRegeneratedToken(res.plainTextToken);
             message.success(`Token "${name}" has been regenerated successfully.`);
           }
-        } catch (err: any) {
-          message.error(err?.message || 'Failed to regenerate token.');
+        } catch (err: unknown) {
+          message.error(getErrorMessage(err, 'Failed to regenerate token.'));
+        } finally {
+          setRegenerating(false);
         }
       },
     });

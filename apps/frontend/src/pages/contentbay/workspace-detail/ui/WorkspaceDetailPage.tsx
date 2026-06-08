@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { useWorkspaceDetail } from '@/features/workspace-detail';
 import { WorkspaceCredentialsWidget } from '@/widgets/workspace-credentials';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 export default function WorkspaceDetailPage() {
   const navigate = useNavigate();
@@ -24,7 +25,6 @@ export default function WorkspaceDetailPage() {
   if (!activeSpace) {
     return (
       <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
-        {/* Back button and Page Title */}
         <div className="flex items-center gap-4 mb-10">
           <Button
             type="text"
@@ -33,13 +33,14 @@ export default function WorkspaceDetailPage() {
             icon={
               <ArrowLeftOutlined className="text-gray-7 hover:text-gray-13" />
             }
-            onClick={() => navigate('/content-model')}
+            onClick={() => navigate(-1)}
             className="hover:bg-white shadow-sm"
           />
           <div className="flex flex-col">
             <h1 className="h3-semibold text-gray-10 m-0">Space settings</h1>
             <p className="body-sm-regular text-gray-7 m-0">
-              Configure details, naming, and environments for this project space.
+              Configure details, naming, and environments for this project
+              space.
             </p>
           </div>
         </div>
@@ -59,8 +60,8 @@ export default function WorkspaceDetailPage() {
     try {
       await handleRename();
       message.success(`Workspace renamed successfully!`);
-    } catch (err: any) {
-      message.error(err.message || 'Failed to rename workspace.');
+    } catch (err: unknown) {
+      message.error(getErrorMessage(err, 'Failed to rename workspace.'));
     }
   };
 
@@ -121,8 +122,8 @@ export default function WorkspaceDetailPage() {
         try {
           await handleDeleteConfirm();
           message.success(`Workspace has been deleted.`);
-        } catch (err: any) {
-          message.error(err.message || 'Failed to delete workspace.');
+        } catch (err: unknown) {
+          message.error(getErrorMessage(err, 'Failed to delete workspace.'));
         }
       },
     });
@@ -145,7 +146,7 @@ export default function WorkspaceDetailPage() {
           icon={
             <ArrowLeftOutlined className="text-gray-7 hover:text-gray-13" />
           }
-          onClick={() => navigate('/content-model')}
+          onClick={() => navigate(-1)}
           className="hover:bg-white shadow-sm"
         />
         <div className="flex flex-col">

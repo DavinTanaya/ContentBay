@@ -13,10 +13,12 @@ export type {
   ModelMetadataSidebarProps,
   RenderFieldIconProps,
   RenderModelIconProps,
-  CreateContentModelInput,
-  UpdateContentModelInput,
   FieldIcon,
 } from './model/types';
+export type {
+  CreateContentModelInput,
+  UpdateContentModelInput,
+} from './model/dto';
 
 // API: Mutations & Queries
 export * from './api/queries';
@@ -26,9 +28,12 @@ export * from './api/mutations';
 export {
   useGetContentModelsApi,
   useGetContentModelApi,
-  useCreateContentModelApi,
-  useDeleteContentModelApi,
-  useUpdateContentModelApi,
+} from './hooks/useContentModelQueries';
+
+export {
+  createContentModelApi,
+  deleteContentModelApi,
+  updateContentModelApi,
 } from './api/api';
 export { useContentModelCard } from './model/useContentModelCard';
 

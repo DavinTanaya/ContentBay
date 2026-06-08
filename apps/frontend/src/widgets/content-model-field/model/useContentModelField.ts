@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { message } from 'antd';
 
-import { useUpdateContentModelApi } from '@entities/content-model';
+import { updateContentModelApi } from '@entities/content-model';
 import type {
   ContentField,
   FieldType,
   ContentModel,
   FieldIcon,
 } from '@entities/content-model';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 interface SanitizedField {
   name: string;
@@ -38,8 +39,7 @@ export const useContentModelField = (model: ContentModel) => {
   const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(
     null,
   );
-
-  const [updateContentModel] = useUpdateContentModelApi(model.id);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEditField = (field: ContentField) => {
     setSelectedField(field);
@@ -147,18 +147,24 @@ export const useContentModelField = (model: ContentModel) => {
       fields: newFieldsArray,
     };
 
+    setIsLoading(true);
     try {
-      await updateContentModel({ variables: { id: model.id, input } });
+      await updateContentModelApi(model.id, input);
       message.success(
         isNewField ? 'Field added successfully' : 'Field updated successfully',
       );
       setIsFieldModalVisible(false);
       setSelectedField(null);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
       message.error(
-        isNewField ? 'Failed to add field' : 'Failed to update field',
+        getErrorMessage(
+          err,
+          isNewField ? 'Failed to add field' : 'Failed to update field',
+        ),
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 

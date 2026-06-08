@@ -1,5 +1,5 @@
+import { useGetContentModelsApi } from '@/entities/content-model/hooks/useContentModelQueries';
 import {
-  useGetContentModelsApi,
   type ContentModel,
 } from '@entities/content-model';
 export const useContentModelList = (workspaceId: string) => {

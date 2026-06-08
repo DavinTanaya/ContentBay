@@ -14,14 +14,15 @@ import {
 import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useActiveWorkspaceId } from '@/entities/workspace';
-import { useCreateContentApi } from '../api/create-content.api';
 import {
-  useUpdateContentApi,
-  useDeleteContentApi,
-} from '../api/mutation-content.api';
-import { useGetContentsApi, useGetContentApi } from '@entities/content';
+  useGetContentsApi,
+  useGetContentApi,
+  createContentApi,
+  updateContentApi,
+} from '@entities/content';
 import { useGetContentModelsApi } from '@entities/content-model';
 import dayjs from 'dayjs';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 export const ContentCreateForm: React.FC = () => {
   const navigate = useNavigate();
@@ -46,15 +47,9 @@ export const ContentCreateForm: React.FC = () => {
   );
   const existingEntry = entryData?.getContent;
 
-  // 3. Apollo Mutations
-  const [createContent, { loading: createLoading }] = useCreateContentApi(
-    activeWorkspaceId,
-    modelId || undefined,
-  );
-  const [updateContent, { loading: updateLoading }] = useUpdateContentApi(
-    activeWorkspaceId,
-    modelId || undefined,
-  );
+  // 3. Action Loading States
+  const [createLoading, setCreateLoading] = React.useState(false);
+  const [updateLoading, setUpdateLoading] = React.useState(false);
 
   // Set form values on edit mode
   useEffect(() => {
@@ -64,10 +59,10 @@ export const ContentCreateForm: React.FC = () => {
       // Parse payload
       const payload = existingEntry.data || {};
 
-      activeModel.fields.forEach((field) => {
+      activeModel.fields.forEach((field: any) => {
         const val = payload[field.apiId];
         if (field.type.toUpperCase() === 'DATE' && val) {
-          formValues[field.apiId] = dayjs(val);
+          formValues[field.apiId] = dayjs(val as string);
         } else {
           formValues[field.apiId] = val;
         }
@@ -85,7 +80,7 @@ export const ContentCreateForm: React.FC = () => {
 
     if (!activeModel) return;
 
-    activeModel.fields.forEach((field) => {
+    activeModel.fields.forEach((field: any) => {
       const rawVal = values[field.apiId];
       if (field.type.toUpperCase() === 'DATE' && rawVal) {
         payload[field.apiId] = rawVal.toISOString
@@ -98,21 +93,23 @@ export const ContentCreateForm: React.FC = () => {
 
     try {
       if (entryId) {
+        setUpdateLoading(true);
         // Edit Mode
-        await updateContent({
-          variables: {
-            input: {
-              id: entryId,
-              data: payload,
-              status,
-            },
+        await updateContentApi(
+          entryId,
+          {
+            data: payload,
+            status,
           },
-        });
+          activeWorkspaceId,
+          modelId || undefined,
+        );
         message.success('Content entry updated successfully!');
       } else {
+        setCreateLoading(true);
         // Creation Mode
-        await createContent({
-          variables: {
+        await createContentApi(
+          {
             input: {
               workspaceId: activeWorkspaceId,
               contentModelId: modelId || '',
@@ -120,12 +117,17 @@ export const ContentCreateForm: React.FC = () => {
               status,
             },
           },
-        });
+          activeWorkspaceId,
+          modelId || undefined,
+        );
         message.success('Content entry created successfully!');
       }
       navigate(`/workspace/${activeWorkspaceId}/content`);
-    } catch (err: any) {
-      message.error(err.message || 'Failed to save content entry');
+    } catch (err: unknown) {
+      message.error(getErrorMessage(err, 'Failed to save content entry'));
+    } finally {
+      if (entryId) setUpdateLoading(false);
+      else setCreateLoading(false);
     }
   };
 

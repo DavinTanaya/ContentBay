@@ -1,4 +1,4 @@
-import { apolloClient } from '@/shared/api/apollo';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 import { GET_USER_BY_ID } from './queries';
 import type { GetUserByIdRequest, GetUserByIdResponse } from '../model/dto';
 

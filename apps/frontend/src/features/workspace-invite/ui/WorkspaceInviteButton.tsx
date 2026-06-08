@@ -48,7 +48,7 @@ export function WorkspaceInviteButton({
       <WorkspaceInviteModal
         isOpen={isModalOpen}
         onCancel={closeModal}
-        onInvite={handleInvite}
+        onInvite={async (v) => { await handleInvite(v); }}
       />
     </>
   );

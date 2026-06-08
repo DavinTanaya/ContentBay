@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, message } from 'antd';
-import { useCreateContentModelApi } from '@entities/content-model';
+import { createContentModelApi } from '@entities/content-model';
 import type {
   CreateContentModelInput,
   ContentModelIcon,
 } from '@entities/content-model';
 import { useActiveWorkspaceId } from '@/entities/workspace';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
+
+export interface CreateContentModelFormValues {
+  name: string;
+  apiId: string;
+  description?: string;
+  icon?: ContentModelIcon;
+}
 
 export const useCreateContentModel = (onSuccess: () => void) => {
-  const [createModel, { loading }] = useCreateContentModelApi();
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const activeSpaceId = useActiveWorkspaceId();
 
@@ -26,13 +34,6 @@ export const useCreateContentModel = (onSuccess: () => void) => {
     });
   };
 
-  interface CreateContentModelFormValues {
-    name: string;
-    apiId: string;
-    description?: string;
-    icon?: ContentModelIcon;
-  }
-
   const handleCreate = async (values: CreateContentModelFormValues) => {
     const input: CreateContentModelInput = {
       workspaceId: activeSpaceId,
@@ -42,18 +43,15 @@ export const useCreateContentModel = (onSuccess: () => void) => {
       icon: values.icon || 'box',
     };
 
+    setLoading(true);
     try {
-      await createModel({
-        variables: { input },
-      });
+      await createContentModelApi(input);
       message.success('Content Model created successfully!');
       onSuccess();
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'Failed to create Content Model';
-      message.error(errorMessage);
+    } catch (error: unknown) {
+      message.error(getErrorMessage(error, 'Failed to create Content Model'));
+    } finally {
+      setLoading(false);
     }
   };
 

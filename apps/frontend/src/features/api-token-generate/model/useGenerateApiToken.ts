@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { message } from 'antd';
-import { useGenerateApiTokenApi } from '@/entities/api-token';
+import { generateApiTokenApi } from '@/entities/api-token/api/api';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 export const useGenerateApiToken = (workspaceId: string) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [generatedToken, setGeneratedToken] = useState<string | null>(null);
-
-  const [generateApiToken, { loading }] = useGenerateApiTokenApi();
+  const [loading, setLoading] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -14,21 +14,18 @@ export const useGenerateApiToken = (workspaceId: string) => {
   const closeTokenDisplay = () => setGeneratedToken(null);
 
   const handleGenerate = async (values: { name: string }) => {
+    setLoading(true);
     try {
-      const res = await generateApiToken({
-        variables: { workspaceId, name: values.name },
-      });
-      if (res.data) {
-        setGeneratedToken(res.data.generateApiToken.plainTextToken);
+      const res = await generateApiTokenApi(workspaceId, values.name);
+      if (res) {
+        setGeneratedToken(res.plainTextToken);
         message.success('API Token generated successfully!');
         closeModal();
       }
-    } catch (err: any) {
-      const errorMessage =
-        err?.graphQLErrors?.[0]?.message ||
-        err?.message ||
-        'Failed to generate API token.';
-      message.error(errorMessage);
+    } catch (err: unknown) {
+      message.error(getErrorMessage(err, 'Failed to generate API token.'));
+    } finally {
+      setLoading(false);
     }
   };
 

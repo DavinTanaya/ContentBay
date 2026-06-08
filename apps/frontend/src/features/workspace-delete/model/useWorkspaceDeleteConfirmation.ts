@@ -1,17 +1,19 @@
-import { useDeleteWorkspaceApi } from '@/entities/workspace';
+import { useState } from 'react';
+import { deleteWorkspaceApi } from '@/entities/workspace';
 import type { DeleteWorkspaceInput } from '@/entities/workspace/model/dto';
 
 export const useWorkspaceDeleteConfirmation = (onSuccess?: () => void) => {
-  const [deleteWorkspaceMutation, { loading }] = useDeleteWorkspaceApi({
-    onCompleted: () => {
-      if (onSuccess) onSuccess();
-    },
-  });
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = async (input: DeleteWorkspaceInput) => {
-    return await deleteWorkspaceMutation({
-      variables: { input },
-    });
+    setLoading(true);
+    try {
+      const res = await deleteWorkspaceApi(input);
+      if (onSuccess) onSuccess();
+      return res;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {

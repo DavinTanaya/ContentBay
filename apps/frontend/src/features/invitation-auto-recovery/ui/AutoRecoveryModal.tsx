@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, List, Typography, Space, message } from 'antd';
 import { MailOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { useGetMyPendingInvitationsApi } from '@/entities/workspace-invitation';
-import { useAcceptInvitationApi } from '@/entities/workspace/api/api';
+import { acceptInvitationApi } from '@/entities/workspace';
 import type { WorkspaceInvitation } from '@/entities/workspace-invitation';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 const { Text, Title } = Typography;
 
 export const AutoRecoveryModal = () => {
   const { data, loading } = useGetMyPendingInvitationsApi();
-  const [acceptInvitation, { loading: isAccepting }] = useAcceptInvitationApi({
-    refetchQueries: ['GetMyPendingInvitations', 'GetWorkspaces'],
-  });
+  const [isAccepting, setIsAccepting] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const [acceptingId, setAcceptingId] = useState<string | null>(null);
@@ -33,17 +32,19 @@ export const AutoRecoveryModal = () => {
   const handleAccept = async (token: string, id: string) => {
     try {
       setAcceptingId(id);
-      await acceptInvitation({ variables: { token } });
+      setIsAccepting(true);
+      await acceptInvitationApi(token);
       message.success('Successfully joined the workspace!');
       
       // If that was the last invitation, close the modal automatically
       if (invitations.length <= 1) {
         handleClose();
       }
-    } catch (err: any) {
-      message.error(err?.message || 'Failed to accept invitation');
+    } catch (err: unknown) {
+      message.error(getErrorMessage(err, 'Failed to accept invitation'));
     } finally {
       setAcceptingId(null);
+      setIsAccepting(false);
     }
   };
 

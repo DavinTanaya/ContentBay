@@ -1,10 +1,20 @@
-import { useDeleteContentModelApi } from '@entities/content-model';
+import { useState } from 'react';
+import { deleteContentModelApi } from '@entities/content-model';
 
 export const useDeleteContentModel = (modelId: string) => {
-  const [deleteMutation, { loading }] = useDeleteContentModelApi(modelId);
+  const [loading, setLoading] = useState(false);
+
+  const deleteModel = async () => {
+    setLoading(true);
+    try {
+      await deleteContentModelApi(modelId);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
-    deleteModel: () => deleteMutation({ variables: { id: modelId } }),
+    deleteModel,
     loading,
   };
 };

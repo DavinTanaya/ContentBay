@@ -1,4 +1,4 @@
-import { apolloClient } from '@/shared/api/apollo';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 import {
   GOOGLE_LOGIN,
   GOOGLE_LOGIN_ACCESS_TOKEN,

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client/react';
+import { apolloClient } from '@/shared/lib/apollo/apollo-client';
 import {
   CREATE_CONTENT_MODEL,
   DELETE_CONTENT_MODEL,
@@ -11,52 +11,38 @@ import type {
   UpdateContentModelInput,
 } from '../model/dto';
 
-export const useCreateContentModelApi = () => {
-  return useMutation<
-    { createContentModel: ContentModel },
-    { input: CreateContentModelInput }
-  >(CREATE_CONTENT_MODEL, {
+export async function createContentModelApi(input: CreateContentModelInput) {
+  const { data } = await apolloClient.mutate<{ createContentModel: ContentModel }>({
+    mutation: CREATE_CONTENT_MODEL,
+    variables: { input },
     refetchQueries: [{ query: GET_CONTENT_MODELS }],
     awaitRefetchQueries: true,
   });
-};
+  return data?.createContentModel;
+}
 
-export const useGetContentModelApi = (id: string) => {
-  return useQuery<{ getContentModel: ContentModel }, { id: string }>(
-    GET_CONTENT_MODEL,
-    {
-      variables: { id },
-      skip: !id,
-    },
-  );
-};
-
-export const useGetContentModelsApi = () => {
-  return useQuery<{ getContentModels: ContentModel[] }>(GET_CONTENT_MODELS);
-};
-
-export const useUpdateContentModelApi = (id: string) => {
-  return useMutation<
-    { updateContentModel: ContentModel },
-    { id: string; input: UpdateContentModelInput }
-  >(UPDATE_CONTENT_MODEL, {
+export async function updateContentModelApi(id: string, input: UpdateContentModelInput) {
+  const { data } = await apolloClient.mutate<{ updateContentModel: ContentModel }>({
+    mutation: UPDATE_CONTENT_MODEL,
+    variables: { id, input },
     refetchQueries: [
       { query: GET_CONTENT_MODEL, variables: { id } },
       { query: GET_CONTENT_MODELS },
     ],
     awaitRefetchQueries: true,
   });
-};
+  return data?.updateContentModel;
+}
 
-export const useDeleteContentModelApi = (id: string) => {
-  return useMutation<{ deleteContentModel: boolean }, { id: string }>(
-    DELETE_CONTENT_MODEL,
-    {
-      refetchQueries: [
-        { query: GET_CONTENT_MODEL, variables: { id } },
-        { query: GET_CONTENT_MODELS },
-      ],
-      awaitRefetchQueries: true,
-    },
-  );
-};
+export async function deleteContentModelApi(id: string) {
+  const { data } = await apolloClient.mutate<{ deleteContentModel: boolean }>({
+    mutation: DELETE_CONTENT_MODEL,
+    variables: { id },
+    refetchQueries: [
+      { query: GET_CONTENT_MODEL, variables: { id } },
+      { query: GET_CONTENT_MODELS },
+    ],
+    awaitRefetchQueries: true,
+  });
+  return data?.deleteContentModel;
+}

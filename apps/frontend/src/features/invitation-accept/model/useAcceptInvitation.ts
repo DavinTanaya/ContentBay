@@ -1,24 +1,27 @@
-import { useAcceptInvitationApi, useGetInvitationDetailsApi } from '@/entities/workspace/api/api';
+import { acceptInvitationApi, useGetInvitationDetailsApi } from '@/entities/workspace';
 import { useSession } from '@/entities/session';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
+import { getErrorMessage } from '@/shared/utils/errorHandler';
+import { useState } from 'react';
 
 export const useAcceptInvitation = (token: string) => {
   const { user } = useSession();
   const navigate = useNavigate();
 
   const { data, loading, error, refetch } = useGetInvitationDetailsApi(token);
-  const [acceptInvitationMutation, { loading: isAccepting }] = useAcceptInvitationApi();
+  const [isAccepting, setIsAccepting] = useState(false);
 
   const handleAccept = async () => {
+    setIsAccepting(true);
     try {
-      await acceptInvitationMutation({ variables: { token } });
+      await acceptInvitationApi(token);
       message.success('Successfully joined the workspace!');
       navigate('/contentbay/workspaces');
-    } catch (err: any) {
-      const errorMessage =
-        err?.graphQLErrors?.[0]?.message || err?.message || 'Failed to accept invitation.';
-      message.error(errorMessage);
+    } catch (err: unknown) {
+      message.error(getErrorMessage(err, 'Failed to accept invitation.'));
+    } finally {
+      setIsAccepting(false);
     }
   };
 
