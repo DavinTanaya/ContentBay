@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, List, Typography, Space, message } from 'antd';
 import { MailOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import { useGetMyPendingInvitationsApi } from '@/entities/workspace-invitation';
-import { acceptInvitationApi } from '@/entities/workspace';
-import type { WorkspaceInvitation } from '@/entities/workspace-invitation';
+import { useGetMyPendingInvitationsApi, acceptInvitationApi } from '@/entities/workspace';
+import type { WorkspaceInvitation } from '@/entities/workspace';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 const { Text, Title } = Typography;

@@ -41,3 +41,9 @@ export const ACCEPT_INVITATION = gql`
     acceptInvitation(token: $token)
   }
 `;
+
+export const DECLINE_INVITATION = gql`
+  mutation DeclineInvitation($id: ID!) {
+    declineInvitation(id: $id)
+  }
+`;

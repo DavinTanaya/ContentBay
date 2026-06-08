@@ -14,8 +14,7 @@ import {
 import ContentList from '@pages/contentbay/content/ContentListPage';
 import ContentCreate from '@pages/contentbay/content/ContentCreatePage';
 import VisualModeler from '@pages/contentbay/visual-modeler/VisualModelerPage';
-import { WorkspacePage } from '@pages/contentbay/workspace';
-import { WorkspaceDetailPage } from '@pages/contentbay/workspace-detail';
+import { WorkspacePage, WorkspaceDetailPage } from '@pages/contentbay/workspace';
 import { UsersManagementPage } from '@pages/contentbay/users';
 import { ContentBayLayout } from '@layout/ContentBayLayout';
 import { PATH } from '@/shared/constants/routes';

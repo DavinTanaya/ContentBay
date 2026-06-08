@@ -1,4 +1,5 @@
 import type { User } from '@/entities/user/@x/workspace';
+import type { WorkspaceMember } from './workspace-member.types';
 
 export interface Workspace {
   id: string;
@@ -15,16 +16,4 @@ export interface Workspace {
   isDeleted: boolean;
   deletedAt?: string | null;
   deletedBy?: User | null;
-}
-
-export interface WorkspaceMember {
-  id: string;
-  workspaceId: string;
-  userId: number;
-  role: string;
-  createdAt: string;
-  createdBy: User | null;
-  updatedAt: string | null;
-  updatedBy: User | null;
-  user: User | null;
 }

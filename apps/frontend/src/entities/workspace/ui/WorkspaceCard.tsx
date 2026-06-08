@@ -1,13 +1,12 @@
 import React from 'react';
 import { Avatar, Card } from 'antd';
 import {
-  FolderOpenOutlined,
   ClockCircleOutlined,
   ArrowRightOutlined,
   ProductOutlined,
   FileTextOutlined,
 } from '@ant-design/icons';
-import type { Workspace } from '../model/types';
+import type { Workspace } from '../model/workspace.types';
 import { useWorkspaceFormatter } from '../model/useWorkspace';
 import { Briefcase } from 'lucide-react';
 

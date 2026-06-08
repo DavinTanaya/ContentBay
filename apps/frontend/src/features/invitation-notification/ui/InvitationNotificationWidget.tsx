@@ -1,21 +1,12 @@
 import React from 'react';
-import {
-  Badge,
-  Popover,
-  Button,
-  List,
-  Typography,
-  Space,
-  message,
-  Spin,
-} from 'antd';
+import { Badge, Popover, Button, List, Typography, Space, message } from 'antd';
 import { BellOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   useGetMyPendingInvitationsApi,
   declineInvitationApi,
-} from '@/entities/workspace-invitation';
-import { acceptInvitationApi } from '@/entities/workspace';
-import type { WorkspaceInvitation } from '@/entities/workspace-invitation';
+  acceptInvitationApi,
+} from '@/entities/workspace';
+import type { WorkspaceInvitation } from '@/entities/workspace';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 const { Text } = Typography;
@@ -79,6 +70,7 @@ export const InvitationNotificationWidget = () => {
                 danger
                 icon={<CloseOutlined />}
                 onClick={() => handleDecline(item.id)}
+                disabled={isProcessing}
               >
                 Decline
               </Button>
@@ -87,6 +79,7 @@ export const InvitationNotificationWidget = () => {
                 type="primary"
                 icon={<CheckOutlined />}
                 onClick={() => handleAccept(item.token)}
+                loading={isProcessing}
               >
                 Accept
               </Button>

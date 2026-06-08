@@ -5,8 +5,9 @@ import {
   UPDATE_WORKSPACE,
   INVITE_MEMBER,
   ACCEPT_INVITATION,
+  DECLINE_INVITATION,
 } from './mutations';
-import type { Workspace } from '../model/types';
+import type { Workspace } from '../model/workspace.types';
 import type {
   CreateWorkspaceInput,
   UpdateWorkspaceInput,
@@ -52,4 +53,12 @@ export async function acceptInvitationApi(token: string) {
     variables: { token },
   });
   return data?.acceptInvitation;
+}
+
+export async function declineInvitationApi(id: string) {
+  const { data } = await apolloClient.mutate<{ declineInvitation: boolean }>({
+    mutation: DECLINE_INVITATION,
+    variables: { id },
+  });
+  return data?.declineInvitation;
 }

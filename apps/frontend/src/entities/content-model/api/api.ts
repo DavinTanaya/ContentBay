@@ -12,7 +12,9 @@ import type {
 } from '../model/dto';
 
 export async function createContentModelApi(input: CreateContentModelInput) {
-  const { data } = await apolloClient.mutate<{ createContentModel: ContentModel }>({
+  const { data } = await apolloClient.mutate<{
+    createContentModel: ContentModel;
+  }>({
     mutation: CREATE_CONTENT_MODEL,
     variables: { input },
     refetchQueries: [{ query: GET_CONTENT_MODELS }],
@@ -21,8 +23,13 @@ export async function createContentModelApi(input: CreateContentModelInput) {
   return data?.createContentModel;
 }
 
-export async function updateContentModelApi(id: string, input: UpdateContentModelInput) {
-  const { data } = await apolloClient.mutate<{ updateContentModel: ContentModel }>({
+export async function updateContentModelApi(
+  id: string,
+  input: UpdateContentModelInput,
+) {
+  const { data } = await apolloClient.mutate<{
+    updateContentModel: ContentModel;
+  }>({
     mutation: UPDATE_CONTENT_MODEL,
     variables: { id, input },
     refetchQueries: [

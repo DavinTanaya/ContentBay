@@ -4,7 +4,11 @@ import {
   GET_WORKSPACE,
   GET_INVITATION_DETAILS,
 } from '../api/queries';
-import type { Workspace } from '../model/types';
+import type { Workspace } from '../model/workspace.types';
+import type {
+  GetInvitationDetailsInput,
+  GetInvitationDetailsResponse,
+} from '../model/dto';
 
 export const useGetWorkspacesApi = () => {
   return useQuery<{ getWorkspaces: Workspace[] }>(GET_WORKSPACES, {
@@ -21,7 +25,7 @@ export const useGetWorkspaceApi = (id: string) => {
 };
 
 export const useGetInvitationDetailsApi = (token: string) => {
-  return useQuery<{ getInvitationDetails: any }, { token: string }>(
+  return useQuery<GetInvitationDetailsResponse, GetInvitationDetailsInput>(
     GET_INVITATION_DETAILS,
     {
       variables: { token },

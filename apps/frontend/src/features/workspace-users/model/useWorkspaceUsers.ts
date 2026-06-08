@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useActiveWorkspaceId, useGetWorkspaceApi } from '@/entities/workspace';
-import type { WorkspaceMember } from '@/entities/workspace/model/types';
+import type { WorkspaceMember } from '@/entities/workspace';
 
 export interface ManagedUser {
   id: string;
