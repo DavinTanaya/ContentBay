@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
+    "@types/graphql-type-json": "^0.3.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "22.18.12",
     "@types/nodemailer": "^8.0.0",

@@ -57,7 +57,11 @@ export function FieldEditModal({
       setIsTitle(field.isTitle || false);
       setLocalized(field.localized || false);
       setRequired(field.required || false);
-      setUnique(field.validations?.unique || false);
+      setUnique(
+        field.validations && 'unique' in field.validations
+          ? (field.validations as any).unique
+          : false
+      );
       setActiveTab('identity');
     }
   }

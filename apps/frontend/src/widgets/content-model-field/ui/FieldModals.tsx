@@ -1,22 +1,18 @@
-import { FieldEditModal } from '@/features/field-edit';
-import { FieldPickerModal, FieldConfigModal } from '@/features/field-add';
-import type { ContentField, FieldType } from '@entities/content-model';
+import { FieldPickerModal } from '@/features/field-add';
+import { FieldBuilderEntry } from '@/features/field-builder';
+import type { ContentField, ContentFieldConfig, FieldType } from '@entities/content-model';
 
 interface FieldModalsProps {
-  isFieldModalVisible: boolean;
-  setIsFieldModalVisible: (visible: boolean) => void;
+  isFieldModalVisible?: boolean;
+  setIsFieldModalVisible?: (visible: boolean) => void;
   selectedField: ContentField | null;
   isFieldPickerOpen: boolean;
   setIsFieldPickerOpen: (open: boolean) => void;
-  isFieldConfigOpen: boolean;
-  setIsFieldConfigOpen: (open: boolean) => void;
+  isFieldBuilderOpen: boolean;
+  setIsFieldBuilderOpen: (open: boolean) => void;
   selectedFieldType: FieldType | null;
   handleSelectFieldType: (type: FieldType) => void;
   handleBackToPicker: () => void;
-  handleAddFieldConfirm: (data: {
-    name: string;
-    apiId: string;
-  }) => Promise<void>;
   handleEditFieldConfirm: (
     originalApiId: string,
     updatedField: Omit<ContentField, 'id'>,
@@ -24,40 +20,32 @@ interface FieldModalsProps {
 }
 
 export function FieldModals({
-  isFieldModalVisible,
-  setIsFieldModalVisible,
   selectedField,
   isFieldPickerOpen,
   setIsFieldPickerOpen,
-  isFieldConfigOpen,
-  setIsFieldConfigOpen,
-  selectedFieldType,
+  isFieldBuilderOpen,
+  setIsFieldBuilderOpen,
   handleSelectFieldType,
-  handleBackToPicker,
-  handleAddFieldConfirm,
   handleEditFieldConfirm,
 }: FieldModalsProps) {
   return (
     <>
-      <FieldEditModal
-        isOpen={isFieldModalVisible}
-        onClose={() => setIsFieldModalVisible(false)}
-        field={selectedField}
-        onConfirm={handleEditFieldConfirm}
+      <FieldBuilderEntry
+        isOpen={isFieldBuilderOpen}
+        onClose={() => setIsFieldBuilderOpen(false)}
+        fieldConfig={selectedField as ContentFieldConfig | null}
+        onConfirm={async (data) => {
+          if (selectedField) {
+            await handleEditFieldConfirm(selectedField.apiId, data);
+            setIsFieldBuilderOpen(false);
+          }
+        }}
       />
 
       <FieldPickerModal
         isOpen={isFieldPickerOpen}
         onClose={() => setIsFieldPickerOpen(false)}
         onSelectField={handleSelectFieldType}
-      />
-
-      <FieldConfigModal
-        isOpen={isFieldConfigOpen}
-        onClose={() => setIsFieldConfigOpen(false)}
-        selectedFieldType={selectedFieldType as FieldType}
-        onConfirm={handleAddFieldConfirm}
-        onBack={handleBackToPicker}
       />
     </>
   );

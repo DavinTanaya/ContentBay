@@ -129,18 +129,21 @@ enum InvitationStatus {
 }
 
 model ContentField {
-  id          String       @id @default(cuid())
-  name        String
-  type        String
-  apiId       String
-  localized   Boolean      @default(false)
-  required    Boolean      @default(false)
-  isTitle     Boolean      @default(false)
-  description String?
-  modelId     String
-  icon        String       @default("text")
-  validations Json?
-  model       ContentModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  id           String       @id @default(cuid())
+  name         String
+  type         String
+  apiId        String
+  localized    Boolean      @default(false)
+  required     Boolean      @default(false)
+  isTitle      Boolean      @default(false)
+  description  String?
+  modelId      String
+  icon         String       @default("text")
+  validations  Json?
+  appearance   Json?
+  defaultValue Json?
+  settings     Json?
+  model        ContentModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
 }
 
 model Content {

@@ -10,40 +10,20 @@ import type {
 } from '@entities/content-model';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
 
-interface SanitizedField {
-  name: string;
-  apiId: string;
-  type: string;
-  icon: FieldIcon;
-  localized: boolean;
-  required: boolean;
-  isTitle: boolean;
-  description: string;
-  validations?: {
-    required?: boolean;
-    unique?: boolean;
-    minCount?: number;
-    maxCount?: number;
-    matchPattern?: string;
-    prohibitPattern?: string;
-    allowedValues?: string[];
-  };
-}
+// Using Omit<ContentFieldConfig, 'id'> directly
 
 export const useContentModelField = (model: ContentModel) => {
   const [isFieldModalVisible, setIsFieldModalVisible] = useState(false);
   const [selectedField, setSelectedField] = useState<ContentField | null>(null);
 
   const [isFieldPickerOpen, setIsFieldPickerOpen] = useState(false);
-  const [isFieldConfigOpen, setIsFieldConfigOpen] = useState(false);
-  const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(
-    null,
-  );
+  const [isFieldBuilderOpen, setIsFieldBuilderOpen] = useState(false);
+  const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEditField = (field: ContentField) => {
     setSelectedField(field);
-    setIsFieldModalVisible(true);
+    setIsFieldBuilderOpen(true);
   };
 
   const handleAddFieldClick = () => {
@@ -53,38 +33,42 @@ export const useContentModelField = (model: ContentModel) => {
   const handleSelectFieldType = (type: FieldType) => {
     setSelectedFieldType(type);
     setIsFieldPickerOpen(false);
-    setIsFieldConfigOpen(true);
-  };
 
-  const handleBackToPicker = () => {
-    setIsFieldConfigOpen(false);
-    setIsFieldPickerOpen(true);
-  };
+    // Map title to internal type
+    const titleMap: Record<string, string> = {
+      'Rich text': 'richText',
+      'Text': 'text',
+      'Number': 'number',
+      'Date and time': 'date',
+      'Location': 'location',
+      'Media': 'asset',
+      'Boolean': 'boolean',
+      'JSON object': 'json',
+      'Reference': 'reference'
+    };
+    const mappedType = titleMap[type.title] || 'text';
 
-  const handleAddFieldConfirm = async (data: {
-    name: string;
-    apiId: string;
-  }) => {
-    if (!selectedFieldType) return;
-
-    // Don't call API yet. Just prepare local object and show detail modal.
-    const tempNewField: ContentField = {
-      id: `new-${Date.now()}`, // temporary ID
-      name: data.name,
-      apiId: data.apiId,
-      type: selectedFieldType.title,
-      icon: selectedFieldType.icon,
+    // Initialize the default schema for this field type using the factory
+    // Note: We need to import initializeField from field-builder
+    // For now we just mock the initial call, it will be handled by the dispatcher
+    const tempNewField = {
+      id: `new-${Date.now()}`,
+      name: '',
+      apiId: '',
+      type: mappedType,
+      icon: type.icon,
       localized: false,
       required: false,
       isTitle: false,
-      description: '',
-      validations: { required: false, unique: false },
-    };
+    } as unknown as ContentField;
 
     setSelectedField(tempNewField);
-    setIsFieldConfigOpen(false);
-    setIsFieldModalVisible(true);
-    setSelectedFieldType(null);
+    setIsFieldBuilderOpen(true);
+  };
+
+  const handleBackToPicker = () => {
+    setIsFieldBuilderOpen(false);
+    setIsFieldPickerOpen(true);
   };
 
   const handleEditFieldConfirm = async (
@@ -92,39 +76,20 @@ export const useContentModelField = (model: ContentModel) => {
     updatedField: Omit<ContentField, 'id'>,
   ) => {
     const existingFields = model.fields || [];
-
-    // Check if we are adding a totally new field OR editing an existing one
     const isNewField = !existingFields.find((f) => f.apiId === originalApiId);
 
     const sanitizeField = (
       f: ContentField | Omit<ContentField, 'id'>,
-    ): SanitizedField => {
-      const sanitized: SanitizedField = {
-        name: f.name,
-        apiId: f.apiId,
-        type: f.type,
-        icon: f.icon || 'text',
-        localized: f.localized || false,
-        required: f.required || false,
-        isTitle: f.isTitle || false,
-        description: f.description || '',
-        validations: f.validations
-          ? {
-              required: f.validations.required,
-              unique: f.validations.unique,
-              minCount: f.validations.minCount,
-              maxCount: f.validations.maxCount,
-              matchPattern: f.validations.matchPattern,
-              prohibitPattern: f.validations.prohibitPattern,
-              allowedValues: f.validations.allowedValues,
-            }
-          : undefined,
+    ): Omit<ContentField, 'id'> => {
+      // Just strip out the 'id' and pass the rest since we have flexible types now
+      const { id, ...rest } = f as ContentField;
+      return {
+        ...rest,
+        validations: f.validations as any,
       };
-
-      return sanitized;
     };
 
-    let newFieldsArray: SanitizedField[];
+    let newFieldsArray: Omit<ContentField, 'id'>[];
     if (isNewField) {
       newFieldsArray = [
         ...existingFields.map(sanitizeField),
@@ -174,14 +139,13 @@ export const useContentModelField = (model: ContentModel) => {
     selectedField,
     isFieldPickerOpen,
     setIsFieldPickerOpen,
-    isFieldConfigOpen,
-    setIsFieldConfigOpen,
+    isFieldBuilderOpen,
+    setIsFieldBuilderOpen,
     selectedFieldType,
     handleEditField,
     handleAddFieldClick,
     handleSelectFieldType,
     handleBackToPicker,
-    handleAddFieldConfirm,
     handleEditFieldConfirm,
   };
 };

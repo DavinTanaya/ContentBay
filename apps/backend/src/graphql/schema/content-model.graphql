@@ -13,6 +13,8 @@ type FieldValidations {
   allowedValues: [String!]
 }
 
+scalar JSON
+
 type ContentField {
   id: ID!
   name: String!
@@ -23,7 +25,10 @@ type ContentField {
   required: Boolean!
   isTitle: Boolean!
   description: String
-  validations: FieldValidations
+  validations: JSON
+  appearance: JSON
+  defaultValue: JSON
+  settings: JSON
 }
 
 type ContentModel {
@@ -62,7 +67,10 @@ input CreateContentFieldInput {
   required: Boolean
   isTitle: Boolean
   description: String
-  validations: FieldValidationsInput
+  validations: JSON
+  appearance: JSON
+  defaultValue: JSON
+  settings: JSON
 }
 
 input CreateContentModelInput {

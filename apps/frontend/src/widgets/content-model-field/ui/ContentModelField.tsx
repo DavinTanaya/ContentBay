@@ -18,14 +18,13 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
     selectedField,
     isFieldPickerOpen,
     setIsFieldPickerOpen,
-    isFieldConfigOpen,
-    setIsFieldConfigOpen,
+    isFieldBuilderOpen,
+    setIsFieldBuilderOpen,
     selectedFieldType,
     handleEditField,
     handleAddFieldClick,
     handleSelectFieldType,
     handleBackToPicker,
-    handleAddFieldConfirm,
     handleEditFieldConfirm,
   } = useContentModelField(model);
 
@@ -70,12 +69,11 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
         selectedField={selectedField}
         isFieldPickerOpen={isFieldPickerOpen}
         setIsFieldPickerOpen={setIsFieldPickerOpen}
-        isFieldConfigOpen={isFieldConfigOpen}
-        setIsFieldConfigOpen={setIsFieldConfigOpen}
+        isFieldBuilderOpen={isFieldBuilderOpen}
+        setIsFieldBuilderOpen={setIsFieldBuilderOpen}
         selectedFieldType={selectedFieldType}
         handleSelectFieldType={handleSelectFieldType}
         handleBackToPicker={handleBackToPicker}
-        handleAddFieldConfirm={handleAddFieldConfirm}
         handleEditFieldConfirm={handleEditFieldConfirm}
       />
     </div>

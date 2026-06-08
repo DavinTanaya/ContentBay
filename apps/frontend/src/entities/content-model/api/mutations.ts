@@ -38,15 +38,10 @@ export const UPDATE_CONTENT_MODEL = gql`
         required
         isTitle
         description
-        validations {
-          required
-          unique
-          minCount
-          maxCount
-          matchPattern
-          prohibitPattern
-          allowedValues
-        }
+        validations
+        appearance
+        defaultValue
+        settings
       }
       createdAt
       updatedAt
