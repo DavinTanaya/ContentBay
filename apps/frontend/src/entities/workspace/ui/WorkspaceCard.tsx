@@ -7,7 +7,7 @@ import {
   FileTextOutlined,
 } from '@ant-design/icons';
 import type { Workspace } from '../model/workspace.types';
-import { useWorkspaceFormatter } from '../model/useWorkspace';
+import { useWorkspaceFormatter } from '../hooks/useWorkspace';
 import { Briefcase } from 'lucide-react';
 
 interface WorkspaceCardProps {
@@ -34,7 +34,7 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
       }}
       size="small"
     >
-      {initials.map((member, i) => (
+      {initials.map((member: { initial: string; color: string; email: string }, i: number) => (
         <Avatar
           key={member.email || i}
           className="text-white text-[11px] font-semibold font-poppins border-white ring-2 ring-white"

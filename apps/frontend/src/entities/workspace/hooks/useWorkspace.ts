@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useGetWorkspacesApi } from '@/entities/workspace';
 import { useSession } from '@/entities/session';
-import type { Workspace } from './workspace.types';
-import type { WorkspaceMember } from './workspace-member.types';
+import type { Workspace } from '../model/workspace.types';
+import type { WorkspaceMember } from '../model/workspace-member.types';
 
 
 export const getAvatarColor = (identifier: string | number): string => {

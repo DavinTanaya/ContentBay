@@ -1,46 +1,46 @@
 import { useNavigate } from 'react-router-dom';
-import { Input, Button, Divider, message, Modal, Skeleton } from 'antd';
+import { Input, Button, Divider, message, Skeleton } from 'antd';
 import {
   ArrowLeftOutlined,
   SettingOutlined,
   CopyOutlined,
-  EditOutlined,
-  ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { useWorkspaceDetail } from '@/features/workspace-detail';
 import { WorkspaceCredentialsWidget } from '@/widgets/workspace-credentials';
-import { getErrorMessage } from '@/shared/utils/errorHandler';
+import { WorkspaceDeleteButton } from '@/features/workspace-delete';
+import { WorkspaceUpdateForm } from '@/features/workspace-update';
+import { useActiveWorkspaceId, useGetWorkspaceApi } from '@/entities/workspace';
+import type { Workspace } from '@/entities/workspace';
 
 export default function WorkspaceDetailPage() {
   const navigate = useNavigate();
-  const {
-    activeSpace,
-    newName,
-    setNewName,
-    handleCopyId,
-    handleRename,
-    handleDeleteConfirm,
-  } = useWorkspaceDetail();
+  const activeId = useActiveWorkspaceId();
+  const { data, loading: fetchLoading } = useGetWorkspaceApi(activeId);
 
-  if (!activeSpace) {
+  const activeSpace: Workspace | null = data?.getWorkspace || null;
+
+  const handleCopyId = () => {
+    if (activeSpace?.id) {
+      navigator.clipboard.writeText(activeSpace.id);
+      return true;
+    }
+    return false;
+  };
+
+  if (fetchLoading) {
     return (
       <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
         <div className="flex items-center gap-4 mb-10">
           <Button
             type="text"
             shape="circle"
-            size="large"
-            icon={
-              <ArrowLeftOutlined className="text-gray-7 hover:text-gray-13" />
-            }
+            className="text-gray-8 hover:text-black hover:bg-gray-2 mr-4 -ml-2"
             onClick={() => navigate(-1)}
-            className="hover:bg-white shadow-sm"
+            icon={<ArrowLeftOutlined style={{ fontSize: '20px' }} />}
           />
           <div className="flex flex-col">
-            <h1 className="h3-semibold text-gray-10 m-0">Space settings</h1>
+            <h1 className="h3-semibold text-gray-10 m-0">Workspace settings</h1>
             <p className="body-sm-regular text-gray-7 m-0">
-              Configure details, naming, and environments for this project
-              space.
+              Configure details, naming, and environments for this workspace.
             </p>
           </div>
         </div>
@@ -56,82 +56,18 @@ export default function WorkspaceDetailPage() {
     );
   }
 
-  const onRename = async () => {
-    try {
-      await handleRename();
-      message.success(`Workspace renamed successfully!`);
-    } catch (err: unknown) {
-      message.error(getErrorMessage(err, 'Failed to rename workspace.'));
-    }
-  };
-
-  const onDelete = () => {
-    Modal.confirm({
-      icon: null,
-      title: null,
-      content: (
-        <div className="flex flex-col items-center text-center p-4">
-          <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-6 mb-6 shadow-sm shadow-blue-500/10">
-            <ExclamationCircleOutlined
-              style={{ fontSize: '32px', color: '#1890ff' }}
-            />
-          </div>
-          <h3 className="font-poppins text-lg font-bold text-gray-13 mb-3 leading-snug">
-            Are you absolutely sure?
-          </h3>
-          <p className="font-poppins text-sm text-gray-8 leading-relaxed mb-0">
-            This action is{' '}
-            <span
-              className="font-semibold text-red-5"
-              style={{ color: '#ff4d4f' }}
-            >
-              irreversible
-            </span>{' '}
-            and will permanently delete the workspace{' '}
-            <span
-              className="font-semibold text-gray-10"
-              style={{ color: '#262626' }}
-            >
-              "{activeSpace.name}"
-            </span>{' '}
-            along with all nested content schemas.
-          </p>
-        </div>
-      ),
-      okText: 'Yes, Delete Space',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      centered: true,
-      width: 440,
-      okButtonProps: {
-        size: 'large',
-        className: 'rounded-xl h-11 px-6 font-medium font-poppins shadow-sm',
-        style: {
-          backgroundColor: '#ff4d4f',
-          borderColor: '#ff4d4f',
-          color: '#ffffff',
-        },
-      },
-      cancelButtonProps: {
-        size: 'large',
-        className:
-          'rounded-xl h-11 px-6 font-medium font-poppins border-gray-4 text-gray-8 hover:text-gray-13 hover:border-gray-6',
-        style: { borderRadius: '12px' },
-      },
-      onOk: async () => {
-        try {
-          await handleDeleteConfirm();
-          message.success(`Workspace has been deleted.`);
-        } catch (err: unknown) {
-          message.error(getErrorMessage(err, 'Failed to delete workspace.'));
-        }
-      },
-    });
-  };
+  if (!activeSpace) {
+    return (
+      <div className="p-12 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)]">
+        <h2 className="text-gray-9 mb-4">Workspace not found</h2>
+        <Button onClick={() => navigate(-1)}>Go Back</Button>
+      </div>
+    );
+  }
 
   const onCopy = () => {
     if (handleCopyId()) {
-      message.success('Space ID copied to clipboard!');
+      message.success('Workspace ID copied to clipboard!');
     }
   };
 
@@ -142,17 +78,14 @@ export default function WorkspaceDetailPage() {
         <Button
           type="text"
           shape="circle"
-          size="large"
-          icon={
-            <ArrowLeftOutlined className="text-gray-7 hover:text-gray-13" />
-          }
+          className="text-gray-8 hover:text-black hover:bg-gray-2 mr-2 -ml-2"
           onClick={() => navigate(-1)}
-          className="hover:bg-white shadow-sm"
+          icon={<ArrowLeftOutlined style={{ fontSize: '20px' }} />}
         />
         <div className="flex flex-col">
-          <h1 className="h3-semibold text-gray-10 m-0">Space settings</h1>
+          <h1 className="h3-semibold text-gray-10 m-0">Workspace settings</h1>
           <p className="body-sm-regular text-gray-7 m-0">
-            Configure details, naming, and environments for this project space.
+            Configure details, naming, and environments for this workspace.
           </p>
         </div>
       </div>
@@ -168,10 +101,10 @@ export default function WorkspaceDetailPage() {
             </h3>
           </div>
 
-          {/* Space ID Input Field */}
+          {/* Workspace ID Input Field */}
           <div className="mb-8 w-full">
             <label className="block text-sm font-semibold text-gray-9 mb-2">
-              Space ID
+              Workspace ID
             </label>
             <Input
               value={activeSpace.id}
@@ -197,38 +130,17 @@ export default function WorkspaceDetailPage() {
 
           <Divider className="border-gray-4 my-8" />
 
-          {/* Space Name Rename Form */}
-          <div className="w-full">
-            <label className="block text-sm font-semibold text-gray-9 mb-2">
-              Space name
-            </label>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Input
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="Enter space name"
-                size="large"
-                prefix={<EditOutlined className="text-gray-7" />}
-                className="border-gray-4 rounded-xl h-12 flex-1"
-              />
-              <Button
-                type="primary"
-                variant="solid"
-                color="geekblue"
-                size="large"
-                onClick={onRename}
-                className="h-12 px-6 rounded-xl shadow-sm shrink-0"
-              >
-                Rename space
-              </Button>
-            </div>
-          </div>
+          <WorkspaceUpdateForm
+            workspaceId={activeSpace.id}
+            initialName={activeSpace.name}
+            initialDescription={activeSpace.description}
+          />
         </div>
 
         {/* API Credentials Card */}
         <WorkspaceCredentialsWidget workspaceId={activeSpace.id} />
 
-        {/* Delete Space Danger Zone Card */}
+        {/* Delete Workspace Danger Zone Card */}
         <div className="bg-white border border-gray-4 rounded-[32px] p-10 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center gap-2 mb-4">
             <h3 className="font-poppins text-lg font-semibold text-gray-13 m-0">
@@ -237,20 +149,15 @@ export default function WorkspaceDetailPage() {
           </div>
 
           <p className="body-sm-regular text-gray-7 mb-6 w-full">
-            Once you delete this workspace space, all schemas, layouts, content
+            Once you delete this workspace, all schemas, layouts, content
             assets, and historical deployment records will be permanently
             removed.
           </p>
 
-          <Button
-            type="primary"
-            danger
-            size="large"
-            onClick={onDelete}
-            className="rounded-xl h-12 px-6 shadow-sm"
-          >
-            Delete space
-          </Button>
+          <WorkspaceDeleteButton
+            workspaceId={activeSpace.id}
+            workspaceName={activeSpace.name}
+          />
         </div>
       </div>
     </div>

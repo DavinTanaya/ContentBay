@@ -37,11 +37,11 @@ export const workspaceResolvers = {
         throw err;
       }
     },
-    updateWorkspace: (_: unknown, { id, name }: { id: string; name: string }, context: Context) => {
+    updateWorkspace: (_: unknown, { id, input }: { id: string; input: { name?: string; description?: string } }, context: Context) => {
       if (!context.userId) {
         throw new Error("Unauthorized");
       }
-      return WorkspaceService.update(id, name, context.userId);
+      return WorkspaceService.update(id, input, context.userId);
     },
     deleteWorkspace: (_: unknown, { id }: { id: string }, context: Context) => {
       if (!context.userId) {

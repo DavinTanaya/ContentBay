@@ -4,6 +4,7 @@ export interface CreateWorkspaceInput {
 }
 
 export interface UpdateWorkspaceInput {
+  workspaceId: string;
   name?: string | null;
   description?: string | null;
 }

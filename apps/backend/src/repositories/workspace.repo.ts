@@ -78,7 +78,7 @@ export class WorkspaceRepository {
     });
   }
 
-  static async update(id: string, name: string, userId: number) {
+  static async update(id: string, input: { name?: string; description?: string }, userId: number) {
     const match = await prisma.workspace.findFirst({
       where: {
         id,
@@ -101,7 +101,7 @@ export class WorkspaceRepository {
     }
     return prisma.workspace.update({
       where: { id },
-      data: { name },
+      data: input,
     });
   }
 

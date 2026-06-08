@@ -7,7 +7,7 @@ export {
   getSpaceMembersInitials,
   getRelativeTimeText,
   getAvatarColor,
-} from './model/useWorkspace';
+} from './hooks/useWorkspace';
 export {
   createWorkspaceApi,
   deleteWorkspaceApi,
@@ -23,4 +23,4 @@ export {
 } from './hooks/useWorkspaceQueries';
 export { useGetMyPendingInvitationsApi } from './hooks/useInvitationQueries';
 export { GET_WORKSPACES, GET_WORKSPACE } from './api/queries';
-export { useActiveWorkspaceId } from './model/useActiveWorkspaceId';
+export { useActiveWorkspaceId } from './hooks/useActiveWorkspaceId';

@@ -31,10 +31,11 @@ export async function deleteWorkspaceApi(input: DeleteWorkspaceInput) {
   return data?.deleteWorkspace;
 }
 
-export async function updateWorkspaceApi(id: string, input: UpdateWorkspaceInput) {
+export async function updateWorkspaceApi(input: UpdateWorkspaceInput) {
+  const { workspaceId, ...rest } = input;
   const { data } = await apolloClient.mutate<{ updateWorkspace: Workspace }>({
     mutation: UPDATE_WORKSPACE,
-    variables: { id, ...input },
+    variables: { id: workspaceId, input: rest },
   });
   return data?.updateWorkspace;
 }

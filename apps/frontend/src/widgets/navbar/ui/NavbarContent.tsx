@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, matchPath } from 'react-router-dom';
 import {
   SettingOutlined,
   UserOutlined,
@@ -43,7 +43,10 @@ export function NavbarContent() {
   const location = useLocation();
   const navigate = useNavigate();
   const activeSpaceId = useActiveWorkspaceId();
-  const isWorkspacePage = location.pathname === PATH.contentbay.workspace;
+  const isWorkspacePage =
+    location.pathname === PATH.contentbay.workspace ||
+    matchPath(PATH.contentbay.workspaceDetail, location.pathname) !== null ||
+    matchPath(PATH.contentbay.users, location.pathname) !== null;
 
   const settingsMenuItems: MenuProps['items'] = [
     {

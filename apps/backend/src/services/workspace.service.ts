@@ -14,8 +14,8 @@ export class WorkspaceService {
     return WorkspaceRepository.create(input, userId);
   }
 
-  static async update(id: string, name: string, userId: number) {
-    return WorkspaceRepository.update(id, name, userId);
+  static async update(id: string, input: { name?: string; description?: string }, userId: number) {
+    return WorkspaceRepository.update(id, input, userId);
   }
 
   static async delete(id: string, userId: number) {
