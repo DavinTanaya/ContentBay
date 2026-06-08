@@ -1,0 +1,24 @@
+type ApiToken {
+  id: ID!
+  name: String!
+  tokenPrefix: String!
+  createdAt: DateTime!
+  revokedAt: DateTime
+  expiresAt: DateTime
+  status: String!
+}
+
+type GenerateTokenResponse {
+  token: ApiToken!
+  plainTextToken: String!
+}
+
+extend type Query {
+  getApiTokens(workspaceId: ID!): [ApiToken!]!
+}
+
+extend type Mutation {
+  generateApiToken(workspaceId: ID!, name: String!): GenerateTokenResponse!
+  revokeApiToken(tokenId: ID!): Boolean!
+  regenerateApiToken(tokenId: ID!): GenerateTokenResponse!
+}

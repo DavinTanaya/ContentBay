@@ -18,7 +18,7 @@ export const PATH = {
       '/workspace/:workspaceId/content-model/:contentModelId',
     contentCreate: '/workspace/:workspaceId/content/create',
     schemaModeler: '/workspace/:workspaceId/schema-modeler',
-    spaceSettings: '/workspace/:workspaceId/space-settings',
+    workspaceDetail: '/workspace/:workspaceId/detail',
     users: '/workspace/:workspaceId/users',
   },
 } as const;
@@ -46,8 +46,8 @@ export const getContentModelCreatePath = (workspaceId: string) =>
 export const getSchemaModelerPath = (workspaceId: string) =>
   `/workspace/${workspaceId}/schema-modeler`;
 
-export const getSpaceSettingsPath = (workspaceId: string) =>
-  `/workspace/${workspaceId}/space-settings`;
+export const getWorkspaceDetailPath = (workspaceId: string) =>
+  `/workspace/${workspaceId}/detail`;
 
 export const getUsersPath = (workspaceId: string) =>
   `/workspace/${workspaceId}/users`;

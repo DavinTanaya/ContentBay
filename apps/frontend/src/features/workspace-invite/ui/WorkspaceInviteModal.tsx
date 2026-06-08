@@ -21,21 +21,28 @@ export function WorkspaceInviteModal({
 }: WorkspaceInviteModalProps) {
   const [form] = Form.useForm();
 
-  const handleFinish = async (
-    values: InviteEmailPayload,
-  ) => {
-    try {
-      await onInvite(values);
-      message.success('User invited successfully!');
-      onCancel();
-      form.resetFields();
-    } catch (err: any) {
-      const errorMessage =
-        err?.graphQLErrors?.[0]?.message ||
-        err?.message ||
-        'Failed to invite user.';
-      message.error(errorMessage);
-    }
+  const handleFinish = (values: InviteEmailPayload) => {
+    // 1. Langsung tutup modal dan reset form
+    onCancel();
+    form.resetFields();
+
+    // 2. Munculkan toast loading yang tidak hilang otomatis (duration: 0)
+    const hide = message.loading('Sending invitation...', 0);
+
+    // 3. Jalankan pengiriman API secara background
+    onInvite(values)
+      .then(() => {
+        hide();
+        message.success(`Invitation sent to ${values.email}!`);
+      })
+      .catch((err: any) => {
+        hide();
+        const errorMessage =
+          err?.graphQLErrors?.[0]?.message ||
+          err?.message ||
+          'Failed to invite user.';
+        message.error(errorMessage);
+      });
   };
 
   return (

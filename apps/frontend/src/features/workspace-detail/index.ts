@@ -1,1 +1,1 @@
-export { useSpaceSettings } from './model/useSpaceSettings';
+export { useWorkspaceDetail } from './model/useWorkspaceDetail';

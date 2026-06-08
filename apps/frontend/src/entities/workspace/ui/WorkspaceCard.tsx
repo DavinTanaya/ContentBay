@@ -1,15 +1,15 @@
 import React from 'react';
-import { Avatar, Card, Tag } from 'antd';
+import { Avatar, Card } from 'antd';
 import {
   FolderOpenOutlined,
   ClockCircleOutlined,
   ArrowRightOutlined,
-  CodepenOutlined,
   ProductOutlined,
   FileTextOutlined,
 } from '@ant-design/icons';
 import type { Workspace } from '../model/types';
 import { useWorkspaceFormatter } from '../model/useWorkspace';
+import { Briefcase } from 'lucide-react';
 
 interface WorkspaceCardProps {
   workspace: Workspace;
@@ -24,15 +24,37 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
 }) => {
   const { initials, updatedAtText, modelsCount, contentsCount } =
     useWorkspaceFormatter(workspace);
-  console.log('workspace: ', workspace);
+
+  const renderAvatars = () => (
+    <Avatar.Group
+      maxCount={3}
+      maxStyle={{
+        color: '#003a8c',
+        backgroundColor: '#e6f7ff',
+        fontSize: '11px',
+      }}
+      size="small"
+    >
+      {initials.map((member, i) => (
+        <Avatar
+          key={member.email || i}
+          className="text-white text-[11px] font-semibold font-poppins border-white ring-2 ring-white"
+          style={{ backgroundColor: member.color }}
+        >
+          {member.initial}
+        </Avatar>
+      ))}
+    </Avatar.Group>
+  );
+
   return (
     <Card
       onClick={() => onClick(workspace.id)}
-      className="relative rounded-[32px] border-gray-4 shadow-sm hover:shadow-md hover:border-blue-3 transition-all duration-300 group cursor-pointer"
+      className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none hover:ring-blue-200 hover:shadow-[0_12px_32px_rgba(0,100,255,0.12)] hover:-translate-y-[2px] transition-all duration-500 group cursor-pointer border-none"
       styles={{
         body: {
           padding: '32px',
-          minHeight: '250px',
+          minHeight: '260px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -40,56 +62,44 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
       }}
     >
       <div>
-        <div className="flex items-start justify-between mb-4">
-          <div className="w-[50px] h-[50px] rounded-xl bg-blue-1 flex items-center justify-center">
-            <FolderOpenOutlined className="text-geekblue-6 text-2xl" />
+        <div className="flex items-start justify-between mb-5">
+          <div className="w-[52px] h-[52px] rounded-2xl bg-blue-50/80 ring-1 ring-blue-100 flex items-center justify-center text-blue-6 shadow-sm transition-transform duration-300 group-hover:scale-105">
+            <Briefcase />
           </div>
-          {actionSlot && <div>{actionSlot}</div>}
-        </div>
-        <h3 className="font-poppins text-lg font-semibold text-gray-13 mb-3 leading-snug">
-          {workspace.name}
-        </h3>
-        <div className="flex flex-wrap items-center gap-3 text-xs mb-4 font-medium">
-          <Tag color={'geekblue'} variant="outlined" icon={<ProductOutlined />}>
-            <span className="font-bold">{modelsCount}</span> Models
-          </Tag>
-          <Tag color={'purple'} variant="outlined" icon={<FileTextOutlined />}>
-            <span className="font-bold">{contentsCount}</span> Contents
-          </Tag>
+          {actionSlot && (
+            <div onClick={(e) => e.stopPropagation()}>{actionSlot}</div>
+          )}
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs text-gray-7 mb-6">
-          <ClockCircleOutlined className="text-sm" />
+        <h3 className="font-poppins text-[22px] font-bold text-gray-12 mb-4 leading-tight tracking-tight">
+          {workspace.name}
+        </h3>
+
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50/50 text-blue-7 rounded-lg text-[13px] font-semibold tracking-wide ring-1 ring-blue-100/50">
+            <ProductOutlined className="text-blue-5 text-[14px]" />
+            <span>{modelsCount} Models</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50/50 text-purple-7 rounded-lg text-[13px] font-semibold tracking-wide ring-1 ring-purple-100/50">
+            <FileTextOutlined className="text-purple-5 text-[14px]" />
+            <span>{contentsCount} Contents</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 text-[13px] text-gray-6 font-regular tracking-wide">
+          <ClockCircleOutlined className="text-[12px]" />
           <span>{updatedAtText}</span>
         </div>
       </div>
 
       <div>
-        <div className="border-t border-gray-4 my-4" />
+        <div className="border-t border-gray-2/70 my-5" />
         <div className="flex items-center justify-between">
-          <Avatar.Group
-            maxCount={3}
-            maxStyle={{
-              color: '#003a8c',
-              backgroundColor: '#e6f7ff',
-              fontSize: '11px',
-            }}
-            size="small"
-          >
-            {initials.map((member, i) => (
-              <Avatar
-                key={member.email || i}
-                className="text-white text-xs border-white"
-                style={{ backgroundColor: member.color }}
-              >
-                {member.initial}
-              </Avatar>
-            ))}
-          </Avatar.Group>
+          {renderAvatars()}
 
-          <div className="font-poppins text-xs font-medium text-blue-9 hover:text-blue-7 flex items-center gap-1 cursor-pointer transition-colors group-hover:translate-x-0.5 duration-200">
+          <div className="font-poppins text-[13px] font-semibold text-gray-6 group-hover:text-blue-6 flex items-center gap-1.5 transition-colors duration-200">
             <span>Enter workspace</span>
-            <ArrowRightOutlined className="text-[10px]" />
+            <ArrowRightOutlined className="text-[11px] transform group-hover:translate-x-1 transition-transform duration-300" />
           </div>
         </div>
       </div>

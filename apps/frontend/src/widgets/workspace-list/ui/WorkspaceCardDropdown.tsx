@@ -2,6 +2,8 @@ import { Dropdown, Button, type MenuProps } from 'antd';
 import { EllipsisOutlined, EyeOutlined } from '@ant-design/icons';
 import { WorkspaceDeleteButton } from '@/features/workspace-delete';
 import { WorkspaceInviteButton } from '@/features/workspace-invite';
+import { useNavigate } from 'react-router-dom';
+import { getWorkspaceDetailPath } from '@/shared/constants/routes';
 
 export interface WorkspaceCardDropdownProps {
   workspaceId: string;
@@ -12,11 +14,14 @@ export function WorkspaceCardDropdown({
   workspaceId,
   workspaceName,
 }: WorkspaceCardDropdownProps) {
+  const navigate = useNavigate();
+
   const menuItems: MenuProps['items'] = [
     {
       key: 'detail',
       label: 'View Details',
       icon: <EyeOutlined />,
+      onClick: () => navigate(getWorkspaceDetailPath(workspaceId)),
     },
     {
       key: 'invite',

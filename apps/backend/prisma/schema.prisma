@@ -75,6 +75,7 @@ model Workspace {
   contents    Content[]
   members     WorkspaceMember[]
   invitations WorkspaceInvitation[]
+  apiTokens   ApiToken[]
 }
 
 model WorkspaceMember {
@@ -87,6 +88,19 @@ model WorkspaceMember {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([workspaceId, userId])
+}
+
+model ApiToken {
+  id           String    @id @default(cuid())
+  workspaceId  String
+  name         String
+  tokenHash    String    @unique
+  tokenPrefix  String
+  expiresAt    DateTime?
+  revokedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }
 
 model WorkspaceInvitation {

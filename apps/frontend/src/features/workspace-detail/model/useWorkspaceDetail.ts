@@ -1,10 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useActiveWorkspaceId, useGetWorkspaceApi, useUpdateWorkspaceApi } from '@/entities/workspace';
+import {
+  useActiveWorkspaceId,
+  useGetWorkspaceApi,
+  useUpdateWorkspaceApi,
+} from '@/entities/workspace';
 import { useDeleteWorkspaceApi } from '@entities/workspace';
 import type { Workspace } from '@/entities/workspace';
+import type { DeleteWorkspaceInput } from '@/entities/workspace/model/dto';
 
-export const useSpaceSettings = () => {
+export const useWorkspaceDetail = () => {
   const navigate = useNavigate();
   const activeId = useActiveWorkspaceId();
   const [newName, setNewName] = useState('');
@@ -14,12 +19,13 @@ export const useSpaceSettings = () => {
 
   const activeSpace: Workspace | null = data?.getWorkspace || null;
 
-  // Set the input field to match the workspace's name once fetched
-  useEffect(() => {
-    if (activeSpace?.name) {
-      setNewName(activeSpace.name);
-    }
-  }, [activeSpace]);
+  const [prevSpaceId, setPrevSpaceId] = useState<string | null>(null);
+
+  // Update newName state safely without cascading effect
+  if (activeSpace && activeSpace.id !== prevSpaceId) {
+    setPrevSpaceId(activeSpace.id);
+    setNewName(activeSpace.name);
+  }
 
   const [updateWorkspace] = useUpdateWorkspaceApi({
     onCompleted: () => {
@@ -58,8 +64,11 @@ export const useSpaceSettings = () => {
 
   const handleDeleteConfirm = async () => {
     if (!activeId || !activeSpace) return;
+
+    const input: DeleteWorkspaceInput = { workspaceId: activeId };
+
     return await deleteWorkspace({
-      variables: { id: activeId },
+      variables: { input },
     });
   };
 

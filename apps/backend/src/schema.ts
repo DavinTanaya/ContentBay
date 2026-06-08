@@ -7,6 +7,7 @@ import { authResolvers } from "./graphql/resolvers/auth";
 import { contentModelResolvers } from "./graphql/resolvers/content-model";
 import { workspaceResolvers } from "./graphql/resolvers/workspace";
 import { contentResolvers } from "./graphql/resolvers/content";
+import { apiTokenResolvers } from "./graphql/resolvers/api-token";
 import { Context } from "./context";
 
 /**
@@ -34,6 +35,7 @@ export const schema = createSchema<Context>({
     loadSchema("content-model.graphql"),
     loadSchema("workspace.graphql"),
     loadSchema("content.graphql"),
+    loadSchema("api-token.graphql"),
   ],
 
   resolvers: [
@@ -45,5 +47,6 @@ export const schema = createSchema<Context>({
     contentModelResolvers,
     workspaceResolvers,
     contentResolvers,
+    apiTokenResolvers,
   ],
 });

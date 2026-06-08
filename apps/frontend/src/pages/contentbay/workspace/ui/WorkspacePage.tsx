@@ -19,7 +19,7 @@ export default function WorkspacePage() {
   });
 
   return (
-    <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-gray-1">
+    <div className="p-12 max-w-[1400px] mx-auto min-h-[calc(100vh-4rem)] bg-white">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12">
         <div className="flex flex-col gap-1">
           <h1 className="h3-semibold text-gray-10 m-0">Workspace</h1>
@@ -48,7 +48,7 @@ export default function WorkspacePage() {
             onClick={openModal}
             className="shadow-sm"
           >
-            Add new spaces
+            Add new workspace
           </Button>
         </div>
       </div>

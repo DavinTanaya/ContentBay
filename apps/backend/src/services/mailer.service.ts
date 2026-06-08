@@ -17,6 +17,8 @@ class MailerService {
   }
 
   async sendInvitationEmail(to: string, workspaceName: string, role: string, token: string) {
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    
     const mailOptions = {
       from: process.env.MAIL_USERNAME || 'noreply@contentbay.com',
       to,
@@ -27,7 +29,7 @@ class MailerService {
           <p>You have been invited to join the workspace <strong>${workspaceName}</strong> as a <strong>${role}</strong>.</p>
           <p>Click the link below to accept the invitation and access your new workspace:</p>
           <div style="margin: 30px 0;">
-            <a href="http://localhost:5173/invite?token=${token}" style="background-color: #2f54eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Accept Invitation</a>
+            <a href="${frontendUrl}/invite?token=${token}" style="background-color: #2f54eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Accept Invitation</a>
           </div>
           <p style="font-size: 12px; color: #888;">If you did not expect this invitation, you can safely ignore this email.</p>
         </div>

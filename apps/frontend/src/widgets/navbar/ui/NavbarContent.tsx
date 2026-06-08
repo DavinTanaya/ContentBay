@@ -14,7 +14,11 @@ import {
   type TabsProps,
 } from 'antd';
 
-import { PATH, getSpaceSettingsPath, getUsersPath } from '@/shared/constants/routes';
+import {
+  PATH,
+  getWorkspaceDetailPath,
+  getUsersPath,
+} from '@/shared/constants/routes';
 import { sharedAssets } from '@/shared/assets';
 import { colors } from '@/shared/constants/colors';
 import { UserMenuHeader } from '@/entities/user/ui/UserMenuHeader';
@@ -43,9 +47,9 @@ export function NavbarContent() {
 
   const settingsMenuItems: MenuProps['items'] = [
     {
-      key: 'space-settings',
-      label: 'Space settings',
-      onClick: () => navigate(getSpaceSettingsPath(activeSpaceId)),
+      key: 'workspace-detail',
+      label: 'Workspace settings',
+      onClick: () => navigate(getWorkspaceDetailPath(activeSpaceId)),
     },
     {
       key: 'users',
@@ -105,7 +109,12 @@ export function NavbarContent() {
         <div className="flex items-center gap-6 ml-auto shrink-0">
           <InvitationNotificationWidget />
           {!isWorkspacePage && (
-            <Dropdown menu={{ items: settingsMenuItems }} trigger={['click']} placement="bottomRight" arrow>
+            <Dropdown
+              menu={{ items: settingsMenuItems }}
+              trigger={['click']}
+              placement="bottomRight"
+              arrow
+            >
               <Button shape="circle" type="text">
                 <SettingOutlined className="text-xl" />
               </Button>
