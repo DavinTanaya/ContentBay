@@ -81,7 +81,18 @@ jobs:
           pnpm install --frozen-lockfile
 
           pnpm --filter typescript-graphql exec prisma generate
-          pnpm --filter typescript-graphql exec prisma migrate deploy
+          
+          if [ "${DEPLOY_BRANCH}" = "main" ]; then
+            echo "Running database migration for production..."
+            if ! pnpm --filter typescript-graphql exec prisma migrate deploy; then
+              echo "⚠️ Warning: prisma migrate deploy failed. Falling back to prisma db push..."
+              pnpm --filter typescript-graphql exec prisma db push
+            fi
+          else
+            echo "Running database schema push for staging/dev..."
+            pnpm --filter typescript-graphql exec prisma db push
+          fi
+
           pnpm build
 
           test -f apps/backend/dist/src/server.js
