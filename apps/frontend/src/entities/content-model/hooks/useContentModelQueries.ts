@@ -8,10 +8,13 @@ export const useGetContentModelApi = (id: string) => {
     {
       variables: { id },
       skip: !id,
+      fetchPolicy: 'cache-and-network',
     },
   );
 };
 
 export const useGetContentModelsApi = () => {
-  return useQuery<{ getContentModels: ContentModel[] }>(GET_CONTENT_MODELS);
+  return useQuery<{ getContentModels: ContentModel[] }>(GET_CONTENT_MODELS, {
+    fetchPolicy: 'cache-and-network',
+  });
 };
