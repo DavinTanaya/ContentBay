@@ -7,7 +7,11 @@ import type {
   ContentModel,
 } from '@entities/content-model';
 import { initializeField } from '@/features/field-builder';
-import { createField, updateField, deleteField } from '@/features/content-model/api';
+import {
+  createField,
+  updateField,
+  deleteField,
+} from '@/features/content-model/api';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 export const useContentModelField = (model: ContentModel) => {
@@ -16,7 +20,9 @@ export const useContentModelField = (model: ContentModel) => {
 
   const [isFieldPickerOpen, setIsFieldPickerOpen] = useState(false);
   const [isFieldBuilderOpen, setIsFieldBuilderOpen] = useState(false);
-  const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(null);
+  const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(
+    null,
+  );
   const [isNewField, setIsNewField] = useState(false);
 
   const handleEditField = (field: ContentField) => {
@@ -36,14 +42,14 @@ export const useContentModelField = (model: ContentModel) => {
     // Map title to internal type
     const titleMap: Record<string, string> = {
       'Rich text': 'richText',
-      'Text': 'text',
-      'Number': 'number',
+      Text: 'text',
+      Number: 'number',
       'Date and time': 'date',
-      'Location': 'location',
-      'Media': 'asset',
-      'Boolean': 'boolean',
+      Location: 'location',
+      Media: 'asset',
+      Boolean: 'boolean',
       'JSON object': 'json',
-      'Reference': 'reference'
+      Reference: 'reference',
     };
     const mappedType = titleMap[type.title] || 'text';
 
@@ -72,8 +78,11 @@ export const useContentModelField = (model: ContentModel) => {
   ) => {
     const existingFields = model.fields || [];
     const isNew = !existingFields.find((f) => f.apiId === originalApiId);
-    
-    const hide = message.loading(isNew ? 'Adding field...' : 'Updating field...', 0);
+
+    const hide = message.loading(
+      isNew ? 'Adding field...' : 'Updating field...',
+      0,
+    );
 
     try {
       if (isNew) {
@@ -120,6 +129,11 @@ export const useContentModelField = (model: ContentModel) => {
     }
   };
 
+  const handleProceedToConfigure = (field: ContentField) => {
+    setSelectedField(field);
+    setIsNewField(false);
+  };
+
   return {
     isFieldModalVisible,
     setIsFieldModalVisible,
@@ -136,5 +150,6 @@ export const useContentModelField = (model: ContentModel) => {
     handleBackToPicker,
     handleEditFieldConfirm,
     handleDeleteField,
+    handleProceedToConfigure,
   };
 };

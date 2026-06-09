@@ -21,7 +21,7 @@ export const useContentModelList = (workspaceId: string) => {
       .replace(/-project-\d+$/i, '')
       .replace(/-project-\w+$/i, '');
 
-    const author = m.creator;
+    const author = m.updater || m.creator;
     const authorName = author
       ? `${author.firstName || ''} ${author.lastName || ''}`.trim() ||
         author.email

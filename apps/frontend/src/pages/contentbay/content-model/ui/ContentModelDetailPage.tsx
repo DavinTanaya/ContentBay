@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Tabs, Spin, Result, Typography } from 'antd';
+import { Button, Tabs, Spin, Result, Typography, message } from 'antd';
 import { RenderModelIcon } from '@entities/content-model';
 import { getContentModelPath } from '@/shared/constants/routes';
 import { useActiveWorkspaceId } from '@/entities/workspace';
@@ -46,25 +46,28 @@ export default function ContentModelDetailPage() {
           <div className="w-[52px] h-[52px] rounded-2xl bg-blue-50/80 ring-1 ring-blue-100 flex items-center justify-center text-blue-6 shadow-sm">
             <RenderModelIcon icon={model.icon} size={24} />
           </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-gray-9 m-0">
-                {model.name}
-              </h1>
-              <div className="flex items-center bg-gray-2 border border-gray-5 rounded-full px-3 py-0.5">
-                <span className="text-xs font-medium text-gray-7 mr-2">
-                  {model.apiId}
-                </span>
-                <Paragraph
-                  copyable={{ text: model.apiId }}
-                  className="m-0 text-gray-7 flex items-center [&>div]:m-0"
-                />
-              </div>
+          <h1 className="text-2xl font-bold text-gray-9 m-0 leading-8">
+            {model.name}
+          </h1>
+          
+          <div className="flex items-center gap-3 ml-2">
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-[0.04em]">
+              API ID
+            </span>
+            <div className="flex items-center bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1 transition-colors hover:bg-slate-100">
+              <span className="font-mono text-[13px] text-gray-700 mr-3">
+                {model.apiId}
+              </span>
+              <Paragraph
+                copyable={{
+                  text: model.apiId,
+                  tooltips: ['Copy API ID', 'Copied!'],
+                  onCopy: () => message.success('API ID copied to clipboard'),
+                }}
+                className="m-0 text-gray-500 hover:text-blue-600 flex items-center [&>div]:m-0"
+                aria-label="Copy API ID"
+              />
             </div>
-            <p className="text-sm text-gray-500 m-0 mt-1">
-              Manage fields, settings, and JSON structure for this content
-              model.
-            </p>
           </div>
         </div>
       </div>

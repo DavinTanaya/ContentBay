@@ -1,10 +1,9 @@
 import type { FC } from 'react';
 import { FieldsTable, ModelMetadataSidebar } from '@entities/content-model';
 import { FieldModals } from './FieldModals';
-import { colors } from '@/shared/constants/colors';
 import type { ContentModel } from '@entities/content-model';
 import { useContentModelField } from '../model/useContentModelField';
-import { Badge, Button } from 'antd';
+import { Button } from 'antd';
 import { Plus } from 'lucide-react';
 
 interface ContentModelFieldProps {
@@ -28,6 +27,7 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
     handleBackToPicker,
     handleEditFieldConfirm,
     handleDeleteField,
+    handleProceedToConfigure,
   } = useContentModelField(model);
 
   const fieldsData = model.fields || [];
@@ -39,15 +39,10 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
           <div className="px-8 py-6 flex items-center justify-between border-b border-slate-100">
             <div className="flex items-center gap-2">
               <h3 className="h5-semibold text-gray-10">Content Fields</h3>
-              <Badge
-                count={fieldsData.length}
-                color={colors.gray[4]}
-                style={{ color: colors.gray[9] }}
-              />
             </div>
             <Button
               type="primary"
-              size="large"
+              size="middle"
               icon={<Plus size={18} />}
               onClick={handleAddFieldClick}
               className="h-11 px-6 rounded-xl shadow-sm bg-blue-600 hover:bg-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center font-semibold"
@@ -65,7 +60,6 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
           <ModelMetadataSidebar
             totalFields={fieldsData.length}
             lastRevision="Oct 8, 2025"
-            status="LIVE"
           />
         </div>
       </div>
@@ -83,6 +77,7 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
         handleSelectFieldType={handleSelectFieldType}
         handleBackToPicker={handleBackToPicker}
         handleEditFieldConfirm={handleEditFieldConfirm}
+        handleProceedToConfigure={handleProceedToConfigure}
       />
     </div>
   );

@@ -1,4 +1,5 @@
-import { Table, Button, Tag, Modal } from 'antd';
+import { Table, Button, Tag, Popconfirm } from 'antd';
+import { Trash2 } from 'lucide-react';
 import type { ContentField, FieldsTableProps } from '../model/types';
 import { RenderFieldIcon } from './RenderFieldIcon';
 import { colors } from '@/shared/constants/colors';
@@ -53,9 +54,10 @@ export function FieldsTable({
     {
       title: 'Actions',
       key: 'actions',
-      className: 'pr-8 text-right',
+      align: 'right',
+      className: 'pr-8',
       render: (_: unknown, record: ContentField) => (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           <Button
             type="text"
             className="text-blue-6 hover:text-blue-7 hover:bg-blue-50 font-medium px-3 transition-colors"
@@ -64,23 +66,25 @@ export function FieldsTable({
           >
             Edit
           </Button>
-          <Button
-            variant="text"
-            danger
-            size="small"
-            onClick={() => {
-              Modal.confirm({
-                title: 'Delete Field',
-                content: `Are you sure you want to delete the field "${record.name}"? This action cannot be undone.`,
-                okText: 'Delete',
-                okType: 'danger',
-                cancelText: 'Cancel',
-                onOk: () => onDeleteField?.(record.apiId),
-              });
-            }}
-          >
-            Delete
-          </Button>
+          {onDeleteField && (
+            <Popconfirm
+              title="Delete this field?"
+              description={`Are you sure you want to delete ${record.name}?`}
+              onConfirm={() => onDeleteField(record.apiId)}
+              okText="Delete"
+              cancelText="Cancel"
+              okButtonProps={{ danger: true }}
+              placement="topRight"
+            >
+              <Button
+                type="text"
+                size="small"
+                className="text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors"
+              >
+                <Trash2 size={16} />
+              </Button>
+            </Popconfirm>
+          )}
         </div>
       ),
     },

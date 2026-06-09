@@ -11,7 +11,7 @@ export function ContentModelList({
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
+      <div className="w-full min-h-[400px] flex justify-center items-center">
         <Spin size="large" />
       </div>
     );
@@ -46,7 +46,7 @@ export function ContentModelList({
           ))}
         </div>
       ) : (
-        <div className="mt-12">
+        <div className="w-full min-h-[400px] flex justify-center items-center">
           <Empty description="No Content Models found. Create your first one!" />
         </div>
       )}

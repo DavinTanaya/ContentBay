@@ -1,6 +1,10 @@
-import { Card, Avatar } from 'antd';
-import { CalendarOutlined } from '@ant-design/icons';
-import { Database } from 'lucide-react';
+import { Card, Avatar, Tooltip } from 'antd';
+import {
+  CalendarOutlined,
+  ArrowRightOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons';
+import { getAvatarColor } from '@/entities/workspace';
 import { RenderModelIcon } from './RenderModelIcon';
 import type { ContentModelCardProps } from '../model/types';
 import { useContentModelCard } from '../model/useContentModelCard';
@@ -27,53 +31,66 @@ export function ContentModelCard({
 
   return (
     <Card
-      hoverable
-      className="rounded-4xl border border-gray-4 overflow-hidden group shadow-sm hover:shadow-md hover:border-blue-4 transition-all cursor-pointer h-full flex flex-col bg-gray-1"
-      bodyStyle={{
-        padding: 0,
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
       onClick={() => onClick?.(model.id)}
+      className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none hover:ring-blue-200 hover:shadow-[0_12px_32px_rgba(0,100,255,0.12)] hover:-translate-y-[2px] transition-all duration-500 group cursor-pointer border-none"
+      styles={{
+        body: {
+          padding: '32px',
+          minHeight: '260px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        },
+      }}
     >
-      <div className="p-8 grow flex flex-col">
-        <div className="flex justify-between items-start mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-gray-2 border border-gray-4 flex items-center justify-center transition-transform group-hover:scale-110 duration-500">
-            <span className="text-gray-9 flex items-center justify-center">
-              <RenderModelIcon icon={model.icon} size={24} />
-            </span>
+      <div>
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-[52px] h-[52px] rounded-2xl bg-blue-50/80 ring-1 ring-blue-100 flex items-center justify-center text-blue-6 shadow-sm transition-transform duration-300 group-hover:scale-105">
+            <RenderModelIcon icon={model.icon} size={24} />
           </div>
-          <div className="flex items-center gap-1.5 px-4 py-2 bg-gray-2 border border-gray-4 rounded-full text-gray-9">
-            <Database size={14} className="text-gray-7" />
-            <span className="label-xs-semibold">
-              {model.fields?.length || 0} Fields
-            </span>
+          <h3 className="font-poppins text-[22px] font-bold text-gray-12 m-0 leading-tight tracking-tight">
+            {model.name}
+          </h3>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50/50 text-blue-7 rounded-lg text-[13px] font-semibold tracking-wide ring-1 ring-blue-100/50">
+            <FileTextOutlined className="text-blue-5 text-[14px]" />
+            <span>{model.fields?.length || 0} Fields</span>
           </div>
         </div>
-        <h3 className="h5-semibold text-gray-12 m-0 mb-2 group-hover:text-blue-6 transition-colors">
-          {model.name}
-        </h3>
-        <p className="text-gray-7 body-sm-regular mb-0">
+
+        <p className="text-[13px] text-gray-500 font-medium leading-relaxed mb-6 line-clamp-2">
           {model.description || 'No description provided'}
         </p>
+
+        <div className="flex items-center gap-2 text-[13px] text-gray-600 font-regular tracking-wide mt-auto">
+          <CalendarOutlined className="text-[12px]" />
+          <span>{formattedDate}</span>
+        </div>
       </div>
-      <div className="px-6 py-4 bg-white border-t border-gray-5 mt-auto items-center justify-center">
+
+      <div>
+        <div className="border-t border-gray-2/70 my-5" />
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Avatar
-              size={32}
-              className="bg-blue-1 text-blue-6 font-semibold font-poppins flex items-center justify-center"
-            >
-              {initial}
-            </Avatar>
-            <span className="label-sm-medium text-gray-9 leading-tight">
+          <div className="flex items-center gap-2">
+            <Tooltip title={displayName} placement="top">
+              <Avatar
+                size="small"
+                className="text-white text-[11px] font-semibold font-poppins flex items-center justify-center"
+                style={{ backgroundColor: getAvatarColor(displayName) }}
+              >
+                <span className="relative top-[1px]">{initial}</span>
+              </Avatar>
+            </Tooltip>
+            <span className="text-[12px] font-medium text-gray-500 hidden sm:inline-block">
               {displayName}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-1 border border-gray-4 rounded-xl text-gray-8 text-xs">
-            <CalendarOutlined className="text-gray-7" />
-            <span className="font-medium">{formattedDate}</span>
+
+          <div className="font-poppins text-[13px] font-semibold text-gray-6 group-hover:text-blue-6 flex items-center gap-1.5 transition-colors duration-200">
+            <span>Enter model</span>
+            <ArrowRightOutlined className="text-[11px] transform group-hover:translate-x-1 transition-transform duration-300" />
           </div>
         </div>
       </div>

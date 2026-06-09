@@ -36,13 +36,14 @@ export function FieldIdentityForm({
 }: FieldIdentityFormProps) {
   return (
     <div>
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Name and field ID</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">
+        Name and field ID
+      </h2>
 
       {/* Name */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Name{' '}
-          <span className="text-gray-400 font-normal">(required)</span>
+          Name <span className="text-gray-400 font-normal">(required)</span>
         </label>
         <Input
           value={name}
@@ -60,8 +61,7 @@ export function FieldIdentityForm({
       {/* Field ID */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Field ID{' '}
-          <span className="text-gray-400 font-normal">(required)</span>
+          Field ID <span className="text-gray-400 font-normal">(required)</span>
         </label>
         <Input
           value={apiId}

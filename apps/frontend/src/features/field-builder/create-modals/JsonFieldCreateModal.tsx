@@ -5,16 +5,16 @@ interface JsonFieldCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
-  onConfirm: (data: JsonField) => void;
+  onProceed: (data: JsonField) => void;
 }
 
-export function JsonFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: JsonFieldCreateModalProps) {
+export function JsonFieldCreateModal({ isOpen, onClose, onBack, onProceed }: JsonFieldCreateModalProps) {
   return (
     <SimpleCreateModal
       isOpen={isOpen}
       onClose={onClose}
       onBack={onBack}
-      onConfirm={(data: ContentFieldConfig) => onConfirm(data as JsonField)}
+      onProceed={(data: ContentFieldConfig) => onProceed(data as JsonField)}
       fieldType="json"
       fieldTitle="JSON Field"
       icon="json"

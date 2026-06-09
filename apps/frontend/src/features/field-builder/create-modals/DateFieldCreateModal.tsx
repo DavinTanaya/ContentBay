@@ -5,16 +5,16 @@ interface DateFieldCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
-  onConfirm: (data: DateField) => void;
+  onProceed: (data: DateField) => void;
 }
 
-export function DateFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: DateFieldCreateModalProps) {
+export function DateFieldCreateModal({ isOpen, onClose, onBack, onProceed }: DateFieldCreateModalProps) {
   return (
     <SimpleCreateModal
       isOpen={isOpen}
       onClose={onClose}
       onBack={onBack}
-      onConfirm={(data: ContentFieldConfig) => onConfirm(data as DateField)}
+      onProceed={(data: ContentFieldConfig) => onProceed(data as DateField)}
       fieldType="date"
       fieldTitle="Date Field"
       icon="calendar"

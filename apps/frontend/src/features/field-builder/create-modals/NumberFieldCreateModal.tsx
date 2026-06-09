@@ -8,10 +8,10 @@ interface NumberFieldCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
-  onConfirm: (data: NumberField) => void;
+  onProceed: (data: NumberField) => void;
 }
 
-export function NumberFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: NumberFieldCreateModalProps) {
+export function NumberFieldCreateModal({ isOpen, onClose, onBack, onProceed }: NumberFieldCreateModalProps) {
   const [name, setName] = useState('');
   const [apiId, setApiId] = useState('');
   const [numberType, setNumberType] = useState<'integer' | 'decimal'>('integer');
@@ -24,46 +24,58 @@ export function NumberFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: N
   const handleConfirm = () => {
     const field = initializeField('number', `new-${Date.now()}`, name, apiId, 'number') as NumberField;
     field.settings = { ...field.settings, numberType };
-    onConfirm(field);
+    onProceed(field);
   };
 
   return (
-    <Modal title={null} open={isOpen} onCancel={onClose} footer={null} width={600} centered>
-      <div className="p-10">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="w-[52px] h-[52px] rounded-2xl bg-blue-50/80 ring-1 ring-blue-100 flex items-center justify-center text-blue-6 shadow-sm text-[22px]">
+    <Modal
+      title={
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-6 shrink-0 text-lg ring-1 ring-blue-100">
             <RenderFieldIcon icon="number" />
           </div>
-          <div>
-            <h2 className="text-xl font-bold text-gray-10 m-0">Configure Number Field</h2>
-            <p className="text-sm text-gray-500 mt-1 m-0">Set the basic identity for this field</p>
-          </div>
+          <span className="font-poppins font-semibold text-lg text-gray-13">
+            Configure Number Field
+          </span>
         </div>
+      }
+      open={isOpen}
+      onCancel={onClose}
+      footer={null}
+      width={480}
+      centered
+    >
+      <div className="mt-4">
+        <p className="text-sm text-gray-500 mb-6">
+          Set the basic identity for this field before proceeding to configuration.
+        </p>
 
-        <div className="space-y-8">
-          <div className="grid grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-8 block mb-2">Name</label>
+              <label className="text-sm font-semibold text-gray-9 block mb-2">Name</label>
               <Input
                 value={name}
                 onChange={(e) => handleNameChange(e.target.value)}
-                className="bg-slate-50 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl h-12 font-semibold px-4 transition-all"
+                size="large"
+                className="bg-slate-50 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl transition-all"
                 placeholder="e.g. Price"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-8 block mb-2">Field ID</label>
+              <label className="text-sm font-semibold text-gray-9 block mb-2">Field ID</label>
               <Input
                 value={apiId}
                 onChange={(e) => setApiId(e.target.value)}
-                className="bg-slate-100 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl h-12 px-4 font-mono text-[13px] text-gray-700 transition-all"
+                size="large"
+                className="bg-slate-100 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl font-mono text-[13px] text-gray-700 transition-all"
                 placeholder="e.g. price"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">Number Type</label>
+            <label className="block text-sm font-semibold text-gray-9 mb-2">Number Type</label>
             <Radio.Group value={numberType} onChange={(e) => setNumberType(e.target.value)}>
               <Radio value="integer">Integer</Radio>
               <Radio value="decimal">Decimal</Radio>
@@ -73,9 +85,9 @@ export function NumberFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: N
             </p>
           </div>
 
-          <div className="pt-8 border-t border-slate-100 flex justify-end gap-3 mt-8">
-            <Button type="default" size="large" onClick={onBack} className="h-12 px-6 rounded-xl font-medium border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all">Change Field Type</Button>
-            <Button type="primary" size="large" onClick={handleConfirm} disabled={!name || !apiId} className="h-12 px-8 rounded-xl shadow-sm bg-blue-600 hover:bg-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all font-semibold">Add & Configure</Button>
+          <div className="flex justify-end gap-3 mt-8">
+            <Button size="middle" onClick={onBack}>Change Field Type</Button>
+            <Button type="primary" variant="solid" color="geekblue" size="middle" onClick={handleConfirm} disabled={!name || !apiId}>Add & Configure</Button>
           </div>
         </div>
       </div>

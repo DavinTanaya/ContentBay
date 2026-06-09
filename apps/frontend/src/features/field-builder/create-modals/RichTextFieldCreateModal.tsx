@@ -5,16 +5,21 @@ interface RichTextFieldCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
-  onConfirm: (data: RichTextField) => void;
+  onProceed: (data: RichTextField) => void;
 }
 
-export function RichTextFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: RichTextFieldCreateModalProps) {
+export function RichTextFieldCreateModal({
+  isOpen,
+  onClose,
+  onBack,
+  onProceed,
+}: RichTextFieldCreateModalProps) {
   return (
     <SimpleCreateModal
       isOpen={isOpen}
       onClose={onClose}
       onBack={onBack}
-      onConfirm={(data: ContentFieldConfig) => onConfirm(data as RichTextField)}
+      onProceed={(data: ContentFieldConfig) => onProceed(data as RichTextField)}
       fieldType="richText"
       fieldTitle="Rich Text Field"
       icon="rich-text"

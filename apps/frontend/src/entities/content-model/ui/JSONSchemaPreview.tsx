@@ -2,8 +2,8 @@ import type { JSONSchemaPreviewProps } from '../model/types';
 
 export function JSONSchemaPreview({ schema }: JSONSchemaPreviewProps) {
   return (
-    <div className="px-6 py-6 text-gray-800 bg-white">
-      <pre className="overflow-x-auto whitespace-pre-wrap break-all font-mono text-[13px] text-gray-800 leading-relaxed font-normal">
+    <div className="px-8 py-8 bg-transparent">
+      <pre className="overflow-x-auto whitespace-pre-wrap break-all font-mono text-[13px] text-slate-700 leading-relaxed font-normal m-0">
         {JSON.stringify(schema, null, 2)}
       </pre>
     </div>

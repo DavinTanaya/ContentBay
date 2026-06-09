@@ -14,33 +14,33 @@ interface CreateModalEntryProps {
   onClose: () => void;
   onBack: () => void;
   fieldType: string;
-  onConfirm: (data: ContentFieldConfig) => void;
+  onProceed: (data: ContentFieldConfig) => void;
 }
 
-export function CreateModalEntry({ isOpen, onClose, onBack, fieldType, onConfirm }: CreateModalEntryProps) {
+export function CreateModalEntry({ isOpen, onClose, onBack, fieldType, onProceed }: CreateModalEntryProps) {
   if (!isOpen) return null;
 
   const commonProps = { isOpen, onClose, onBack };
 
   switch (fieldType) {
     case 'text':
-      return <TextFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <TextFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'number':
-      return <NumberFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <NumberFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'date':
-      return <DateFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <DateFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'boolean':
-      return <BooleanFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <BooleanFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'richText':
-      return <RichTextFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <RichTextFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'asset':
-      return <AssetFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <AssetFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'location':
-      return <LocationFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <LocationFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'json':
-      return <JsonFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <JsonFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     case 'reference':
-      return <ReferenceFieldCreateModal {...commonProps} onConfirm={(d) => onConfirm(d)} />;
+      return <ReferenceFieldCreateModal {...commonProps} onProceed={(d) => onProceed(d)} />;
     default:
       return null;
   }

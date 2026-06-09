@@ -8,10 +8,19 @@ interface FieldBuilderEntryProps {
   onBack: () => void;
   fieldConfig: ContentFieldConfig | null;
   onConfirm: (data: ContentFieldConfig) => void;
+  onProceed?: (data: ContentFieldConfig) => void;
   isNewField?: boolean;
 }
 
-export function FieldBuilderEntry({ isOpen, onClose, onBack, fieldConfig, onConfirm, isNewField = false }: FieldBuilderEntryProps) {
+export function FieldBuilderEntry({
+  isOpen,
+  onClose,
+  onBack,
+  fieldConfig,
+  onConfirm,
+  onProceed,
+  isNewField = false,
+}: FieldBuilderEntryProps) {
   if (!fieldConfig || !isOpen) return null;
 
   // New field → show Create modal (lightweight, immutable settings)
@@ -22,7 +31,7 @@ export function FieldBuilderEntry({ isOpen, onClose, onBack, fieldConfig, onConf
         onClose={onClose}
         onBack={onBack}
         fieldType={fieldConfig.type}
-        onConfirm={onConfirm}
+        onProceed={onProceed || onConfirm}
       />
     );
   }

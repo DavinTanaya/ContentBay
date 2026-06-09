@@ -18,6 +18,7 @@ interface FieldModalsProps {
     originalApiId: string,
     updatedField: Omit<ContentField, 'id'>,
   ) => Promise<void>;
+  handleProceedToConfigure: (field: ContentField) => void;
 }
 
 export function FieldModals({
@@ -30,6 +31,7 @@ export function FieldModals({
   handleSelectFieldType,
   handleBackToPicker,
   handleEditFieldConfirm,
+  handleProceedToConfigure,
 }: FieldModalsProps) {
   return (
     <>
@@ -44,6 +46,9 @@ export function FieldModals({
             await handleEditFieldConfirm(selectedField.apiId, data);
             setIsFieldBuilderOpen(false);
           }
+        }}
+        onProceed={(data) => {
+          handleProceedToConfigure(data as ContentField);
         }}
       />
 

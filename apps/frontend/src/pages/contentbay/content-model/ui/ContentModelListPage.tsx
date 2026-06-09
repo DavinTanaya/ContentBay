@@ -7,7 +7,11 @@ import {
   getSchemaModelerPath,
 } from '@/shared/constants/routes';
 import { Input, Button } from 'antd';
-import { ApartmentOutlined, PlusOutlined, RobotOutlined } from '@ant-design/icons';
+import {
+  ApartmentOutlined,
+  PlusOutlined,
+  RobotOutlined,
+} from '@ant-design/icons';
 import { useActiveWorkspaceId } from '@/entities/workspace';
 import { AiModelerModal } from './components/AiModelerModal';
 

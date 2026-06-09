@@ -222,33 +222,34 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
             </Button>
           </div>
         </Form>
-      </Card>
+      </div>
 
-      <Card
-        className="rounded-[32px] border border-red-100 mt-8 bg-red-50/10 shadow-sm"
-        styles={{ body: { padding: '32px' } }}
-      >
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-          <div>
-            <h4 className="text-red-600 font-poppins text-lg font-semibold flex items-center gap-2 mb-1">
-              <DeleteOutlined />
-              <span>Danger Zone</span>
-            </h4>
-            <p className="text-gray-500 text-xs font-open-sans">
-              Deleting this content model is permanent. All associated content entries will be deleted forever.
-            </p>
+      <div className="relative rounded-[32px] bg-white ring-1 ring-red-200/50 shadow-none hover:ring-red-400 hover:shadow-[0_12px_32px_rgba(255,100,100,0.12)] hover:-translate-y-[2px] transition-all duration-500 p-8 mt-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-[52px] h-[52px] rounded-2xl bg-red-50/80 ring-1 ring-red-100 flex items-center justify-center text-red-500 shadow-sm shrink-0">
+              <DeleteOutlined className="text-[22px]" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-10 m-0">Delete Content Model</h3>
+              <p className="text-sm text-gray-500 mt-1 m-0 max-w-lg">
+                Deleting this content model is permanent. All associated content entries will be deleted forever.
+              </p>
+            </div>
           </div>
-          <Button
-            type="primary"
-            danger
-            loading={isDeleting}
-            onClick={handleDelete}
-            className="rounded-xl px-6 font-poppins font-semibold text-xs h-10"
-          >
-            Delete Content Model
-          </Button>
+          <div className="flex justify-end mt-4 md:mt-0">
+            <Button
+              type="primary"
+              danger
+              loading={isDeleting}
+              onClick={handleDelete}
+              className="h-11 px-6 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center font-semibold"
+            >
+              Delete Model
+            </Button>
+          </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

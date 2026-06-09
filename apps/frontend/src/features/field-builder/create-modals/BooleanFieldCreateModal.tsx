@@ -5,16 +5,16 @@ interface BooleanFieldCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
-  onConfirm: (data: BooleanField) => void;
+  onProceed: (data: BooleanField) => void;
 }
 
-export function BooleanFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: BooleanFieldCreateModalProps) {
+export function BooleanFieldCreateModal({ isOpen, onClose, onBack, onProceed }: BooleanFieldCreateModalProps) {
   return (
     <SimpleCreateModal
       isOpen={isOpen}
       onClose={onClose}
       onBack={onBack}
-      onConfirm={(data: ContentFieldConfig) => onConfirm(data as BooleanField)}
+      onProceed={(data: ContentFieldConfig) => onProceed(data as BooleanField)}
       fieldType="boolean"
       fieldTitle="Boolean Field"
       icon="boolean"

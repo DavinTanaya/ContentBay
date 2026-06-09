@@ -289,7 +289,6 @@ export interface JSONSchemaPreviewProps {
 export interface ModelMetadataSidebarProps {
   totalFields: number;
   lastRevision: string;
-  status: 'LIVE' | 'DRAFT';
 }
 
 export interface RenderFieldIconProps {

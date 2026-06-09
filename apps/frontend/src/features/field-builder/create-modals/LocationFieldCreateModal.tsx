@@ -5,16 +5,16 @@ interface LocationFieldCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
-  onConfirm: (data: LocationField) => void;
+  onProceed: (data: LocationField) => void;
 }
 
-export function LocationFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: LocationFieldCreateModalProps) {
+export function LocationFieldCreateModal({ isOpen, onClose, onBack, onProceed }: LocationFieldCreateModalProps) {
   return (
     <SimpleCreateModal
       isOpen={isOpen}
       onClose={onClose}
       onBack={onBack}
-      onConfirm={(data: ContentFieldConfig) => onConfirm(data as LocationField)}
+      onProceed={(data: ContentFieldConfig) => onProceed(data as LocationField)}
       fieldType="location"
       fieldTitle="Location Field"
       icon="location"
