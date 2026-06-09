@@ -1,5 +1,5 @@
-import { ContentListView } from '@features/content';
+import { ContentListPage as NewContentListPage } from '@/pages/contentbay/content-list/ui/ContentListPage';
 
 export default function ContentListPage() {
-  return <ContentListView />;
+  return <NewContentListPage />;
 }

@@ -10,19 +10,24 @@ import {
   Spin,
   Result,
   message,
+  Typography,
 } from 'antd';
 import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useActiveWorkspaceId } from '@/entities/workspace';
 import {
-  useGetContentsApi,
   useGetContentApi,
   createContentApi,
   updateContentApi,
 } from '@entities/content';
-import { useGetContentModelsApi } from '@entities/content-model';
+import {
+  useGetContentModelsApi,
+  RenderModelIcon,
+} from '@entities/content-model';
 import dayjs from 'dayjs';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
+
+const { Paragraph } = Typography;
 
 export const ContentCreateForm: React.FC = () => {
   const navigate = useNavigate();
@@ -139,8 +144,9 @@ export const ContentCreateForm: React.FC = () => {
       case 'STRING':
         return (
           <Input
+            size="large"
             placeholder={`Masukkan ${field.name}...`}
-            className="h-12 rounded-xl bg-white border-gray-200 focus:border-blue-500 font-poppins"
+            className="rounded-md bg-white border-gray-200 hover:border-blue-500 focus:border-blue-500 font-poppins"
           />
         );
       case 'TEXTAREA':
@@ -150,9 +156,10 @@ export const ContentCreateForm: React.FC = () => {
       case 'RICH-TEXT':
         return (
           <Input.TextArea
+            size="large"
             placeholder={`Masukkan ${field.name}...`}
             rows={5}
-            className="rounded-xl bg-white border-gray-200 focus:border-blue-500 font-poppins p-4"
+            className="rounded-md bg-white border-gray-200 hover:border-blue-500 focus:border-blue-500 font-poppins"
           />
         );
       case 'NUMBER':
@@ -160,8 +167,9 @@ export const ContentCreateForm: React.FC = () => {
       case 'FLOAT':
         return (
           <InputNumber
+            size="large"
             placeholder="0"
-            className="w-full h-12 rounded-xl bg-white border-gray-200 flex items-center font-poppins"
+            className="w-full rounded-md bg-white border-gray-200 font-poppins"
           />
         );
       case 'BOOLEAN':
@@ -171,15 +179,17 @@ export const ContentCreateForm: React.FC = () => {
       case 'DATETIME':
         return (
           <DatePicker
-            className="w-full h-12 rounded-xl bg-white border-gray-200 font-poppins"
+            size="large"
+            className="w-full rounded-md bg-white border-gray-200 font-poppins"
             suffixIcon={<CalendarOutlined />}
           />
         );
       default:
         return (
           <Input
+            size="large"
             placeholder={`Masukkan ${field.name}...`}
-            className="h-12 rounded-xl bg-white border-gray-200 focus:border-blue-500 font-poppins"
+            className="rounded-md bg-white border-gray-200 hover:border-blue-500 focus:border-blue-500 font-poppins"
           />
         );
     }
@@ -220,23 +230,19 @@ export const ContentCreateForm: React.FC = () => {
     <div className="bg-[#F9FAFB] min-h-[calc(100vh-72px)] p-12">
       {/* Header */}
       <div className="max-w-[1400px] mx-auto mb-10">
-        <div className="flex items-center gap-6 mb-8">
-          <button
+        <div className="flex items-center gap-2 mb-8">
+          <Button
+            type="text"
+            shape="circle"
+            className="text-gray-8 hover:text-black hover:bg-gray-2 -ml-2"
             onClick={() => navigate(`/workspace/${activeWorkspaceId}/content`)}
-            className="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer shadow-sm"
-          >
-            <ArrowLeftOutlined className="text-gray-600" />
-          </button>
-          <div>
-            <h1 className="text-[32px] font-bold text-gray-900 leading-tight">
+            icon={<ArrowLeftOutlined style={{ fontSize: '20px' }} />}
+          />
+
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl font-bold text-gray-900 m-0 leading-8">
               {entryId ? 'Edit Entry' : 'Create Entry'}
             </h1>
-            <p className="text-gray-500 font-medium font-poppins text-xs mt-1">
-              {activeModel.name} /{' '}
-              <span className="text-gray-400 font-mono">
-                {activeModel.apiId}
-              </span>
-            </p>
           </div>
         </div>
       </div>
@@ -244,7 +250,7 @@ export const ContentCreateForm: React.FC = () => {
       <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-8">
         {/* Main Form Area */}
         <div className="flex-[2] space-y-8">
-          <div className="bg-white rounded-[32px] border border-gray-100 shadow-sm p-12">
+          <div className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none hover:ring-blue-200 hover:shadow-[0_12px_32px_rgba(0,100,255,0.06)] transition-all duration-500 p-12">
             <Form
               form={form}
               layout="vertical"
@@ -314,7 +320,7 @@ export const ContentCreateForm: React.FC = () => {
 
         {/* Sidebar Info Area */}
         <div className="flex-grow lg:max-w-[360px] shrink-0">
-          <div className="bg-white rounded-[32px] p-8 border border-gray-100 shadow-sm space-y-10">
+          <div className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none hover:ring-blue-200 hover:shadow-[0_12px_32px_rgba(0,100,255,0.06)] transition-all duration-500 p-8 space-y-10">
             <div>
               <h3 className="text-lg font-bold text-gray-900 mb-6 font-poppins">
                 Actions
@@ -350,7 +356,7 @@ export const ContentCreateForm: React.FC = () => {
                       .validateFields()
                       .then((values) => handleFinish(values, 'published'))
                   }
-                  className="h-12 bg-[#2563EB] hover:bg-blue-700 rounded-xl font-bold text-sm border-none shadow-sm hover:shadow-md transition-all font-poppins"
+                  className="h-12 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-sm border-none shadow-sm shadow-blue-500/20 transition-all font-poppins"
                 >
                   Publish Content
                 </Button>
@@ -362,7 +368,7 @@ export const ContentCreateForm: React.FC = () => {
                       .validateFields()
                       .then((values) => handleFinish(values, 'draft'))
                   }
-                  className="h-12 border-gray-200 hover:border-gray-400 rounded-xl font-bold text-sm text-gray-700 bg-gray-50 hover:bg-gray-100 transition-all font-poppins"
+                  className="h-12 border-slate-200 hover:border-slate-300 rounded-xl font-bold text-sm text-slate-700 bg-slate-50 hover:bg-slate-100 transition-all font-poppins"
                 >
                   Save as Draft
                 </Button>
@@ -404,9 +410,21 @@ export const ContentCreateForm: React.FC = () => {
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
                     API Identifier
                   </p>
-                  <p className="text-sm font-bold text-blue-600 font-mono">
-                    {activeModel.apiId}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-blue-600 font-mono">
+                      {activeModel.apiId}
+                    </span>
+                    <Paragraph
+                      copyable={{
+                        text: activeModel.apiId,
+                        tooltips: ['Copy API ID', 'Copied!'],
+                        onCopy: () =>
+                          message.success('API ID copied to clipboard'),
+                      }}
+                      className="m-0 text-gray-400 hover:text-blue-600 flex items-center [&>div]:m-0"
+                      aria-label="Copy API ID"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

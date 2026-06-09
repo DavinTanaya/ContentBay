@@ -101,128 +101,123 @@ export function ContentModelCreateForm({
     useCreateContentModel(onSuccess);
 
   return (
-    <div className="w-full max-w-3xl mx-auto pt-4">
-      <Card
-        className="rounded-[32px] shadow-xl shadow-blue-900/5 border border-gray-100"
-        styles={{ body: { padding: '32px' } }}
+    <div className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none hover:ring-blue-200 hover:shadow-[0_12px_32px_rgba(0,100,255,0.06)] transition-all duration-500 p-8 sm:p-12">
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={{ icon: 'box' }}
+        onFinish={onFinish}
+        requiredMark={false}
+        className="space-y-6"
       >
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={{ icon: 'box' }}
-          onFinish={onFinish}
-          requiredMark={false}
-          className="space-y-6"
+        <Form.Item
+          label={
+            <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
+              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
+                <InfoCircleOutlined />
+              </div>
+              Name
+            </span>
+          }
+          name="name"
+          rules={[
+            { required: true, message: 'Please input the name!' },
+            { max: 50, message: 'Name cannot exceed 50 characters' },
+          ]}
         >
-          <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <InfoCircleOutlined />
-                </div>
-                Name
-              </span>
-            }
-            name="name"
-            rules={[
-              { required: true, message: 'Please input the name!' },
-              { max: 50, message: 'Name cannot exceed 50 characters' },
-            ]}
-          >
-            <Input
-              placeholder="e.g. Blog Post"
-              size="large"
-              className="font-open-sans"
-              onChange={handleNameChange}
-              maxLength={50}
-              showCount
-            />
-          </Form.Item>
+          <Input
+            placeholder="e.g. Blog Post"
+            size="large"
+            className="font-open-sans"
+            onChange={handleNameChange}
+            maxLength={50}
+            showCount
+          />
+        </Form.Item>
 
-          <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <ApiOutlined />
-                </div>
-                API Identifier
-              </span>
-            }
-            name="apiId"
-            rules={[{ required: true, message: 'Please input the API ID!' }]}
-            tooltip="Auto-generated from name. Used in API endpoints."
-          >
-            <Input
-              placeholder="e.g. blog-post"
-              size="large"
-              className="font-mono text-sm"
-            />
-          </Form.Item>
+        <Form.Item
+          label={
+            <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
+              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
+                <ApiOutlined />
+              </div>
+              API Identifier
+            </span>
+          }
+          name="apiId"
+          rules={[{ required: true, message: 'Please input the API ID!' }]}
+          tooltip="Auto-generated from name. Used in API endpoints."
+        >
+          <Input
+            placeholder="e.g. blog-post"
+            size="large"
+            className="font-mono text-sm"
+          />
+        </Form.Item>
 
-          <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <EditOutlined />
-                </div>
-                Description
-              </span>
-            }
-            name="description"
-            rules={[
-              { max: 250, message: 'Description cannot exceed 250 characters' },
-            ]}
-          >
-            <Input.TextArea
-              rows={4}
-              placeholder="What is this content type used for?"
-              size="large"
-              className="font-open-sans"
-              maxLength={250}
-              showCount
-            />
-          </Form.Item>
+        <Form.Item
+          label={
+            <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
+              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
+                <EditOutlined />
+              </div>
+              Description
+            </span>
+          }
+          name="description"
+          rules={[
+            { max: 250, message: 'Description cannot exceed 250 characters' },
+          ]}
+        >
+          <Input.TextArea
+            rows={4}
+            placeholder="What is this content type used for?"
+            size="large"
+            className="font-open-sans"
+            maxLength={250}
+            showCount
+          />
+        </Form.Item>
 
-          <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <InfoCircleOutlined />
-                </div>
-                Icon
-              </span>
-            }
-            name="icon"
-          >
-            <Select
-              size="large"
-              className="font-open-sans"
-              placeholder="Select an icon"
-              options={ICON_OPTIONS}
-              optionLabelProp="label"
-            />
-          </Form.Item>
+        <Form.Item
+          label={
+            <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
+              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
+                <InfoCircleOutlined />
+              </div>
+              Icon
+            </span>
+          }
+          name="icon"
+        >
+          <Select
+            size="large"
+            className="font-open-sans"
+            placeholder="Select an icon"
+            options={ICON_OPTIONS}
+            optionLabelProp="label"
+          />
+        </Form.Item>
 
-          <div className="pt-4 border-t border-gray-50 mt-8 flex justify-end gap-4">
-            <Form.Item className="mb-0">
-              <Button type="text" onClick={onBack} size="middle">
-                Cancel
-              </Button>
-            </Form.Item>
-            <Form.Item className="mb-0">
-              <Button
-                variant="solid"
-                color="geekblue"
-                htmlType="submit"
-                loading={loading}
-                size="middle"
-              >
-                Create Content Model
-              </Button>
-            </Form.Item>
-          </div>
-        </Form>
-      </Card>
+        <div className="pt-4 border-t border-gray-50 mt-8 flex justify-end gap-4">
+          <Form.Item className="mb-0">
+            <Button type="text" onClick={onBack} size="middle">
+              Cancel
+            </Button>
+          </Form.Item>
+          <Form.Item className="mb-0">
+            <Button
+              variant="solid"
+              color="geekblue"
+              htmlType="submit"
+              loading={loading}
+              size="middle"
+            >
+              Create Content Model
+            </Button>
+          </Form.Item>
+        </div>
+      </Form>
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default function ContentModelDetailPage() {
           <h1 className="text-2xl font-bold text-gray-9 m-0 leading-8">
             {model.name}
           </h1>
-          
+
           <div className="flex items-center gap-3 ml-2">
             <span className="text-xs font-medium text-gray-500 uppercase tracking-[0.04em]">
               API ID
@@ -78,7 +78,7 @@ export default function ContentModelDetailPage() {
           onChange={setActiveTab}
           className="detail-tabs"
           items={[
-            { label: 'Name and Description', key: 'name' },
+            { label: 'Detail', key: 'name' },
             { label: 'Fields', key: 'fields' },
             { label: 'JSON Preview', key: 'json' },
           ]}
