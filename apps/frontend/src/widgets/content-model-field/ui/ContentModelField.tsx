@@ -27,6 +27,7 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
     handleSelectFieldType,
     handleBackToPicker,
     handleEditFieldConfirm,
+    handleDeleteField,
   } = useContentModelField(model);
 
   const fieldsData = model.fields || [];
@@ -53,7 +54,11 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
               Add Field
             </Button>
           </div>
-          <FieldsTable data={fieldsData} onEditField={handleEditField} />
+          <FieldsTable
+            data={fieldsData}
+            onEditField={handleEditField}
+            onDeleteField={handleDeleteField}
+          />
         </div>
         <div className="md:flex-1 w-full">
           <ModelMetadataSidebar

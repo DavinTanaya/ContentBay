@@ -1,11 +1,10 @@
-import { Table, Button, Tag } from 'antd';
-import { MoreVertical } from 'lucide-react';
+import { Table, Button, Tag, Modal } from 'antd';
 import type { ContentField, FieldsTableProps } from '../model/types';
 import { RenderFieldIcon } from './RenderFieldIcon';
 import { colors } from '@/shared/constants/colors';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-export function FieldsTable({ data, onEditField }: FieldsTableProps) {
+export function FieldsTable({ data, onEditField, onDeleteField }: FieldsTableProps) {
   const columns = [
     {
       title: 'Name',
@@ -50,7 +49,7 @@ export function FieldsTable({ data, onEditField }: FieldsTableProps) {
       title: 'Actions',
       key: 'actions',
       render: (_: unknown, record: ContentField) => (
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Button
             variant="text"
             color="geekblue"
@@ -59,8 +58,22 @@ export function FieldsTable({ data, onEditField }: FieldsTableProps) {
           >
             Edit
           </Button>
-          <Button type="text" size="small">
-            <MoreVertical size={18} />
+          <Button
+            variant="text"
+            danger
+            size="small"
+            onClick={() => {
+              Modal.confirm({
+                title: 'Delete Field',
+                content: `Are you sure you want to delete the field "${record.name}"? This action cannot be undone.`,
+                okText: 'Delete',
+                okType: 'danger',
+                cancelText: 'Cancel',
+                onOk: () => onDeleteField?.(record.apiId),
+              });
+            }}
+          >
+            Delete
           </Button>
         </div>
       ),

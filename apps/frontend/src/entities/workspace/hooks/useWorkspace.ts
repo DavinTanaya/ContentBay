@@ -63,8 +63,8 @@ export const useWorkspaceFormatter = (workspace: Workspace) => {
     return {
       initials: getSpaceMembersInitials(workspace.members),
       updatedAtText: getRelativeTimeText(workspace.updated || workspace.updatedAt || '', workspace.createdAt),
-      modelsCount: workspace.models || 0,
-      contentsCount: workspace.contents || 0,
+      modelsCount: workspace._count?.models ?? workspace.models ?? 0,
+      contentsCount: workspace._count?.contents ?? workspace.contents ?? 0,
     };
   }, [workspace]);
 };

@@ -245,6 +245,7 @@ export interface ContentModelGridProps {
 export interface FieldsTableProps {
   data: ContentField[];
   onEditField: (field: ContentField) => void;
+  onDeleteField?: (fieldApiId: string) => void;
 }
 
 export interface JSONSchemaField {
