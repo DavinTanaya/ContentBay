@@ -7,7 +7,7 @@ import type {
   ContentModel,
 } from '@entities/content-model';
 import { initializeField } from '@/features/field-builder';
-import { createField, updateField } from '@/features/content-model/api';
+import { createField, updateField, deleteField } from '@/features/content-model/api';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 export const useContentModelField = (model: ContentModel) => {
@@ -103,6 +103,19 @@ export const useContentModelField = (model: ContentModel) => {
     }
   };
 
+  const handleDeleteField = async (fieldApiId: string) => {
+    try {
+      await deleteField({
+        model,
+        fieldApiId,
+      });
+      message.success('Field deleted successfully');
+    } catch (err: unknown) {
+      console.error(err);
+      message.error(getErrorMessage(err, 'Failed to delete field'));
+    }
+  };
+
   return {
     isFieldModalVisible,
     setIsFieldModalVisible,
@@ -118,5 +131,6 @@ export const useContentModelField = (model: ContentModel) => {
     handleSelectFieldType,
     handleBackToPicker,
     handleEditFieldConfirm,
+    handleDeleteField,
   };
 };
