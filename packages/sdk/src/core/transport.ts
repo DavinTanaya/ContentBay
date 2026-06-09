@@ -2,7 +2,7 @@ import { GraphQLClient } from 'graphql-request';
 import { ContentBayConfig } from '../models/config';
 import { AuthError, ApiError } from './errors';
 
-const DEFAULT_API_URL = 'https://api.contentbay.io';
+const DEFAULT_API_URL = 'https://api.contentbay.tech';
 
 /**
  * Internal transport layer for communicating with the ContentBay GraphQL API.

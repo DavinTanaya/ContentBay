@@ -1,0 +1,36 @@
+input AIChatMessageInput {
+  role: String!
+  content: String!
+}
+
+type AISchemaField {
+  name: String!
+  apiId: String!
+  type: String!
+  required: Boolean
+  isTitle: Boolean
+  description: String
+}
+
+type AISchemaModel {
+  name: String!
+  apiId: String!
+  description: String
+  icon: String
+  fields: [AISchemaField!]!
+}
+
+type AIGenerationResult {
+  success: Boolean!
+  message: String!
+  models: [AISchemaModel!]!
+  sdkCode: String!
+}
+
+extend type Mutation {
+  generateAIModels(
+    workspaceId: String!
+    prompt: String!
+    history: [AIChatMessageInput!]
+  ): AIGenerationResult!
+}

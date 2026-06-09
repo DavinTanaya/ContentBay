@@ -7,7 +7,7 @@ export function NavbarLanding() {
   const navigate = useNavigate();
 
   return (
-    <nav className="w-full sticky top-0 z-50 bg-white/80 backdrop-blur-xl border border-b-gray-3">
+    <nav className="w-full sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100">
       <div className="max-w-full mx-14">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
