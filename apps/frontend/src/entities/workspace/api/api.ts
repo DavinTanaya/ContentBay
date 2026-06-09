@@ -26,7 +26,7 @@ export async function createWorkspaceApi(input: CreateWorkspaceInput) {
 export async function deleteWorkspaceApi(input: DeleteWorkspaceInput) {
   const { data } = await apolloClient.mutate<{ deleteWorkspace: boolean }>({
     mutation: DELETE_WORKSPACE,
-    variables: { input },
+    variables: { id: input.workspaceId },
   });
   return data?.deleteWorkspace;
 }
