@@ -22,7 +22,9 @@ export function createBaseField(id: string, name: string, apiId: string, icon: F
     required: false,
     isTitle: false,
     description: '',
-    helpText: '',
+    settings: {},
+    validations: {},
+    appearance: {},
   };
 }
 
@@ -30,11 +32,15 @@ export function createTextField(id: string, name: string, apiId: string, icon: F
   return {
     ...createBaseField(id, name, apiId, icon),
     type: 'text',
-    storageType: 'shortText',
-    list: false,
-    isEntryTitle: false,
+    settings: {
+      storageType: 'shortText',
+      list: false,
+      isEntryTitle: false,
+    },
     defaultValue: '',
-    appearance: 'singleLine',
+    appearance: {
+      type: 'singleLine',
+    },
     validations: {
       required: false,
       unique: false,
@@ -46,8 +52,12 @@ export function createNumberField(id: string, name: string, apiId: string, icon:
   return {
     ...createBaseField(id, name, apiId, icon),
     type: 'number',
-    numberType: 'integer',
-    appearance: 'number',
+    settings: {
+      numberType: 'integer',
+    },
+    appearance: {
+      type: 'number',
+    },
     validations: {
       required: false,
       unique: false,
@@ -59,30 +69,32 @@ export function createRichTextField(id: string, name: string, apiId: string, ico
   return {
     ...createBaseField(id, name, apiId, icon),
     type: 'richText',
-    editorOptions: {
-      headings: { h1: true, h2: true, h3: true, h4: true, h5: true, h6: true },
-      bold: true,
-      italic: true,
-      underline: true,
-      code: true,
-      superscript: true,
-      subscript: true,
-      strikethrough: true,
-      unorderedList: true,
-      orderedList: true,
-      blockquote: true,
-      horizontalRule: true,
-      table: true,
-    },
-    hyperlinkOptions: {
-      externalUrl: true,
-      entryLink: true,
-      assetLink: true,
-    },
-    embedOptions: {
-      embeddedEntry: true,
-      inlineEntry: true,
-      embeddedAsset: true,
+    settings: {
+      editorOptions: {
+        headings: { h1: true, h2: true, h3: true, h4: true, h5: true, h6: true },
+        bold: true,
+        italic: true,
+        underline: true,
+        code: true,
+        superscript: true,
+        subscript: true,
+        strikethrough: true,
+        unorderedList: true,
+        orderedList: true,
+        blockquote: true,
+        horizontalRule: true,
+        table: true,
+      },
+      hyperlinkOptions: {
+        externalUrl: true,
+        entryLink: true,
+        assetLink: true,
+      },
+      embedOptions: {
+        embeddedEntry: true,
+        inlineEntry: true,
+        embeddedAsset: true,
+      },
     },
     validations: {
       required: false,
@@ -118,13 +130,15 @@ export function createAssetField(id: string, name: string, apiId: string, icon: 
   return {
     ...createBaseField(id, name, apiId, icon),
     type: 'asset',
-    cardinality: 'one',
+    settings: {
+      cardinality: 'one',
+      permissions: {
+        allowCreateNew: true,
+        allowLinkExisting: true,
+      },
+    },
     validations: {
       required: false,
-    },
-    permissions: {
-      allowCreateNew: true,
-      allowLinkExisting: true,
     },
   };
 }
@@ -134,9 +148,11 @@ export function createBooleanField(id: string, name: string, apiId: string, icon
     ...createBaseField(id, name, apiId, icon),
     type: 'boolean',
     defaultValue: false,
-    labels: {
-      trueLabel: 'Yes',
-      falseLabel: 'No',
+    settings: {
+      labels: {
+        trueLabel: 'Yes',
+        falseLabel: 'No',
+      },
     },
     validations: {
       required: false,
@@ -158,15 +174,19 @@ export function createReferenceField(id: string, name: string, apiId: string, ic
   return {
     ...createBaseField(id, name, apiId, icon),
     type: 'reference',
-    cardinality: 'one',
-    appearance: 'entryLink',
+    settings: {
+      cardinality: 'one',
+      permissions: {
+        allowCreateNew: true,
+        allowLinkExisting: true,
+      },
+    },
+    appearance: {
+      type: 'entryLink',
+    },
     validations: {
       required: false,
       allowedEntryTypes: [],
-    },
-    permissions: {
-      allowCreateNew: true,
-      allowLinkExisting: true,
     },
   };
 }

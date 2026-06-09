@@ -21,6 +21,7 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
     isFieldBuilderOpen,
     setIsFieldBuilderOpen,
     selectedFieldType,
+    isNewField,
     handleEditField,
     handleAddFieldClick,
     handleSelectFieldType,
@@ -72,6 +73,7 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
         isFieldBuilderOpen={isFieldBuilderOpen}
         setIsFieldBuilderOpen={setIsFieldBuilderOpen}
         selectedFieldType={selectedFieldType}
+        isNewField={isNewField}
         handleSelectFieldType={handleSelectFieldType}
         handleBackToPicker={handleBackToPicker}
         handleEditFieldConfirm={handleEditFieldConfirm}

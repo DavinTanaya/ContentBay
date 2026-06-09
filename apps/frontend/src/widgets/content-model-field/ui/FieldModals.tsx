@@ -11,6 +11,7 @@ interface FieldModalsProps {
   isFieldBuilderOpen: boolean;
   setIsFieldBuilderOpen: (open: boolean) => void;
   selectedFieldType: FieldType | null;
+  isNewField: boolean;
   handleSelectFieldType: (type: FieldType) => void;
   handleBackToPicker: () => void;
   handleEditFieldConfirm: (
@@ -25,7 +26,9 @@ export function FieldModals({
   setIsFieldPickerOpen,
   isFieldBuilderOpen,
   setIsFieldBuilderOpen,
+  isNewField,
   handleSelectFieldType,
+  handleBackToPicker,
   handleEditFieldConfirm,
 }: FieldModalsProps) {
   return (
@@ -33,7 +36,9 @@ export function FieldModals({
       <FieldBuilderEntry
         isOpen={isFieldBuilderOpen}
         onClose={() => setIsFieldBuilderOpen(false)}
+        onBack={handleBackToPicker}
         fieldConfig={selectedField as ContentFieldConfig | null}
+        isNewField={isNewField}
         onConfirm={async (data) => {
           if (selectedField) {
             await handleEditFieldConfirm(selectedField.apiId, data);

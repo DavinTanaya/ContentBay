@@ -38,80 +38,65 @@ export interface BaseField {
   required: boolean;
   isTitle: boolean;
   description?: string;
-  helpText?: string;
+  validations?: Record<string, any>;
+  settings?: Record<string, any>;
+  appearance?: Record<string, any>;
+  defaultValue?: any;
 }
 
 export interface RichTextField extends BaseField {
   type: 'richText';
-  editorOptions?: {
-    headings: {
-      h1: boolean;
-      h2: boolean;
-      h3: boolean;
-      h4: boolean;
-      h5: boolean;
-      h6: boolean;
+  settings?: {
+    editorOptions?: {
+      headings: { h1: boolean; h2: boolean; h3: boolean; h4: boolean; h5: boolean; h6: boolean };
+      bold: boolean;
+      italic: boolean;
+      underline: boolean;
+      code: boolean;
+      superscript: boolean;
+      subscript: boolean;
+      strikethrough: boolean;
+      unorderedList: boolean;
+      orderedList: boolean;
+      blockquote: boolean;
+      horizontalRule: boolean;
+      table: boolean;
     };
-    bold: boolean;
-    italic: boolean;
-    underline: boolean;
-    code: boolean;
-    superscript: boolean;
-    subscript: boolean;
-    strikethrough: boolean;
-    unorderedList: boolean;
-    orderedList: boolean;
-    blockquote: boolean;
-    horizontalRule: boolean;
-    table: boolean;
-  };
-  hyperlinkOptions?: {
-    externalUrl: boolean;
-    entryLink: boolean;
-    assetLink: boolean;
-  };
-  embedOptions?: {
-    embeddedEntry: boolean;
-    inlineEntry: boolean;
-    embeddedAsset: boolean;
+    hyperlinkOptions?: {
+      externalUrl: boolean;
+      entryLink: boolean;
+      assetLink: boolean;
+    };
+    embedOptions?: {
+      embeddedEntry: boolean;
+      inlineEntry: boolean;
+      embeddedAsset: boolean;
+    };
   };
   validations?: {
     required: boolean;
-    characterCount?: {
-      min?: number;
-      max?: number;
-    };
-    entryLinkValidation?: {
-      min?: number;
-      max?: number;
-      allowedEntryTypes: string[];
-    };
-    assetLinkValidation?: {
-      min?: number;
-      max?: number;
-    };
-    embeddedEntryValidation?: {
-      min?: number;
-      max?: number;
-      allowedEntryTypes: string[];
-    };
+    characterCount?: { min?: number; max?: number };
+    entryLinkValidation?: { min?: number; max?: number; allowedEntryTypes: string[] };
+    assetLinkValidation?: { min?: number; max?: number };
+    embeddedEntryValidation?: { min?: number; max?: number; allowedEntryTypes: string[] };
   };
 }
 
 export interface TextField extends BaseField {
   type: 'text';
-  storageType?: 'shortText' | 'longText';
-  list?: boolean;
-  isEntryTitle?: boolean;
+  settings?: {
+    storageType?: 'shortText' | 'longText';
+    list?: boolean;
+    isEntryTitle?: boolean;
+  };
+  appearance?: {
+    type?: 'singleLine' | 'url' | 'dropdown' | 'radio' | 'slug';
+  };
   defaultValue?: string;
-  appearance?: 'singleLine' | 'url' | 'dropdown' | 'radio' | 'slug';
   validations?: {
     required: boolean;
     unique: boolean;
-    characterCount?: {
-      min?: number;
-      max?: number;
-    };
+    characterCount?: { min?: number; max?: number };
     matchPattern?: string;
     prohibitPattern?: string;
     specifiedValues?: string[];
@@ -120,16 +105,17 @@ export interface TextField extends BaseField {
 
 export interface NumberField extends BaseField {
   type: 'number';
-  numberType?: 'integer' | 'decimal';
+  settings?: {
+    numberType?: 'integer' | 'decimal';
+  };
+  appearance?: {
+    type?: 'number' | 'dropdown' | 'radio' | 'rating';
+  };
   defaultValue?: number;
-  appearance?: 'number' | 'dropdown' | 'radio' | 'rating';
   validations?: {
     required: boolean;
     unique: boolean;
-    numberRange?: {
-      min?: number;
-      max?: number;
-    };
+    numberRange?: { min?: number; max?: number };
     specifiedValues?: number[];
   };
 }
@@ -143,10 +129,7 @@ export interface DateField extends BaseField {
   };
   validations?: {
     required: boolean;
-    dateRange?: {
-      earlyDate?: string;
-      latestDate?: string;
-    };
+    dateRange?: { earlyDate?: string; latestDate?: string };
   };
 }
 
@@ -159,31 +142,32 @@ export interface LocationField extends BaseField {
 
 export interface AssetField extends BaseField {
   type: 'asset';
-  cardinality?: 'one' | 'many';
+  settings?: {
+    cardinality?: 'one' | 'many';
+    permissions?: {
+      allowCreateNew: boolean;
+      allowLinkExisting: boolean;
+    };
+  };
   validations?: {
     required: boolean;
-    fileSize?: {
-      min?: number;
-      max?: number;
-    };
+    fileSize?: { min?: number; max?: number };
     fileTypes?: string[];
     imageDimensions?: {
       width: { min?: number; max?: number };
       height: { min?: number; max?: number };
     };
   };
-  permissions?: {
-    allowCreateNew: boolean;
-    allowLinkExisting: boolean;
-  };
 }
 
 export interface BooleanField extends BaseField {
   type: 'boolean';
   defaultValue?: boolean;
-  labels?: {
-    trueLabel: string;
-    falseLabel: string;
+  settings?: {
+    labels?: {
+      trueLabel: string;
+      falseLabel: string;
+    };
   };
   validations?: {
     required: boolean;
@@ -194,25 +178,26 @@ export interface JsonField extends BaseField {
   type: 'json';
   validations?: {
     required: boolean;
-    numberOfProperties?: {
-      min?: number;
-      max?: number;
-    };
+    numberOfProperties?: { min?: number; max?: number };
   };
 }
 
 export interface ReferenceField extends BaseField {
   type: 'reference';
-  cardinality?: 'one' | 'many';
+  settings?: {
+    cardinality?: 'one' | 'many';
+    permissions?: {
+      allowCreateNew: boolean;
+      allowLinkExisting: boolean;
+    };
+  };
+  appearance?: {
+    type?: 'entryLink' | 'entryCard';
+  };
   validations?: {
     required: boolean;
     allowedEntryTypes: string[];
   };
-  permissions?: {
-    allowCreateNew: boolean;
-    allowLinkExisting: boolean;
-  };
-  appearance?: 'entryLink' | 'entryCard';
 }
 
 export type ContentFieldConfig =

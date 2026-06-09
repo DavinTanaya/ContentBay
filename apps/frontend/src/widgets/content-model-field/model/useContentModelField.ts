@@ -6,11 +6,10 @@ import type {
   ContentField,
   FieldType,
   ContentModel,
-  FieldIcon,
 } from '@entities/content-model';
+import { initializeField } from '@/features/field-builder';
+import { createField, updateField } from '@/features/content-model/api';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
-
-// Using Omit<ContentFieldConfig, 'id'> directly
 
 export const useContentModelField = (model: ContentModel) => {
   const [isFieldModalVisible, setIsFieldModalVisible] = useState(false);
@@ -19,10 +18,12 @@ export const useContentModelField = (model: ContentModel) => {
   const [isFieldPickerOpen, setIsFieldPickerOpen] = useState(false);
   const [isFieldBuilderOpen, setIsFieldBuilderOpen] = useState(false);
   const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(null);
+  const [isNewField, setIsNewField] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEditField = (field: ContentField) => {
     setSelectedField(field);
+    setIsNewField(false);
     setIsFieldBuilderOpen(true);
   };
 
@@ -48,21 +49,17 @@ export const useContentModelField = (model: ContentModel) => {
     };
     const mappedType = titleMap[type.title] || 'text';
 
-    // Initialize the default schema for this field type using the factory
-    // Note: We need to import initializeField from field-builder
-    // For now we just mock the initial call, it will be handled by the dispatcher
-    const tempNewField = {
-      id: `new-${Date.now()}`,
-      name: '',
-      apiId: '',
-      type: mappedType,
-      icon: type.icon,
-      localized: false,
-      required: false,
-      isTitle: false,
-    } as unknown as ContentField;
+    // Initialize with proper defaults from field-factory
+    const newField = initializeField(
+      mappedType,
+      `new-${Date.now()}`,
+      '',
+      '',
+      type.icon,
+    );
 
-    setSelectedField(tempNewField);
+    setSelectedField(newField);
+    setIsNewField(true);
     setIsFieldBuilderOpen(true);
   };
 
@@ -76,56 +73,34 @@ export const useContentModelField = (model: ContentModel) => {
     updatedField: Omit<ContentField, 'id'>,
   ) => {
     const existingFields = model.fields || [];
-    const isNewField = !existingFields.find((f) => f.apiId === originalApiId);
-
-    const sanitizeField = (
-      f: ContentField | Omit<ContentField, 'id'>,
-    ): Omit<ContentField, 'id'> => {
-      // Just strip out the 'id' and pass the rest since we have flexible types now
-      const { id, ...rest } = f as ContentField;
-      return {
-        ...rest,
-        validations: f.validations as any,
-      };
-    };
-
-    let newFieldsArray: Omit<ContentField, 'id'>[];
-    if (isNewField) {
-      newFieldsArray = [
-        ...existingFields.map(sanitizeField),
-        sanitizeField(updatedField),
-      ];
-    } else {
-      newFieldsArray = existingFields.map((f) => {
-        if (f.apiId === originalApiId) {
-          return sanitizeField(updatedField);
-        }
-        return sanitizeField(f);
-      });
-    }
-
-    const input = {
-      name: model.name,
-      apiId: model.apiId,
-      description: model.description || '',
-      icon: model.icon,
-      fields: newFieldsArray,
-    };
+    const isNew = !existingFields.find((f) => f.apiId === originalApiId);
 
     setIsLoading(true);
     try {
-      await updateContentModelApi(model.id, input);
+      if (isNew) {
+        await createField({
+          model,
+          newField: updatedField,
+        });
+      } else {
+        await updateField({
+          model,
+          originalApiId,
+          updatedField,
+        });
+      }
       message.success(
-        isNewField ? 'Field added successfully' : 'Field updated successfully',
+        isNew ? 'Field added successfully' : 'Field updated successfully',
       );
       setIsFieldModalVisible(false);
       setSelectedField(null);
+      setIsNewField(false);
     } catch (err: unknown) {
       console.error(err);
       message.error(
         getErrorMessage(
           err,
-          isNewField ? 'Failed to add field' : 'Failed to update field',
+          isNew ? 'Failed to add field' : 'Failed to update field',
         ),
       );
     } finally {
@@ -142,6 +117,7 @@ export const useContentModelField = (model: ContentModel) => {
     isFieldBuilderOpen,
     setIsFieldBuilderOpen,
     selectedFieldType,
+    isNewField,
     handleEditField,
     handleAddFieldClick,
     handleSelectFieldType,
