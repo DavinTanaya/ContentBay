@@ -8,8 +8,8 @@ export function ModelMetadataSidebar({
   status,
 }: ModelMetadataSidebarProps) {
   return (
-    <div className="bg-white rounded-[20px] p-6 border border-gray-4 shadow-none h-fit">
-      <h2 className="text-[11px] font-bold text-gray-7 mb-4 tracking-widest uppercase">
+    <div className="relative rounded-[32px] bg-slate-50 ring-1 ring-slate-200 shadow-none p-8 h-fit transition-all duration-500">
+      <h2 className="text-[12px] font-bold text-gray-500 mb-6 tracking-widest uppercase">
         MODEL METADATA
       </h2>
       <div className="space-y-4">

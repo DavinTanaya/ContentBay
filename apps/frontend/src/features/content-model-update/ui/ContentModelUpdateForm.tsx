@@ -122,11 +122,15 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
-      <Card
-        className="rounded-[32px] shadow-xl shadow-blue-900/5 border border-gray-100"
-        styles={{ body: { padding: '32px' } }}
-      >
+    <div className="w-full">
+      <div className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none hover:ring-blue-200 hover:shadow-[0_12px_32px_rgba(0,100,255,0.12)] hover:-translate-y-[2px] transition-all duration-500 p-8">
+        <div className="flex items-center gap-4 mb-8">
+          <div>
+            <h3 className="text-xl font-bold text-gray-10 m-0">Detail</h3>
+            <p className="text-sm text-gray-500 m-0 mt-1">Configure name, description, and icon for this content model.</p>
+          </div>
+        </div>
+
         <Form
           form={form}
           layout="vertical"
@@ -137,81 +141,58 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
           }}
           onFinish={onFinish}
           requiredMark={false}
-          className="space-y-6"
+          className="w-full"
         >
           <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <InfoCircleOutlined />
-                </div>
-                Name
-              </span>
-            }
+            label={<span className="text-sm font-medium text-gray-8">Name</span>}
             name="name"
             rules={[{ required: true, message: 'Please input the name!' }]}
           >
             <Input
               placeholder={initialValues.name}
               size="large"
-              className="font-open-sans"
+              className="bg-slate-50 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl h-12 transition-all font-open-sans"
             />
           </Form.Item>
 
           <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <EditOutlined />
-                </div>
-                Description
-              </span>
-            }
+            label={<span className="text-sm font-medium text-gray-8">Description</span>}
             name="description"
           >
             <Input.TextArea
               rows={4}
               placeholder={initialValues.desc}
               size="large"
-              className="font-open-sans"
+              className="bg-slate-50 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl resize-none py-3 transition-all font-open-sans"
             />
           </Form.Item>
 
           <Form.Item
-            label={
-              <span className="flex items-center gap-3 mb-1 text-gray-8 label-sm-semibold">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-6">
-                  <InfoCircleOutlined />
-                </div>
-                Icon
-              </span>
-            }
+            label={<span className="text-sm font-medium text-gray-8">Icon</span>}
             name="icon"
           >
             <Select
               size="large"
-              className="font-open-sans"
+              className="font-open-sans [&_.ant-select-selector]:bg-slate-50 [&_.ant-select-selector]:border-transparent hover:[&_.ant-select-selector]:border-blue-200 focus:[&_.ant-select-selector]:bg-white focus:[&_.ant-select-selector]:border-blue-400 focus:[&_.ant-select-selector]:ring-2 focus:[&_.ant-select-selector]:ring-blue-100 [&_.ant-select-selector]:rounded-xl [&_.ant-select-selector]:h-12 [&_.ant-select-selector]:transition-all [&_.ant-select-selection-item]:leading-[46px] [&_.ant-select-selection-placeholder]:leading-[46px]"
               placeholder="Select an icon"
               options={ICON_OPTIONS}
               optionLabelProp="label"
             />
           </Form.Item>
 
-          <div className="pt-4 border-t border-gray-50 mt-8 flex justify-end">
-            <Form.Item className="mb-0">
-              <Button
-                variant="solid"
-                color="geekblue"
-                htmlType="submit"
-                loading={isUpdating}
-                size="middle"
-              >
-                Save Changes
-              </Button>
-            </Form.Item>
+          <div className="flex justify-end mt-2">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isUpdating}
+              size="large"
+              className="h-12 px-8 rounded-xl shadow-sm bg-blue-600 hover:bg-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all"
+            >
+              Save Changes
+            </Button>
           </div>
         </Form>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -27,15 +27,16 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
     handleSelectFieldType,
     handleBackToPicker,
     handleEditFieldConfirm,
+    handleDeleteField,
   } = useContentModelField(model);
 
   const fieldsData = model.fields || [];
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row gap-8 max-w-[1400px]">
-        <div className="bg-white md:flex-[2.5] w-full rounded-2xl border border-gray-4 shadow-sm overflow-hidden">
-          <div className="px-6 py-5 flex items-center justify-between border-b border-gray-4">
+      <div className="flex flex-col md:flex-row gap-6 w-full">
+        <div className="relative rounded-[32px] bg-white ring-1 ring-slate-200 shadow-none md:flex-[2.5] w-full overflow-hidden hover:ring-blue-200 transition-all duration-500 hover:shadow-[0_12px_32px_rgba(0,100,255,0.06)]">
+          <div className="px-8 py-6 flex items-center justify-between border-b border-slate-100">
             <div className="flex items-center gap-2">
               <h3 className="h5-semibold text-gray-10">Content Fields</h3>
               <Badge
@@ -45,15 +46,20 @@ export const ContentModelField: FC<ContentModelFieldProps> = ({ model }) => {
               />
             </div>
             <Button
-              variant="filled"
-              color="geekblue"
-              icon={<Plus size={16} />}
+              type="primary"
+              size="large"
+              icon={<Plus size={18} />}
               onClick={handleAddFieldClick}
+              className="h-11 px-6 rounded-xl shadow-sm bg-blue-600 hover:bg-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center font-semibold"
             >
               Add Field
             </Button>
           </div>
-          <FieldsTable data={fieldsData} onEditField={handleEditField} />
+          <FieldsTable
+            data={fieldsData}
+            onEditField={handleEditField}
+            onDeleteField={handleDeleteField}
+          />
         </div>
         <div className="md:flex-1 w-full">
           <ModelMetadataSidebar

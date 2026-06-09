@@ -30,33 +30,33 @@ export function ReferenceFieldCreateModal({ isOpen, onClose, onBack, onConfirm }
   return (
     <Modal title={null} open={isOpen} onCancel={onClose} footer={null} width={600} centered>
       <div className="p-10">
-        <div className="flex items-center gap-5 mb-10">
-          <div className="w-12 h-12 rounded-xl bg-blue-1 text-blue-6 flex items-center justify-center text-xl">
+        <div className="flex items-center gap-4 mb-10">
+          <div className="w-[52px] h-[52px] rounded-2xl bg-blue-50/80 ring-1 ring-blue-100 flex items-center justify-center text-blue-6 shadow-sm text-[22px]">
             <RenderFieldIcon icon="reference" />
           </div>
           <div>
-            <h2 className="label-md-bold text-gray-12 mb-1">Configure Reference Field</h2>
-            <p className="label-xs-regular text-gray-6">Set the basic identity for this field</p>
+            <h2 className="text-xl font-bold text-gray-10 m-0">Configure Reference Field</h2>
+            <p className="text-sm text-gray-500 mt-1 m-0">Set the basic identity for this field</p>
           </div>
         </div>
 
         <div className="space-y-8">
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="label-sm-medium text-gray-10 mb-2 font-poppins">Name</label>
+              <label className="text-sm font-medium text-gray-8 block mb-2">Name</label>
               <Input
                 value={name}
                 onChange={(e) => handleNameChange(e.target.value)}
-                className="h-11 rounded-lg border-gray-4 font-semibold px-4"
+                className="bg-slate-50 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl h-12 font-semibold px-4 transition-all"
                 placeholder="e.g. Author"
               />
             </div>
             <div>
-              <label className="label-sm-medium text-gray-10 mb-2 font-poppins">Field ID</label>
+              <label className="text-sm font-medium text-gray-8 block mb-2">Field ID</label>
               <Input
                 value={apiId}
                 onChange={(e) => setApiId(e.target.value)}
-                className="h-11 rounded-lg border-gray-4 bg-gray-2 px-4 font-mono text-xs text-gray-11"
+                className="bg-slate-100 border-transparent hover:border-blue-200 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl h-12 px-4 font-mono text-[13px] text-gray-700 transition-all"
                 placeholder="e.g. author"
               />
             </div>
@@ -73,11 +73,9 @@ export function ReferenceFieldCreateModal({ isOpen, onClose, onBack, onConfirm }
             </p>
           </div>
 
-          <div className="pt-8 border-t border-gray-4 flex justify-end gap-3">
-            <Button type="default" size="middle" onClick={onBack}>Change Field Type</Button>
-            <Button variant="solid" color="geekblue" size="middle" onClick={handleConfirm} disabled={!name || !apiId}>
-              Add & Configure
-            </Button>
+          <div className="pt-8 border-t border-slate-100 flex justify-end gap-3 mt-8">
+            <Button type="default" size="large" onClick={onBack} className="h-12 px-6 rounded-xl font-medium border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all">Change Field Type</Button>
+            <Button type="primary" size="large" onClick={handleConfirm} disabled={!name || !apiId} className="h-12 px-8 rounded-xl shadow-sm bg-blue-600 hover:bg-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all font-semibold">Add & Configure</Button>
           </div>
         </div>
       </div>

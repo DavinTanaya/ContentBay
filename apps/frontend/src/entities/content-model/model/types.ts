@@ -48,7 +48,14 @@ export interface RichTextField extends BaseField {
   type: 'richText';
   settings?: {
     editorOptions?: {
-      headings: { h1: boolean; h2: boolean; h3: boolean; h4: boolean; h5: boolean; h6: boolean };
+      headings: {
+        h1: boolean;
+        h2: boolean;
+        h3: boolean;
+        h4: boolean;
+        h5: boolean;
+        h6: boolean;
+      };
       bold: boolean;
       italic: boolean;
       underline: boolean;
@@ -76,9 +83,17 @@ export interface RichTextField extends BaseField {
   validations?: {
     required: boolean;
     characterCount?: { min?: number; max?: number };
-    entryLinkValidation?: { min?: number; max?: number; allowedEntryTypes: string[] };
+    entryLinkValidation?: {
+      min?: number;
+      max?: number;
+      allowedEntryTypes: string[];
+    };
     assetLinkValidation?: { min?: number; max?: number };
-    embeddedEntryValidation?: { min?: number; max?: number; allowedEntryTypes: string[] };
+    embeddedEntryValidation?: {
+      min?: number;
+      max?: number;
+      allowedEntryTypes: string[];
+    };
   };
 }
 
@@ -245,6 +260,7 @@ export interface ContentModelGridProps {
 export interface FieldsTableProps {
   data: ContentField[];
   onEditField: (field: ContentField) => void;
+  onDeleteField?: (field: ContentField) => void;
 }
 
 export interface JSONSchemaField {

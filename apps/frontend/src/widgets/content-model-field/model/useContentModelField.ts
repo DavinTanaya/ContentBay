@@ -72,6 +72,8 @@ export const useContentModelField = (model: ContentModel) => {
   ) => {
     const existingFields = model.fields || [];
     const isNew = !existingFields.find((f) => f.apiId === originalApiId);
+    
+    const hide = message.loading(isNew ? 'Adding field...' : 'Updating field...', 0);
 
     try {
       if (isNew) {
@@ -86,6 +88,7 @@ export const useContentModelField = (model: ContentModel) => {
           updatedField,
         });
       }
+      hide();
       message.success(
         isNew ? 'Field added successfully' : 'Field updated successfully',
       );
@@ -93,6 +96,7 @@ export const useContentModelField = (model: ContentModel) => {
       setSelectedField(null);
       setIsNewField(false);
     } catch (err: unknown) {
+      hide();
       console.error(err);
       message.error(
         getErrorMessage(
@@ -100,6 +104,20 @@ export const useContentModelField = (model: ContentModel) => {
           isNew ? 'Failed to add field' : 'Failed to update field',
         ),
       );
+    }
+  };
+
+  const handleDeleteField = async (field: ContentField) => {
+    const hide = message.loading('Deleting field...', 0);
+    try {
+      const { deleteField } = await import('@/features/content-model/api');
+      await deleteField({ model, fieldApiId: field.apiId });
+      hide();
+      message.success('Field deleted successfully');
+    } catch (err: unknown) {
+      hide();
+      console.error(err);
+      message.error(getErrorMessage(err, 'Failed to delete field'));
     }
   };
 
@@ -118,5 +136,6 @@ export const useContentModelField = (model: ContentModel) => {
     handleSelectFieldType,
     handleBackToPicker,
     handleEditFieldConfirm,
+    handleDeleteField,
   };
 };

@@ -1,22 +1,23 @@
-import { Table, Button, Tag } from 'antd';
-import { MoreVertical } from 'lucide-react';
+import { Table, Button, Tag, Popconfirm } from 'antd';
+import { Trash2 } from 'lucide-react';
 import type { ContentField, FieldsTableProps } from '../model/types';
 import { RenderFieldIcon } from './RenderFieldIcon';
 import { colors } from '@/shared/constants/colors';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-export function FieldsTable({ data, onEditField }: FieldsTableProps) {
+export function FieldsTable({ data, onEditField, onDeleteField }: FieldsTableProps) {
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      className: 'pl-8',
       render: (text: string, record: ContentField) => (
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-geekblue-1 border border-geekblue-2 text-geekblue-6 flex items-center justify-center transition-colors group-hover:bg-geekblue-2">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-blue-50/80 ring-1 ring-blue-100 text-blue-6 flex items-center justify-center transition-colors group-hover:bg-blue-100/50">
             <RenderFieldIcon icon={record.icon} />
           </div>
-          <span className="label-xs-bold text-gray-10">{text}</span>
+          <span className="text-[14px] font-semibold text-gray-10">{text}</span>
         </div>
       ),
     },
@@ -25,7 +26,7 @@ export function FieldsTable({ data, onEditField }: FieldsTableProps) {
       dataIndex: 'type',
       key: 'type',
       render: (text: string) => (
-        <span className="inline-flex items-center px-2.5 py-1 rounded-md label-xs-medium bg-gray-2 text-gray-8 border border-gray-5">
+        <span className="inline-flex items-center px-3 py-1 rounded-lg text-[12px] font-medium bg-slate-50 text-slate-700 ring-1 ring-slate-200">
           {text}
         </span>
       ),
@@ -49,19 +50,36 @@ export function FieldsTable({ data, onEditField }: FieldsTableProps) {
     {
       title: 'Actions',
       key: 'actions',
+      className: 'pr-8 text-right',
       render: (_: unknown, record: ContentField) => (
-        <div className="flex items-center">
+        <div className="flex items-center justify-end gap-2">
           <Button
-            variant="text"
-            color="geekblue"
+            type="text"
+            className="text-blue-6 hover:text-blue-7 hover:bg-blue-50 font-medium px-3 transition-colors"
             size="small"
             onClick={() => onEditField(record)}
           >
             Edit
           </Button>
-          <Button type="text" size="small">
-            <MoreVertical size={18} />
-          </Button>
+          {onDeleteField && (
+            <Popconfirm
+              title="Delete this field?"
+              description={`Are you sure you want to delete ${record.name}?`}
+              onConfirm={() => onDeleteField(record)}
+              okText="Delete"
+              cancelText="Cancel"
+              okButtonProps={{ danger: true }}
+              placement="topRight"
+            >
+              <Button
+                type="text"
+                size="small"
+                className="text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors"
+              >
+                <Trash2 size={16} />
+              </Button>
+            </Popconfirm>
+          )}
         </div>
       ),
     },
@@ -76,7 +94,7 @@ export function FieldsTable({ data, onEditField }: FieldsTableProps) {
       className="clean-table"
       size="middle"
       rowClassName={() =>
-        'group border-b border-gray-6 hover:bg-gray-2 transition-colors'
+        'group border-b border-slate-100 hover:bg-slate-50/50 transition-colors'
       }
     />
   );
