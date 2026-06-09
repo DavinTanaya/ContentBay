@@ -1,6 +1,6 @@
 {
   "name": "contentbay",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Official JavaScript/TypeScript SDK for ContentBay Headless CMS",
   "private": false,
   "main": "dist/index.js",
