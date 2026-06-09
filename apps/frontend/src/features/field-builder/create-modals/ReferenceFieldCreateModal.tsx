@@ -23,7 +23,7 @@ export function ReferenceFieldCreateModal({ isOpen, onClose, onBack, onConfirm }
 
   const handleConfirm = () => {
     const field = initializeField('reference', `new-${Date.now()}`, name, apiId, 'reference') as ReferenceField;
-    field.cardinality = cardinality;
+    field.settings = { ...field.settings, cardinality };
     onConfirm(field);
   };
 

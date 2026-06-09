@@ -23,7 +23,7 @@ export function TextFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: Tex
 
   const handleConfirm = () => {
     const field = initializeField('text', `new-${Date.now()}`, name, apiId, 'text') as TextField;
-    field.storageType = storageType;
+    field.settings = { ...field.settings, storageType };
     onConfirm(field);
   };
 

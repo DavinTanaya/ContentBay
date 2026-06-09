@@ -23,7 +23,7 @@ export function NumberFieldCreateModal({ isOpen, onClose, onBack, onConfirm }: N
 
   const handleConfirm = () => {
     const field = initializeField('number', `new-${Date.now()}`, name, apiId, 'number') as NumberField;
-    field.numberType = numberType;
+    field.settings = { ...field.settings, numberType };
     onConfirm(field);
   };
 
