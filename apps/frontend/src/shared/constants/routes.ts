@@ -21,6 +21,13 @@ export const PATH = {
     workspaceDetail: '/workspace/:workspaceId/detail',
     users: '/workspace/:workspaceId/users',
   },
+  errors: {
+    unauthorized: '/401',
+    forbidden: '/403',
+    notFound: '/404',
+    serverError: '/500',
+    serviceUnavailable: '/503',
+  },
 } as const;
 
 export const getContentModelSettings = ({
