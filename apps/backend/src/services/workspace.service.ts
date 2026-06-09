@@ -23,7 +23,7 @@ export class WorkspaceService {
   }
 
   static async inviteMember(workspaceId: string, email: string, role: string, userId: number) {
-    const { token, isResend } = await WorkspaceRepository.inviteMember(workspaceId, email, role, userId);
+    const { token } = await WorkspaceRepository.inviteMember(workspaceId, email, role, userId);
     
     try {
       const workspace = await WorkspaceRepository.findById(workspaceId, userId);

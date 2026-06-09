@@ -25,6 +25,8 @@ input UpdateContentInput {
 extend type Query {
   getContents(workspaceId: String!, contentModelId: String): [Content!]!
   getContent(id: ID!): Content
+  deliveryGetContents(modelApiId: String!): [Content!]!
+  deliveryGetContent(modelApiId: String!, entryId: ID!): Content
 }
 
 extend type Mutation {

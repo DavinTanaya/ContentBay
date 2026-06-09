@@ -1,5 +1,4 @@
 import { AuthService } from '../../services/auth.service'
-import { Context } from '../../context'
 
 interface RegisterArgs {
   firstName: string
@@ -22,13 +21,6 @@ interface GoogleAccessTokenArgs {
 }
 
 export const authResolvers = {
-  Query: {
-    users: (_: unknown, __: unknown, ctx: Context) => {
-      return ctx.prisma.user.findMany({
-        orderBy: { id: 'asc' },
-      })
-    },
-  },
   Mutation: {
     register: (_: unknown, args: RegisterArgs) => {
       return AuthService.register(

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { message } from 'antd';
 
-import { updateContentModelApi } from '@entities/content-model';
 import type {
   ContentField,
   FieldType,
@@ -19,7 +18,6 @@ export const useContentModelField = (model: ContentModel) => {
   const [isFieldBuilderOpen, setIsFieldBuilderOpen] = useState(false);
   const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(null);
   const [isNewField, setIsNewField] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleEditField = (field: ContentField) => {
     setSelectedField(field);
@@ -75,7 +73,6 @@ export const useContentModelField = (model: ContentModel) => {
     const existingFields = model.fields || [];
     const isNew = !existingFields.find((f) => f.apiId === originalApiId);
 
-    setIsLoading(true);
     try {
       if (isNew) {
         await createField({
@@ -103,8 +100,6 @@ export const useContentModelField = (model: ContentModel) => {
           isNew ? 'Failed to add field' : 'Failed to update field',
         ),
       );
-    } finally {
-      setIsLoading(false);
     }
   };
 
