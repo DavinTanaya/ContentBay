@@ -317,7 +317,7 @@ if (car) {
           <div className="border border-slate-100 rounded-xl p-5 bg-slate-50/50 my-6 font-poppins">
             <p className="text-sm font-semibold text-slate-700 mb-1">HTTP POST URL:</p>
             <code className="text-sm font-mono text-blue-600 block bg-white border border-slate-100 p-2.5 rounded-lg select-all">
-              https://api.contentbay.tech/graphql
+              https://api.contentbay.tech/
             </code>
           </div>
 
@@ -326,7 +326,7 @@ if (car) {
           </p>
           <CodeBlock
             language="bash"
-            code={`curl -X POST https://api.contentbay.tech/graphql \\
+            code={`curl -X POST https://api.contentbay.tech/ \\
   -H "Content-Type: application/json" \\
   -H "x-contentbay-token: your_api_token" \\
   -d '{"query": "query { deliveryGetModels { id name apiId } }"}'`}

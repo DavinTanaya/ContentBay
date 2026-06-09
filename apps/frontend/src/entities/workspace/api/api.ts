@@ -7,6 +7,7 @@ import {
   ACCEPT_INVITATION,
   DECLINE_INVITATION,
 } from './mutations';
+import { GET_WORKSPACES } from './queries';
 import type { Workspace } from '../model/workspace.types';
 import type {
   CreateWorkspaceInput,
@@ -27,6 +28,10 @@ export async function deleteWorkspaceApi(input: DeleteWorkspaceInput) {
   const { data } = await apolloClient.mutate<{ deleteWorkspace: boolean }>({
     mutation: DELETE_WORKSPACE,
     variables: { id: input.workspaceId },
+    refetchQueries: [
+      { query: GET_WORKSPACES },
+    ],
+    awaitRefetchQueries: true,
   });
   return data?.deleteWorkspace;
 }

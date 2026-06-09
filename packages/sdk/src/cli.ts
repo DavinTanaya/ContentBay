@@ -65,7 +65,7 @@ async function run() {
   const args = process.argv.slice(2);
   let spaceId = process.env.CONTENTBAY_SPACE_ID || "";
   let apiToken = process.env.CONTENTBAY_API_TOKEN || "";
-  let apiUrl = process.env.CONTENTBAY_API_URL || "https://api.contentbay.tech/graphql";
+  let apiUrl = process.env.CONTENTBAY_API_URL || "https://api.contentbay.tech/";
 
   const promptArgs: string[] = [];
   for (let i = 0; i < args.length; i++) {

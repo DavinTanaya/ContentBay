@@ -5,7 +5,7 @@ export const createField = async ({ model, newField }: CreateFieldParams) => {
   const existingFields = model.fields || [];
 
   const sanitizeField = (f: ContentField | Omit<ContentField, 'id'>): Omit<ContentField, 'id'> => {
-    const { id, ...rest } = f as ContentField;
+    const { id, __typename, ...rest } = f as any;
     return {
       ...rest,
       validations: f.validations as any,
