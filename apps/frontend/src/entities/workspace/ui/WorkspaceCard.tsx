@@ -1,14 +1,15 @@
 import React from 'react';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Tooltip } from 'antd';
 import {
   ClockCircleOutlined,
   ArrowRightOutlined,
   ProductOutlined,
   FileTextOutlined,
+  BlockOutlined,
 } from '@ant-design/icons';
 import type { Workspace } from '../model/workspace.types';
 import { useWorkspaceFormatter } from '../hooks/useWorkspace';
-import { Briefcase } from 'lucide-react';
+import { PanelsTopLeft } from 'lucide-react';
 
 interface WorkspaceCardProps {
   workspace: Workspace;
@@ -26,23 +27,31 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
 
   const renderAvatars = () => (
     <Avatar.Group
-      maxCount={3}
-      maxStyle={{
-        color: '#003a8c',
-        backgroundColor: '#e6f7ff',
-        fontSize: '11px',
+      max={{
+        count: 3,
+        style: {
+          color: '#003a8c',
+          backgroundColor: '#e6f7ff',
+          fontSize: '11px',
+        },
       }}
       size="small"
     >
-      {initials.map((member: { initial: string; color: string; email: string }, i: number) => (
-        <Avatar
-          key={member.email || i}
-          className="text-white text-[11px] font-semibold font-poppins border-white ring-2 ring-white"
-          style={{ backgroundColor: member.color }}
-        >
-          {member.initial}
-        </Avatar>
-      ))}
+      {initials.map(
+        (
+          member: { initial: string; color: string; email: string },
+          i: number,
+        ) => (
+          <Tooltip key={member.email || i} title={member.email} placement="top">
+            <Avatar
+              className="text-white text-[11px] font-semibold font-poppins flex items-center justify-center"
+              style={{ backgroundColor: member.color }}
+            >
+              <span className="relative top-[1px]">{member.initial}</span>
+            </Avatar>
+          </Tooltip>
+        ),
+      )}
     </Avatar.Group>
   );
 
@@ -63,7 +72,7 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
       <div>
         <div className="flex items-start justify-between mb-5">
           <div className="w-[52px] h-[52px] rounded-2xl bg-blue-50/80 ring-1 ring-blue-100 flex items-center justify-center text-blue-6 shadow-sm transition-transform duration-300 group-hover:scale-105">
-            <Briefcase />
+            <PanelsTopLeft />
           </div>
           {actionSlot && (
             <div onClick={(e) => e.stopPropagation()}>{actionSlot}</div>

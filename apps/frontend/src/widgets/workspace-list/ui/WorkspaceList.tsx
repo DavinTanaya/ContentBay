@@ -19,9 +19,9 @@ export function WorkspaceList({
         {[1, 2, 3].map((key) => (
           <div
             key={key}
-            className="bg-white rounded-xl border border-gray-3 p-6 h-[200px]"
+            className="relative rounded-[32px] bg-white ring-1 ring-slate-200 p-[32px] min-h-[260px] flex flex-col justify-between"
           >
-            <Skeleton active title={false} paragraph={{ rows: 4 }} />
+            <Skeleton active title={false} paragraph={{ rows: 6 }} />
           </div>
         ))}
       </div>
