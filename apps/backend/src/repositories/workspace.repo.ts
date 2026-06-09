@@ -1,5 +1,6 @@
 import { prisma } from "../db/prisma";
 import { GraphQLError } from "graphql";
+import crypto from "crypto";
 
 export class WorkspaceRepository {
   static async findAll(userId: number) {
@@ -137,6 +138,25 @@ export class WorkspaceRepository {
   }
 
   static async inviteMember(workspaceId: string, email: string, role: string, inviterId: number) {
+    // 0. Verify that the inviter has Owner or Admin access to this workspace
+    const access = await prisma.workspaceMember.findFirst({
+      where: {
+        workspaceId,
+        userId: inviterId,
+        role: { in: ["Owner", "Admin"] },
+      },
+    });
+
+    if (!access) {
+      throw new GraphQLError("Only Workspace Owner or Admin can invite members.");
+    }
+
+    // Validate that the assigned role is valid
+    const allowedRoles = ["Owner", "Admin", "Developer", "Editor"];
+    if (!allowedRoles.includes(role)) {
+      throw new GraphQLError("Invalid role specified.");
+    }
+
     // 1. If user is already registered, check if they are already a member
     const user = await prisma.user.findUnique({
       where: { email },
@@ -183,7 +203,6 @@ export class WorkspaceRepository {
     }
 
     // 3. Create a new invitation
-    const crypto = require("crypto");
     const token = crypto.randomBytes(32).toString("hex");
 
     await prisma.workspaceInvitation.create({

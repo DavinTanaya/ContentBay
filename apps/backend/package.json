@@ -26,13 +26,17 @@
     "prisma": "^6.19.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/bcryptjs": "^3.0.0",
     "@types/graphql-type-json": "^0.3.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "22.18.12",
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.15.6",
+    "eslint": "^10.4.1",
+    "globals": "^16.5.0",
     "tsx": "4.20.6",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "typescript-eslint": "^8.55.0"
   }
 }

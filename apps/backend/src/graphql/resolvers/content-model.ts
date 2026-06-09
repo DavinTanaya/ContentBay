@@ -1,32 +1,69 @@
-import { ContentModelService } from '../../services/content-model.service';
 import { Context } from '../../context';
+import { assertUser, assertWorkspaceAccess, assertModelAccess } from '../../lib/auth-helpers';
+import { GraphQLError } from 'graphql';
+import { ContentModelService } from '../../services/content-model.service';
 
 export const contentModelResolvers = {
   Query: {
-    getContentModels: () => {
-      return ContentModelService.findAll();
+    getContentModels: async (_: unknown, __: unknown, context: Context) => {
+      const userId = assertUser(context.userId);
+      const userWorkspaces = await context.prisma.workspaceMember.findMany({
+        where: { userId },
+        select: { workspaceId: true }
+      });
+      const workspaceIds = userWorkspaces.map(w => w.workspaceId);
+      
+      return context.prisma.contentModel.findMany({
+        where: { workspaceId: { in: workspaceIds } },
+        include: {
+          fields: true,
+          creator: true,
+          updater: true,
+        },
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      });
     },
-    getContentModel: (_: unknown, { id }: { id: string }) => {
+    getContentModel: async (_: unknown, { id }: { id: string }, context: Context) => {
+      const userId = assertUser(context.userId);
+      await assertModelAccess(userId, id);
       return ContentModelService.findById(id);
     },
+    deliveryGetModels: async (_: unknown, __: unknown, context: Context) => {
+      if (!context.workspaceId) {
+        throw new GraphQLError("Unauthorized: Valid API Token required", {
+          extensions: { code: "UNAUTHORIZED" }
+        });
+      }
+      return context.prisma.contentModel.findMany({
+        where: { workspaceId: context.workspaceId },
+        include: {
+          fields: true,
+        },
+        orderBy: {
+          name: 'asc'
+        }
+      });
+    }
   },
   Mutation: {
-    createContentModel: (_: unknown, { input }: { input: any }, context: Context) => {
-      if (!context.userId) {
-        throw new Error("Unauthorized");
+    createContentModel: async (_: unknown, { input }: { input: any }, context: Context) => {
+      const userId = assertUser(context.userId);
+      if (!input.workspaceId) {
+        throw new GraphQLError("workspaceId is required to create a content model");
       }
-      return ContentModelService.create({ ...input, createdBy: context.userId });
+      await assertWorkspaceAccess(userId, input.workspaceId);
+      return ContentModelService.create({ ...input, createdBy: userId });
     },
-    updateContentModel: (_: unknown, { id, input }: { id: string, input: any }, context: Context) => {
-      if (!context.userId) {
-        throw new Error("Unauthorized");
-      }
-      return ContentModelService.update(id, { ...input, updatedBy: context.userId });
+    updateContentModel: async (_: unknown, { id, input }: { id: string, input: any }, context: Context) => {
+      const userId = assertUser(context.userId);
+      await assertModelAccess(userId, id);
+      return ContentModelService.update(id, { ...input, updatedBy: userId });
     },
-    deleteContentModel: (_: unknown, { id }: { id: string }, context: Context) => {
-      if (!context.userId) {
-        throw new Error("Unauthorized");
-      }
+    deleteContentModel: async (_: unknown, { id }: { id: string }, context: Context) => {
+      const userId = assertUser(context.userId);
+      await assertModelAccess(userId, id);
       return ContentModelService.delete(id);
     },
   },

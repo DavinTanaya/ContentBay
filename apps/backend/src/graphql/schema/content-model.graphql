@@ -85,6 +85,7 @@ input CreateContentModelInput {
 type Query {
   getContentModels: [ContentModel!]!
   getContentModel(id: ID!): ContentModel
+  deliveryGetModels: [ContentModel!]!
 }
 
 type Mutation {

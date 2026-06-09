@@ -1,6 +1,5 @@
 import { AppearanceSelector } from '../../appearance/AppearanceSelector';
 import { APPEARANCE_OPTIONS } from '../../constants/appearance-options';
-import { HelpTextInput } from '../shared/HelpTextInput';
 import type { TextField } from '../../types';
 
 interface TextFieldAppearanceFormProps {

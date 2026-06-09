@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Book, Code, Video, MoveRight } from 'lucide-react';
 import { colors } from '@/shared/constants/colors';
+import { PATH } from '@/shared/constants/routes';
 
 export function CategoryGrid() {
   const categories = [
@@ -14,7 +15,7 @@ export function CategoryGrid() {
       iconColor: colors.blue[7],
       bulletColor: 'bg-blue-7',
       Icon: Book,
-      link: '#',
+      link: PATH.landing.documentation,
       items: [
         'API Reference',
         'Content Modeling',
@@ -32,7 +33,7 @@ export function CategoryGrid() {
       iconColor: colors.purple[5],
       bulletColor: 'bg-purple-5',
       Icon: Code,
-      link: '#',
+      link: PATH.landing.documentation,
       items: [
         'React Integration',
         'Vue.js Examples',
@@ -50,7 +51,7 @@ export function CategoryGrid() {
       iconColor: colors.red[8],
       bulletColor: 'bg-red-8',
       Icon: Video,
-      link: '#',
+      link: PATH.landing.documentation,
       items: [
         'Quick Start',
         'Advanced Features',
