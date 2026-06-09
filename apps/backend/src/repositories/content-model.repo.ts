@@ -63,6 +63,42 @@ export class ContentModelRepository {
     fields?: any[];
   }) {
     const { name, apiId, description, icon, status, updatedBy, fields } = data;
+
+    // Clean up obsolete fields in associated content entries if fields are being updated
+    if (fields) {
+      const oldModel = await prisma.contentModel.findUnique({
+        where: { id },
+        include: { fields: true },
+      });
+      if (oldModel) {
+        const deletedFieldApiIds = oldModel.fields
+          .filter((oldF) => !fields.some((newF) => newF.apiId === oldF.apiId))
+          .map((f) => f.apiId);
+
+        if (deletedFieldApiIds.length > 0) {
+          const contents = await prisma.content.findMany({
+            where: { contentModelId: id },
+          });
+          for (const content of contents) {
+            const currentData = (content.data as Record<string, any>) || {};
+            let changed = false;
+            for (const key of deletedFieldApiIds) {
+              if (key in currentData) {
+                delete currentData[key];
+                changed = true;
+              }
+            }
+            if (changed) {
+              await prisma.content.update({
+                where: { id: content.id },
+                data: { data: currentData },
+              });
+            }
+          }
+        }
+      }
+    }
+
     return prisma.contentModel.update({
       where: { id },
       data: {

@@ -17,7 +17,7 @@ interface EditModalEntryProps {
   onConfirm: (data: ContentFieldConfig) => void;
 }
 
-export function normalizeFieldType(type: string): string {
+function normalizeFieldType(type: string): string {
   const t = (type || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   if (t === 'richtext' || t === 'richtextfield') return 'richText';
   if (t === 'shorttext' || t === 'longtext' || t === 'string') return 'text';
