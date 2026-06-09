@@ -56,3 +56,27 @@ export const DELETE_CONTENT_MODEL = gql`
     deleteContentModel(id: $id)
   }
 `;
+
+export const GENERATE_AI_MODELS = gql`
+  mutation GenerateAIModels($workspaceId: String!, $prompt: String!, $history: [AIChatMessageInput!]) {
+    generateAIModels(workspaceId: $workspaceId, prompt: $prompt, history: $history) {
+      success
+      message
+      models {
+        name
+        apiId
+        description
+        icon
+        fields {
+          name
+          apiId
+          type
+          required
+          isTitle
+          description
+        }
+      }
+      sdkCode
+    }
+  }
+`;
