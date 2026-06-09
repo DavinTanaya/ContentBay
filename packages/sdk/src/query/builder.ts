@@ -102,7 +102,7 @@ export class QueryBuilder {
           status
           createdAt
           updatedAt
-          model {
+          model: contentModel {
             id
             name
             apiId

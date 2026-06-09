@@ -63,7 +63,7 @@ export class ContentBay {
           status
           createdAt
           updatedAt
-          model {
+          model: contentModel {
             id
             name
             apiId
@@ -127,7 +127,7 @@ export class ContentBay {
           status
           createdAt
           updatedAt
-          model {
+          model: contentModel {
             id
             name
             apiId
