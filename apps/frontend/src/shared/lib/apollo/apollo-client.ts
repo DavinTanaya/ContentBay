@@ -4,6 +4,7 @@ import { SetContextLink } from '@apollo/client/link/context';
 import { ErrorLink } from '@apollo/client/link/error';
 import { ApolloErrorUtils } from './error-utils';
 import { API_URL } from '@/shared/lib/config';
+import { triggerSessionExpired } from '@/shared/errors/hooks/useSessionGuard';
 
 const httpLink = new HttpLink({
   uri: API_URL,
@@ -35,13 +36,9 @@ const errorLink = new ErrorLink(({ error }) => {
       );
 
       if (gqlError.extensions?.code === 'UNAUTHENTICATED') {
-        // Hapus semua data sesi dari storage
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('active_workspace_id');
-        
-        // Redirect paksa ke halaman login
-        window.location.href = '/auth/login';
+        // Hapus semua data sesi dari storage (Token dipertahankan dulu jika ingin dipakai untuk resume)
+        // triggerSessionExpired akan membuka modal yang menghentikan aktivitas user, dan saat Sign In barulah dihapus
+        triggerSessionExpired();
       }
     });
   }

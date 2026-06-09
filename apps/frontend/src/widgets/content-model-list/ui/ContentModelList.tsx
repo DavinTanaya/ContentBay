@@ -2,12 +2,17 @@ import { Spin, Empty, Alert } from 'antd';
 import { ContentModelCard } from '@entities/content-model';
 import { useContentModelList } from '../model/useContentModelList';
 import type { ContentModelListProps } from '../model/types';
+import { EmptyState } from '@/shared/errors/components/EmptyState';
+import { NetworkError } from '@/shared/errors/components/NetworkError';
+import { useNavigate } from 'react-router-dom';
+import { getContentModelCreatePath } from '@/shared/constants/routes';
 
 export function ContentModelList({
   workspaceId,
   onNavigateToSettings,
 }: ContentModelListProps) {
-  const { models, loading, error } = useContentModelList(workspaceId);
+  const { models, loading, error, refetch } = useContentModelList(workspaceId);
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -18,15 +23,16 @@ export function ContentModelList({
   }
 
   if (error) {
+    if (error.message?.toLowerCase().includes('failed to fetch') || error.networkError) {
+      return <NetworkError onRetry={() => refetch && refetch()} />;
+    }
     return (
       <Alert
-        message="Backend Error"
-        description={
-          error.message ||
-          'Pastikan backend sudah dijalankan dan database sudah dimigrasi.'
-        }
+        message="Failed to load content models"
+        description="Something went wrong while fetching your models. Please try again."
         type="error"
         showIcon
+        action={<Button onClick={() => refetch && refetch()}>Retry</Button>}
       />
     );
   }
@@ -46,9 +52,12 @@ export function ContentModelList({
           ))}
         </div>
       ) : (
-        <div className="mt-12">
-          <Empty description="No Content Models found. Create your first one!" />
-        </div>
+        <EmptyState
+          title="No content models yet"
+          description="Create your first content model to start managing content."
+          actionText="Create Content Model"
+          onAction={() => navigate(getContentModelCreatePath(workspaceId))}
+        />
       )}
     </div>
   );
