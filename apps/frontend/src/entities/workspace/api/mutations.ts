@@ -13,8 +13,8 @@ export const CREATE_WORKSPACE = gql`
 `;
 
 export const DELETE_WORKSPACE = gql`
-  mutation DeleteWorkspace($input: DeleteWorkspaceInput!) {
-    deleteWorkspace(input: $input)
+  mutation DeleteWorkspace($id: ID!) {
+    deleteWorkspace(id: $id)
   }
 `;
 

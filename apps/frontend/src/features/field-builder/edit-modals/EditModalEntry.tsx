@@ -17,12 +17,21 @@ interface EditModalEntryProps {
   onConfirm: (data: ContentFieldConfig) => void;
 }
 
+function normalizeFieldType(type: string): string {
+  const t = (type || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (t === 'richtext' || t === 'richtextfield') return 'richText';
+  if (t === 'shorttext' || t === 'longtext' || t === 'string') return 'text';
+  if (t === 'media') return 'asset';
+  return type;
+}
+
 export function EditModalEntry({ isOpen, onClose, fieldData, onConfirm }: EditModalEntryProps) {
   if (!isOpen || !fieldData) return null;
 
   const commonProps = { isOpen, onClose };
+  const normalizedType = normalizeFieldType(fieldData.type);
 
-  switch (fieldData.type) {
+  switch (normalizedType) {
     case 'text':
       return <TextFieldEditModal {...commonProps} initialData={fieldData as TextField} onConfirm={(d) => onConfirm(d)} />;
     case 'number':

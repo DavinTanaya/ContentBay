@@ -46,7 +46,6 @@ export async function deleteContentModelApi(id: string) {
     mutation: DELETE_CONTENT_MODEL,
     variables: { id },
     refetchQueries: [
-      { query: GET_CONTENT_MODEL, variables: { id } },
       { query: GET_CONTENT_MODELS },
     ],
     awaitRefetchQueries: true,

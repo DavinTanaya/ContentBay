@@ -22,6 +22,10 @@ export const GET_WORKSPACES = gql`
           picture
         }
       }
+      _count {
+        models
+        contents
+      }
     }
   }
 `;
@@ -47,6 +51,10 @@ export const GET_WORKSPACE = gql`
           email
           picture
         }
+      }
+      _count {
+        models
+        contents
       }
     }
   }

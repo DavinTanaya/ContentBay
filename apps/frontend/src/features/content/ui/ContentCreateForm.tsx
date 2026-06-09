@@ -146,6 +146,8 @@ export const ContentCreateForm: React.FC = () => {
       case 'TEXTAREA':
       case 'LONG TEXT':
       case 'RICH TEXT':
+      case 'RICHTEXT':
+      case 'RICH-TEXT':
         return (
           <Input.TextArea
             placeholder={`Masukkan ${field.name}...`}

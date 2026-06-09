@@ -16,4 +16,8 @@ export interface Workspace {
   isDeleted: boolean;
   deletedAt?: string | null;
   deletedBy?: User | null;
+  _count?: {
+    models: number;
+    contents: number;
+  };
 }

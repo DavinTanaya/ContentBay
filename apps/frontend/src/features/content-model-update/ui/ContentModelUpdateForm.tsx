@@ -1,6 +1,7 @@
-import React from 'react';
-import { Form, Input, Button, Card, Select } from 'antd';
-import { InfoCircleOutlined, EditOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Card, Select, Modal, message } from 'antd';
+import { InfoCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import {
   User,
   FolderOpen,
@@ -13,6 +14,9 @@ import {
 } from 'lucide-react';
 import { useUpdateContentModel } from '../model/useUpdateContentModel';
 import type { ContentModelIcon } from '@entities/content-model';
+import { deleteContentModelApi } from '@/entities/content-model';
+import { useActiveWorkspaceId } from '@/entities/workspace';
+import { getContentModelPath } from '@/shared/constants/routes';
 
 export interface ContentModelInitialValues {
   id: string;
@@ -111,6 +115,9 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
 }) => {
   const [form] = Form.useForm<ContentModelFormValues>();
   const { updateIdentity, isUpdating } = useUpdateContentModel(initialValues.id);
+  const navigate = useNavigate();
+  const activeSpaceId = useActiveWorkspaceId();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const onFinish = (values: ContentModelFormValues) => {
     updateIdentity({
@@ -118,6 +125,29 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
       description: values.description,
       apiId: initialValues.apiId,
       icon: values.icon,
+    });
+  };
+
+  const handleDelete = async () => {
+    Modal.confirm({
+      title: 'Delete Content Model',
+      icon: <DeleteOutlined className="text-red-500" />,
+      content: `Are you sure you want to delete the content model "${initialValues.name}"? All content entries under this model will be permanently deleted. This action cannot be undone.`,
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk: async () => {
+        setIsDeleting(true);
+        try {
+          await deleteContentModelApi(initialValues.id);
+          message.success('Content model deleted successfully');
+          navigate(getContentModelPath(activeSpaceId));
+        } catch {
+          message.error('Failed to delete content model');
+        } finally {
+          setIsDeleting(false);
+        }
+      }
     });
   };
 
@@ -192,7 +222,33 @@ export const ContentModelUpdateForm: React.FC<ContentModelUpdateFormProps> = ({
             </Button>
           </div>
         </Form>
-      </div>
+      </Card>
+
+      <Card
+        className="rounded-[32px] border border-red-100 mt-8 bg-red-50/10 shadow-sm"
+        styles={{ body: { padding: '32px' } }}
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+          <div>
+            <h4 className="text-red-600 font-poppins text-lg font-semibold flex items-center gap-2 mb-1">
+              <DeleteOutlined />
+              <span>Danger Zone</span>
+            </h4>
+            <p className="text-gray-500 text-xs font-open-sans">
+              Deleting this content model is permanent. All associated content entries will be deleted forever.
+            </p>
+          </div>
+          <Button
+            type="primary"
+            danger
+            loading={isDeleting}
+            onClick={handleDelete}
+            className="rounded-xl px-6 font-poppins font-semibold text-xs h-10"
+          >
+            Delete Content Model
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import type {
   ContentModel,
 } from '@entities/content-model';
 import { initializeField } from '@/features/field-builder';
-import { createField, updateField } from '@/features/content-model/api';
+import { createField, updateField, deleteField } from '@/features/content-model/api';
 import { getErrorMessage } from '@/shared/utils/errorHandler';
 
 export const useContentModelField = (model: ContentModel) => {
@@ -107,15 +107,14 @@ export const useContentModelField = (model: ContentModel) => {
     }
   };
 
-  const handleDeleteField = async (field: ContentField) => {
-    const hide = message.loading('Deleting field...', 0);
+  const handleDeleteField = async (fieldApiId: string) => {
     try {
-      const { deleteField } = await import('@/features/content-model/api');
-      await deleteField({ model, fieldApiId: field.apiId });
-      hide();
+      await deleteField({
+        model,
+        fieldApiId,
+      });
       message.success('Field deleted successfully');
     } catch (err: unknown) {
-      hide();
       console.error(err);
       message.error(getErrorMessage(err, 'Failed to delete field'));
     }
